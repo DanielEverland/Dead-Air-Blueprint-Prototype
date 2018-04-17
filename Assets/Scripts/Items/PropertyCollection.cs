@@ -65,9 +65,11 @@ public sealed class PropertyCollection : IEnumerable<PropertyBase> {
     }
     public void RaiseEvent(PropertyEventTypes type, params object[] parameters)
     {
+        Debug.Log("Raise event " + type);
+
         if (!_allInput.ContainsKey(type))
             return;
-
+        
         foreach (InputDefinition input in _allInput[type])
         {
             input.Method.Invoke(input.Instance, parameters);

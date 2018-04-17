@@ -17,8 +17,12 @@ public class Timer : PropertyBase, IPropertyOutput {
     {
         _time += Time.unscaledDeltaTime;
 
+        Debug.Log("Update");
+
         if(_time >= SECONDS_UNTIL_TRIGGER)
         {
+            Debug.Log("Trigger!");
+
             Owner.RaiseEvent(PropertyEventTypes.OnTrigger, null);
             Owner.Remove(this);
         }
