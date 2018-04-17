@@ -9,7 +9,7 @@ public class Timer : PropertyBase, IPropertyInput, IPropertyOutput {
 
     public PropertyEventTypes InputTypes { get { return PropertyEventTypes.OnPlacedInWorld; } }
     public PropertyEventTypes OutputTypes { get { return PropertyEventTypes.OnTrigger; } }
-
+    
     private void OnPlacedInWorld()
     {
 

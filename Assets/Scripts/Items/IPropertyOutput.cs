@@ -7,3 +7,4 @@ public interface IPropertyOutput : IPropertyIO {
 
     PropertyEventTypes OutputTypes { get; }
 }
+public delegate void OutputDelegate(params object[] parameters);

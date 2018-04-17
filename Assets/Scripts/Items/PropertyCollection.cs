@@ -9,15 +9,15 @@ public sealed class PropertyCollection : IEnumerable<PropertyBase> {
     public PropertyCollection()
     {
         _properties = new List<PropertyBase>();
-        _allInput = new Dictionary<PropertyEventTypes, List<IODefintion<IPropertyInput>>>();
-        _allOutput = new Dictionary<PropertyEventTypes, List<IODefintion<IPropertyOutput>>>();
+        _allOutput = new Dictionary<PropertyEventTypes, List<IPropertyOutput>>();
+        _allInput = new Dictionary<PropertyEventTypes, List<InputDefinition>>();
     }
     
-    private Dictionary<PropertyEventTypes, List<IODefintion<IPropertyOutput>>> _allOutput;
-    private Dictionary<PropertyEventTypes, List<IODefintion<IPropertyInput>>> _allInput;
+    private Dictionary<PropertyEventTypes, List<IPropertyOutput>> _allOutput;
+    private Dictionary<PropertyEventTypes, List<InputDefinition>> _allInput;
     private List<PropertyBase> _properties;
 
-    private static BindingFlags _methodBindingFlags = BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
+    private static BindingFlags _memberBindingFlags = BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
 
     public bool ContainsOutput(PropertyEventTypes type)
     {
@@ -32,7 +32,7 @@ public sealed class PropertyCollection : IEnumerable<PropertyBase> {
         if (!_allInput.ContainsKey(type))
             return;
 
-        foreach (IODefintion<IPropertyInput> input in _allInput[type])
+        foreach (InputDefinition input in _allInput[type])
         {
             input.Method.Invoke(input.Instance, parameters);
         }
@@ -80,27 +80,24 @@ public sealed class PropertyCollection : IEnumerable<PropertyBase> {
     private void RegisterOutput(PropertyEventTypes type, IPropertyOutput output)
     {
         if (!_allOutput.ContainsKey(type))
-            _allOutput.Add(type, new List<IODefintion<IPropertyOutput>>());
-
-        MethodInfo method = GetMethod(type, output);
-        IODefintion<IPropertyOutput> definition = new IODefintion<IPropertyOutput>(output, method);
-
-        _allOutput[type].Add(definition);
+            _allOutput.Add(type, new List<IPropertyOutput>());
+        
+        _allOutput[type].Add(output);
     }
     private void RegisterInput(PropertyEventTypes type, IPropertyInput input)
     {
         if (!_allInput.ContainsKey(type))
-            _allInput.Add(type, new List<IODefintion<IPropertyInput>>());
+            _allInput.Add(type, new List<InputDefinition>());
 
         MethodInfo method = GetMethod(type, input);
-        IODefintion<IPropertyInput> definition = new IODefintion<IPropertyInput>(input, method);
+        InputDefinition definition = new InputDefinition(input, method);
 
         _allInput[type].Add(definition);
     }
     private MethodInfo GetMethod(PropertyEventTypes type, IPropertyIO instance)
     {
-        string methodName = type.ToString();
-        MethodInfo method = instance.GetType().GetMethod(methodName, _methodBindingFlags);
+        string methodName = GetMethodName(type);
+        MethodInfo method = instance.GetType().GetMethod(methodName, _memberBindingFlags);
 
         if (method == null)
             throw new System.NotImplementedException("Missing method declaration " + GetFullMethodName(type) + " on " + instance.GetType());
@@ -109,6 +106,10 @@ public sealed class PropertyCollection : IEnumerable<PropertyBase> {
             throw new System.ArgumentException("Parameter types do not match for " + GetFullMethodName(type) + " on " + instance.GetType());
 
         return method;
+    }
+    private string GetMethodName(PropertyEventTypes type)
+    {
+        return type.ToString();
     }
     private bool MatchesParameters(PropertyEventTypes type, MethodInfo method)
     {
@@ -132,7 +133,7 @@ public sealed class PropertyCollection : IEnumerable<PropertyBase> {
     }
     private string GetFullMethodName(PropertyEventTypes type)
     {
-        return string.Format("{0}{1}", type.ToString(), GetParameterString(type));
+        return string.Format("{0}{1}", GetMethodName(type), GetParameterString(type));
     }
     private string GetParameterString(PropertyEventTypes type)
     {
@@ -143,17 +144,16 @@ public sealed class PropertyCollection : IEnumerable<PropertyBase> {
 
         return string.Format("({0})", string.Join(", ", types.Select(x => x.Name).ToArray()));
     }
-
-    private class IODefintion<T> where T : IPropertyIO
+    private class InputDefinition
     {
-        private IODefintion() { }
-        public IODefintion(T instance, MethodInfo method)
+        private InputDefinition() { }
+        public InputDefinition(IPropertyInput instance, MethodInfo method)
         {
             Instance = instance;
             Method = method;
         }
 
-        public T Instance;
+        public IPropertyInput Instance;
         public MethodInfo Method;
     }
 
