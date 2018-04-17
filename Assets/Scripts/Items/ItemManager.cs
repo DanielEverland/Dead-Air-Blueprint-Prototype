@@ -12,7 +12,7 @@ public static class ItemManager {
 
         container.Item = item;
 
-        item.RaiseEvent(PropertyEventTypes.OnItemCreated, null);
+        item.RaiseEvent(PropertyEventTypes.OnPlacedInWorld, null);
     }
     public static void Test()
     {
