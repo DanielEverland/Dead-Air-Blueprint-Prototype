@@ -6,12 +6,23 @@ using UnityEngine;
 public class Timer : PropertyBase, IPropertyInput, IPropertyOutput {
 
     public Timer(ItemBase owner) : base(owner) { }
-
-    public PropertyEventTypes InputTypes { get { return PropertyEventTypes.OnPlacedInWorld; } }
-    public PropertyEventTypes OutputTypes { get { return PropertyEventTypes.OnTrigger; } }
     
-    private void OnPlacedInWorld()
-    {
+    public PropertyEventTypes OutputTypes { get { return PropertyEventTypes.OnTrigger; } }
 
+    private const float SECONDS_UNTIL_TRIGGER = 5;
+
+    private float _time;
+
+    public override void Update()
+    {
+        _time += Time.unscaledDeltaTime;
+
+        if(_time >= SECONDS_UNTIL_TRIGGER)
+        {
+            RaiseEvent(PropertyEventTypes.OnTrigger, null);
+
+            //Destroy self
+            throw new System.NotImplementedException();
+        }
     }
 }
