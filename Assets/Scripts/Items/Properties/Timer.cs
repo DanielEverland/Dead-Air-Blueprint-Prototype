@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Timer : PropertyBase, IPropertyInput, IPropertyOutput {
+public class Timer : PropertyBase, IPropertyOutput {
 
     public Timer(ItemBase owner) : base(owner) { }
     
