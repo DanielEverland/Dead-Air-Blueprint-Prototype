@@ -61,7 +61,8 @@ public class ItemBase {
     }
     public GameObject CreateObject()
     {
-        GameObject obj = new GameObject();
+        GameObject obj = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        obj.transform.position = new Vector3(5, 2, -1);
 
         foreach (PropertyBase property in _properties)
         {
