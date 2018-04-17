@@ -19,10 +19,8 @@ public class Timer : PropertyBase, IPropertyOutput {
 
         if(_time >= SECONDS_UNTIL_TRIGGER)
         {
-            RaiseEvent(PropertyEventTypes.OnTrigger, null);
-
-            //Destroy self
-            throw new System.NotImplementedException();
+            Owner.RaiseEvent(PropertyEventTypes.OnTrigger, null);
+            Owner.Remove(this);
         }
     }
 }

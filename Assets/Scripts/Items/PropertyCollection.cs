@@ -19,6 +19,35 @@ public sealed class PropertyCollection : IEnumerable<PropertyBase> {
 
     private static BindingFlags _memberBindingFlags = BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
 
+    public void Remove(PropertyBase property)
+    {
+        if (!_properties.Contains(property))
+            throw new System.ArgumentException("Tried to remove property that doesn't exist");
+
+        _properties.Remove(property);
+
+        if (property is IPropertyInput)
+        {
+            IPropertyInput input = property as IPropertyInput;
+
+            TraverseTypes(input.InputTypes, x =>
+            {
+                foreach (InputDefinition definition in _allInput[x].Where(y => y.Instance == input))
+                {
+                    _allInput[x].Remove(definition);
+                }
+            });
+        }
+        if (property is IPropertyOutput)
+        {
+            IPropertyOutput output = property as IPropertyOutput;
+
+            TraverseTypes(output.OutputTypes, x =>
+            {
+                _allOutput[x].Remove(output);
+            });
+        }
+    }
     public void Update()
     {
         foreach (PropertyBase property in _properties)
@@ -57,16 +86,16 @@ public sealed class PropertyCollection : IEnumerable<PropertyBase> {
         {
             IPropertyInput input = property as IPropertyInput;
 
-            RegisterEvents(input.InputTypes, x => RegisterInput(x, input));
+            TraverseTypes(input.InputTypes, x => RegisterInput(x, input));
         }
         if(property is IPropertyOutput)
         {
             IPropertyOutput output = property as IPropertyOutput;
 
-            RegisterEvents(output.OutputTypes, x => RegisterOutput(x, output));
+            TraverseTypes(output.OutputTypes, x => RegisterOutput(x, output));
         }
     }
-    private void RegisterEvents(PropertyEventTypes types, System.Action<PropertyEventTypes> predicate)
+    private void TraverseTypes(PropertyEventTypes types, System.Action<PropertyEventTypes> predicate)
     {
         System.Array array = System.Enum.GetValues(typeof(PropertyEventTypes));
 

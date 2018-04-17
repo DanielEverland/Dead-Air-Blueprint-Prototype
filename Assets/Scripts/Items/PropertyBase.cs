@@ -9,13 +9,11 @@ public abstract class PropertyBase
     {
         _owner = owner;
     }
+
+    protected ItemBase Owner { get { return _owner; } }
     
     private readonly ItemBase _owner;
-        
-    public void RaiseEvent(PropertyEventTypes type, params object[] parameters)
-    {
-        _owner.RaiseEvent(type, parameters);
-    }
+    
     public virtual void Update() { }
     public virtual void CreateInstance(GameObject obj) { }
 }

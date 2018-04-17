@@ -38,7 +38,11 @@ public class ItemBase {
     public IEnumerable<PropertyBase> Properties { get { return _properties; } }
 
     private PropertyCollection _properties;
-
+    
+    public void Remove(PropertyBase property)
+    {
+        _properties.Remove(property);
+    }
     public void Update()
     {
         _properties.Update();
