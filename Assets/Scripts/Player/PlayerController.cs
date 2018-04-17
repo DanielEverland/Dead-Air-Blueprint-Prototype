@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour {
 
     private void Start()
     {
-        PropertyManager.Test();
+        ItemManager.Test();
     }
     private void Update()
     {
