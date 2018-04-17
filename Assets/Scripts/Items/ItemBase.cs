@@ -38,7 +38,15 @@ public class ItemBase {
     public IEnumerable<PropertyBase> Properties { get { return _properties; } }
 
     private PropertyCollection _properties;
-    
+
+    public bool ContainsOutput(PropertyEventTypes type)
+    {
+        return _properties.ContainsOutput(type);
+    }
+    public bool ContainsInput(PropertyEventTypes type)
+    {
+        return _properties.ContainsInput(type);
+    }
     public void RaiseEvent(PropertyEventTypes type, params object[] parameters)
     {
         _properties.RaiseEvent(type, parameters);
