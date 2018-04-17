@@ -195,11 +195,11 @@ public sealed class PropertyCollection : IEnumerable<PropertyBase> {
 
     public IEnumerator<PropertyBase> GetEnumerator()
     {
-        return GetEnumerator();
+        return _properties.GetEnumerator();
     }
 
     IEnumerator IEnumerable.GetEnumerator()
     {
-        return _properties.GetEnumerator();
+        return GetEnumerator();
     }
 }
