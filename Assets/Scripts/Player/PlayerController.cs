@@ -10,6 +10,10 @@ public class PlayerController : MonoBehaviour {
     [SerializeField]
     private CharacterController _controller;
 
+    private void Start()
+    {
+        PropertyManager.Test();
+    }
     private void Update()
     {
         PollInput();

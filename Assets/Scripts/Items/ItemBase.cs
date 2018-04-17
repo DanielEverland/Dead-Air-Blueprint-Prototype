@@ -5,24 +5,38 @@ using UnityEngine;
 public class ItemBase {
 
     /// <summary>
+    /// Declares an item with properties
+    /// </summary>
+    public ItemBase(params System.Type[] properties)
+    {
+        _properties = new PropertyCollection();
+
+        foreach (System.Type type in properties)
+        {
+            if(!typeof(PropertyBase).IsAssignableFrom(type))
+            {
+                throw new System.ArgumentException("Tried to create a PropertyBase instance from " + type);
+            }
+
+            PropertyBase property = (PropertyBase)System.Activator.CreateInstance(type, this);
+            _properties.RegisterProperty(property);
+        }        
+    }
+
+    /// <summary>
     /// Combines items
     /// </summary>
     public ItemBase(params ItemBase[] items)
     {
+        _properties = new PropertyCollection();
+
         Merge(items);
     }
 
     public IEnumerable<PropertyBase> Properties { get { return _properties; } }
 
-    private List<PropertyBase> _properties;
-
-    public void Output(EventType eventType, object data)
-    {
-        foreach (PropertyBase property in _properties)
-        {
-            property.ReceiveInput(eventType, data);
-        }
-    }
+    private PropertyCollection _properties;
+    
     public GameObject CreateObject()
     {
         GameObject obj = new GameObject();
@@ -43,7 +57,7 @@ public class ItemBase {
     {
         foreach (ItemBase item in items)
         {
-            _properties.AddRange(item.Properties);
+            _properties.RegisterProperties(item.Properties);
         }
     }
 }
