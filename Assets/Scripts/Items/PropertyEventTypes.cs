@@ -8,4 +8,6 @@ public enum PropertyEventTypes {
 
     OnItemCreated = 1 << 0,
     OnElectricalInput = 1 << 1,
+    OnTrigger = 1 << 2,
+    OnPlacedInWorld = 1 << 3,
 }

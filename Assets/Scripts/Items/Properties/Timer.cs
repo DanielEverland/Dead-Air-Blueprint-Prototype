@@ -8,11 +8,5 @@ public class Timer : PropertyBase, IPropertyInput {
     public Timer(ItemBase owner) : base(owner) { }
 
     public PropertyEventTypes InputTypes { get { return PropertyEventTypes.OnItemCreated; } }
-
-    private void OnItemCreated()
-    {
-        Debug.Log("Yoyoyo");
-
-        
-    }
+    
 }

@@ -10,6 +10,8 @@ public static class MethodDefinitions {
     {
         { PropertyEventTypes.OnItemCreated, null },
         { PropertyEventTypes.OnElectricalInput, null },
+        { PropertyEventTypes.OnTrigger, null },
+        { PropertyEventTypes.OnPlacedInWorld, null },
     };
 
     public static System.Type[] GetParameterInfo(PropertyEventTypes type)
