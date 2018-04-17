@@ -15,9 +15,9 @@ public class CameraController : MonoBehaviour {
     {
         if (_player == null)
         {
-            throw new System.NullReferenceException("Missing Player field on CameraController");
-
             enabled = false;
+
+            throw new System.NullReferenceException("Missing Player field on CameraController");
         }            
     }
     private void Update()
