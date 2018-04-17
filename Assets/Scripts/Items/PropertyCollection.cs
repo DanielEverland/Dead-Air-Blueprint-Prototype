@@ -19,6 +19,16 @@ public sealed class PropertyCollection : IEnumerable<PropertyBase> {
 
     private static BindingFlags _methodBindingFlags = BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
 
+    public void RaiseEvent(PropertyEventTypes type, params object[] parameters)
+    {
+        if (!_allInput.ContainsKey(type))
+            return;
+
+        foreach (IODefintion<IPropertyInput> input in _allInput[type])
+        {
+            input.Method.Invoke(input.Instance, parameters);
+        }
+    }
     public void RegisterProperties(IEnumerable<PropertyBase> properties)
     {
         foreach (PropertyBase property in properties)

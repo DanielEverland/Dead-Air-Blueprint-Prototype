@@ -20,7 +20,9 @@ public class ItemBase {
 
             PropertyBase property = (PropertyBase)System.Activator.CreateInstance(type, this);
             _properties.RegisterProperty(property);
-        }        
+        }
+
+        RaiseEvent(PropertyEventTypes.OnItemCreated, null);
     }
 
     /// <summary>
@@ -37,6 +39,10 @@ public class ItemBase {
 
     private PropertyCollection _properties;
     
+    public void RaiseEvent(PropertyEventTypes type, params object[] parameters)
+    {
+        _properties.RaiseEvent(type, parameters);
+    }
     public GameObject CreateObject()
     {
         GameObject obj = new GameObject();
