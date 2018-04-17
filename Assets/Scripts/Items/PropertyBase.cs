@@ -12,5 +12,9 @@ public abstract class PropertyBase
     
     private readonly ItemBase _owner;
         
+    public void RaiseEvent(PropertyEventTypes type, params object[] parameters)
+    {
+        _owner.RaiseEvent(type, parameters);
+    }
     public virtual void CreateInstance(GameObject obj) { }
 }

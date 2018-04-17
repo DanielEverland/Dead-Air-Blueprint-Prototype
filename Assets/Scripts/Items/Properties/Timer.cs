@@ -12,5 +12,7 @@ public class Timer : PropertyBase, IPropertyInput {
     private void OnItemCreated()
     {
         Debug.Log("Yoyoyo");
+
+        
     }
 }
