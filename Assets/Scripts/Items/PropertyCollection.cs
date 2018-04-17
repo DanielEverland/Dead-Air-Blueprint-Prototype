@@ -84,7 +84,9 @@ public sealed class PropertyCollection : IEnumerable<PropertyBase> {
     }
     public void RegisterProperty(PropertyBase property)
     {
-        if(property is IPropertyInput)
+        _properties.Add(property);
+
+        if (property is IPropertyInput)
         {
             IPropertyInput input = property as IPropertyInput;
 
