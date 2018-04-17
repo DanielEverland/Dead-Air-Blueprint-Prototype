@@ -24,35 +24,46 @@ public sealed class PropertyCollection : IEnumerable<PropertyBase> {
         if (!_properties.Contains(property))
             throw new System.ArgumentException("Tried to remove property that doesn't exist");
 
+        Debug.Log("Removing " + property);
+
         _properties.Remove(property);
 
         if (property is IPropertyInput)
         {
+            List<PropertyEventTypes> _inputPropertyEventTypes = new List<PropertyEventTypes>();
             IPropertyInput input = property as IPropertyInput;
 
-            TraverseTypes(input.InputTypes, x =>
+            TraverseTypes(input.InputTypes, x => _inputPropertyEventTypes.Add(x));
+
+            foreach (PropertyEventTypes inputType in _inputPropertyEventTypes)
             {
-                foreach (InputDefinition definition in _allInput[x].Where(y => y.Instance == input))
+                foreach (InputDefinition definition in new List<InputDefinition>(_allInput[inputType].Where(y => y.Instance == input)))
                 {
-                    _allInput[x].Remove(definition);
+                    _allInput[inputType].Remove(definition);
                 }
-            });
+            }            
         }
+                
         if (property is IPropertyOutput)
         {
+            List<PropertyEventTypes> _outputPropertyEventTypes = new List<PropertyEventTypes>();
             IPropertyOutput output = property as IPropertyOutput;
 
-            TraverseTypes(output.OutputTypes, x =>
+            TraverseTypes(output.OutputTypes, x => _outputPropertyEventTypes.Add(x));
+
+            foreach (PropertyEventTypes outputType in _outputPropertyEventTypes)
             {
-                _allOutput[x].Remove(output);
-            });
+                _allOutput[outputType].Remove(output);
+            }
         }
+        
     }
     public void Update()
     {
-        foreach (PropertyBase property in _properties)
+        //Avoid enumeration exceptions when removing properties in the update loop
+        for (int i = _properties.Count - 1; i >= 0; i--)
         {
-            property.Update();
+            _properties[i].Update();
         }
     }
     public bool ContainsOutput(PropertyEventTypes type)
