@@ -19,6 +19,13 @@ public sealed class PropertyCollection : IEnumerable<PropertyBase> {
 
     private static BindingFlags _memberBindingFlags = BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
 
+    public void Update()
+    {
+        foreach (PropertyBase property in _properties)
+        {
+            property.Update();
+        }
+    }
     public bool ContainsOutput(PropertyEventTypes type)
     {
         return _allOutput.ContainsKey(type);

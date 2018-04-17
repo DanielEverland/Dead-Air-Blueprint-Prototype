@@ -39,6 +39,10 @@ public class ItemBase {
 
     private PropertyCollection _properties;
 
+    public void Update()
+    {
+        _properties.Update();
+    }
     public bool ContainsOutput(PropertyEventTypes type)
     {
         return _properties.ContainsOutput(type);

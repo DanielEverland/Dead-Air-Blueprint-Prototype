@@ -16,5 +16,6 @@ public abstract class PropertyBase
     {
         _owner.RaiseEvent(type, parameters);
     }
+    public virtual void Update() { }
     public virtual void CreateInstance(GameObject obj) { }
 }
