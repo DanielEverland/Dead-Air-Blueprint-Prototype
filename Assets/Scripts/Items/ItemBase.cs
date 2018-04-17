@@ -12,15 +12,22 @@ public class ItemBase {
         Merge(items);
     }
 
-    public IEnumerable<IItemProperty> Properties { get { return _properties; } }
+    public IEnumerable<PropertyBase> Properties { get { return _properties; } }
 
-    private List<IItemProperty> _properties;
+    private List<PropertyBase> _properties;
 
+    public void Output(EventType eventType, object data)
+    {
+        foreach (PropertyBase property in _properties)
+        {
+            property.ReceiveInput(eventType, data);
+        }
+    }
     public GameObject CreateObject()
     {
         GameObject obj = new GameObject();
 
-        foreach (IItemProperty property in _properties)
+        foreach (PropertyBase property in _properties)
         {
             property.CreateInstance(obj);
         }
