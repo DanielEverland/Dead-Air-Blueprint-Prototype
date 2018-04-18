@@ -7,11 +7,11 @@ namespace Assets.Scripts.Items.Properties
 {
     public class LightProperty : PropertyBase, IPropertyInput
     {
-        public LightProperty(ItemBase owner) : base(owner) { }
+        public PropertyEventTypes InputTypes { get { return PropertyEventTypes.OnElectricalInputChanged; } }
+
+        public override string Name { get { return "Light"; } }
 
         private Light _light;
-
-        public PropertyEventTypes InputTypes { get { return PropertyEventTypes.OnElectricalInputChanged; } }
 
         private void OnElectricalInputChanged()
         {

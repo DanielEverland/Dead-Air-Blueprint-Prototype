@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Battery : PropertyBase, IPropertyOutput, IPropertyInput {
-
-    public Battery(ItemBase owner) : base(owner) { }
-
+    
     public PropertyEventTypes OutputTypes { get { return PropertyEventTypes.OnElectricalInput; } }
     public PropertyEventTypes InputTypes { get { return PropertyEventTypes.OnTrigger; } }
+
+    public override string Name { get { return "Battery"; } }
 
     private bool _isEnabled;
 

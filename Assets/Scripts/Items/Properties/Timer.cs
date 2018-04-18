@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Timer : PropertyBase, IPropertyOutput {
-
-    public Timer(ItemBase owner) : base(owner) { }
     
     public PropertyEventTypes OutputTypes { get { return PropertyEventTypes.OnTrigger; } }
+
+    public override string Name { get { return "Timer"; } }
 
     private const float SECONDS_UNTIL_TRIGGER = 5;
 

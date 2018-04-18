@@ -7,7 +7,7 @@ using UnityEngine;
 
 public static class ReflectionManager {
 
-    public static IEnumerable<Type> PropertyTypes
+    public static IEnumerable<PropertyBase> PropertyTypes
     {
         get
         {
@@ -18,11 +18,11 @@ public static class ReflectionManager {
         }
     }
 
-    private static List<Type> _propertyTypes;
+    private static List<PropertyBase> _propertyTypes;
 
     private static void Initialize()
     {
-        _propertyTypes = new List<Type>();
+        _propertyTypes = new List<PropertyBase>();
 
         ExecuteReflection();
     }
@@ -34,7 +34,8 @@ public static class ReflectionManager {
                 continue;
 
             if (typeof(PropertyBase).IsAssignableFrom(type))
-                _propertyTypes.Add(type);
+                _propertyTypes.Add((PropertyBase)Activator.CreateInstance(type));
+                
         }
     }
 }
