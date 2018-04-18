@@ -7,18 +7,20 @@ public static class PropertyHelper {
     /// <summary>
     /// Grabs a GameObject from Resources using <paramref name="objectName"/> and copies all its components to <paramref name="target"/>
     /// </summary>
-	public static void CopyComponents(string objectName, GameObject target)
+	public static IEnumerable<Component> CopyComponents(string objectName, GameObject target)
     {
-        GameObject obj = Resources.Load<GameObject>(objectName);
+        GameObject obj = Resources.Load<GameObject>("Properties/" + objectName);
 
-        CopyComponents(obj, target);
+        return CopyComponents(obj, target);
     }
     /// <summary>
     /// Copies all components from <paramref name="from"/> and adds them to <paramref name="to"/>
     /// </summary>
-    public static void CopyComponents(GameObject from, GameObject to)
+    public static IEnumerable<Component> CopyComponents(GameObject from, GameObject to)
     {
-        foreach (Component comp in from.GetComponents<Component>())
+        IEnumerable<Component> components = from.GetComponents<Component>();
+
+        foreach (Component comp in components)
         {
             if (typeof(Transform).IsAssignableFrom(comp.GetType()))
                 continue;
@@ -26,5 +28,7 @@ public static class PropertyHelper {
             Component newComp = to.AddComponent(comp.GetType());
             UnityEditor.EditorUtility.CopySerialized(comp, newComp);
         }
+
+        return components;
     }
 }

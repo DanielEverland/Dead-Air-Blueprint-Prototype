@@ -23,7 +23,9 @@ namespace Assets.Scripts.Items.Properties
         }
         public override void CreateInstance(GameObject obj)
         {
-            _light = obj.AddComponent<UnityEngine.Light>();
+            IEnumerable<Component> components = PropertyHelper.CopyComponents("Light", obj);
+
+            _light = (UnityEngine.Light)components.First(x => x.GetType() == typeof(UnityEngine.Light));            
             _light.enabled = false;
         }
     }
