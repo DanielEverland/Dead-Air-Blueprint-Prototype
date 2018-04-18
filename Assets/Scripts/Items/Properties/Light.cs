@@ -19,7 +19,7 @@ namespace Assets.Scripts.Items.Properties
         }
         public override void CreateInstance(GameObject obj)
         {
-            IEnumerable<Component> components = PropertyHelper.CopyComponents("LightProperty", obj);
+            IEnumerable<Component> components = PropertyHelper.CopyComponents("Light", obj);
 
             _light = components.First<UnityEngine.Light>();
             _light.enabled = Owner.IsElectricallyCharged;
