@@ -5,11 +5,11 @@ using UnityEngine;
 
 namespace Assets.Scripts.Items.Properties
 {
-    public class Light : PropertyBase, IPropertyInput
+    public class LightProperty : PropertyBase, IPropertyInput
     {
-        public Light(ItemBase owner) : base(owner) { }
+        public LightProperty(ItemBase owner) : base(owner) { }
 
-        private UnityEngine.Light _light;
+        private Light _light;
 
         public PropertyEventTypes InputTypes { get { return PropertyEventTypes.OnElectricalInputChanged; } }
 
@@ -21,7 +21,7 @@ namespace Assets.Scripts.Items.Properties
         {
             IEnumerable<Component> components = PropertyHelper.CopyComponents("Light", obj);
 
-            _light = components.First<UnityEngine.Light>();
+            _light = components.First<Light>();
             _light.enabled = Owner.IsElectricallyCharged;
         }
     }
