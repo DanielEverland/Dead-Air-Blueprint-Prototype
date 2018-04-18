@@ -130,6 +130,9 @@ public sealed class PropertyCollection : IEnumerable<PropertyBase> {
     }
     private void RegisterOutput(PropertyEventTypes type, IPropertyOutput output)
     {
+        if (ItemBase.BlockedOutputTypes.Contains(type))
+            throw new System.ArgumentException(output.GetType().Name + " tries to implement blocked output type " + type);
+
         if (!_allOutput.ContainsKey(type))
             _allOutput.Add(type, new List<IPropertyOutput>());
         
@@ -137,6 +140,9 @@ public sealed class PropertyCollection : IEnumerable<PropertyBase> {
     }
     private void RegisterInput(PropertyEventTypes type, IPropertyInput input)
     {
+        if (ItemBase.BlockedInputTypes.Contains(type))
+            throw new System.ArgumentException(input.GetType().Name + " tries to implement blocked input type " + type);
+
         if (!_allInput.ContainsKey(type))
             _allInput.Add(type, new List<InputDefinition>());
 

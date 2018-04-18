@@ -10,4 +10,5 @@ public enum PropertyEventTypes {
     OnElectricalInput = 1 << 1,
     OnTrigger = 1 << 2,
     OnPlacedInWorld = 1 << 3,
+    OnElectricalInputChanged = 1 << 4,
 }

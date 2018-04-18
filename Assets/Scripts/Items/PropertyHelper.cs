@@ -18,15 +18,17 @@ public static class PropertyHelper {
     /// </summary>
     public static IEnumerable<Component> CopyComponents(GameObject from, GameObject to)
     {
-        IEnumerable<Component> components = from.GetComponents<Component>();
+        List<Component> components = new List<Component>();
 
-        foreach (Component comp in components)
+        foreach (Component comp in from.GetComponents<Component>())
         {
             if (typeof(Transform).IsAssignableFrom(comp.GetType()))
                 continue;
 
             Component newComp = to.AddComponent(comp.GetType());
             UnityEditor.EditorUtility.CopySerialized(comp, newComp);
+
+            components.Add(newComp);
         }
 
         return components;

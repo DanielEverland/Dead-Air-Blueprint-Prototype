@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4581612403494742}
   - component: {fileID: 108196014940435612}
   m_Layer: 0
-  m_Name: Light
+  m_Name: LightProperty
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -46,7 +46,7 @@ Light:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1293091254196176}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 8
   m_Type: 2
   m_Color: {r: 1, g: 1, b: 1, a: 1}

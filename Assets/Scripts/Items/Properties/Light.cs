@@ -11,22 +11,18 @@ namespace Assets.Scripts.Items.Properties
 
         private UnityEngine.Light _light;
 
-        public PropertyEventTypes InputTypes { get { return PropertyEventTypes.OnElectricalInput | PropertyEventTypes.OnTrigger; } }
+        public PropertyEventTypes InputTypes { get { return PropertyEventTypes.OnElectricalInputChanged; } }
 
-        private void OnElectricalInput()
+        private void OnElectricalInputChanged()
         {
-            _light.enabled = true;
-        }
-        private void OnTrigger()
-        {
-            _light.enabled = true;
+            _light.enabled = Owner.IsElectricallyCharged;
         }
         public override void CreateInstance(GameObject obj)
         {
-            IEnumerable<Component> components = PropertyHelper.CopyComponents("Light", obj);
+            IEnumerable<Component> components = PropertyHelper.CopyComponents("LightProperty", obj);
 
-            _light = (UnityEngine.Light)components.First(x => x.GetType() == typeof(UnityEngine.Light));            
-            _light.enabled = false;
+            _light = components.First<UnityEngine.Light>();
+            _light.enabled = Owner.IsElectricallyCharged;
         }
     }
 }
