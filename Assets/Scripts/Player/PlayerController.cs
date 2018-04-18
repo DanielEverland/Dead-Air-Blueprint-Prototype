@@ -9,11 +9,7 @@ public class PlayerController : MonoBehaviour {
     private float _movementSpeed = 10;
     [SerializeField]
     private CharacterController _controller;
-
-    private void Start()
-    {
-        ItemManager.Test();
-    }
+    
     private void Update()
     {
         PollInput();

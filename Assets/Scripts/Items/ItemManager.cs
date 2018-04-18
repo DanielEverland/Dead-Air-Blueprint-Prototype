@@ -14,10 +14,4 @@ public static class ItemManager {
 
         item.RaiseEvent(PropertyEventTypes.OnPlacedInWorld, null);
     }
-    public static void Test()
-    {
-        ItemBase item = new ItemBase(ReflectionManager.PropertyTypes.ToArray());
-
-        Spawn(item);
-    }
 }
