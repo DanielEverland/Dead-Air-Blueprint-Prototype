@@ -23,6 +23,8 @@ public class PropertyPanel : MonoBehaviour {
             element.Initialize(property.Name, element.GetType(), this);
 
             element.transform.SetParent(_propertyParent);
+
+            _elements.Add(element);
         }
     }
     public void Select(PropertyElement active)
@@ -31,7 +33,7 @@ public class PropertyPanel : MonoBehaviour {
 
         foreach (PropertyElement element in _elements)
         {
-            if (element == active)
+            if (element == _currentlySelected)
                 element.Enable();
             else
                 element.Disable();

@@ -38,6 +38,8 @@ GameObject:
   - component: {fileID: 224507216115296682}
   - component: {fileID: 114236150639066030}
   - component: {fileID: 114307389995636154}
+  - component: {fileID: 222063382951116600}
+  - component: {fileID: 114248101459425750}
   m_Layer: 5
   m_Name: PropertyElement
   m_TagString: Untagged
@@ -94,6 +96,20 @@ MonoBehaviour:
   _text: {fileID: 114813649269340924}
   _activeBackground: {fileID: 114941053284406382}
   _idleBackground: {fileID: 114462640249982584}
+--- !u!114 &114248101459425750
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1804247106774520}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 779affd4c6048764e9623d6c12aea6ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
 --- !u!114 &114286223460222738
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -140,7 +156,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0.09558821, g: 0.09558821, b: 0.09558821, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -167,7 +183,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -200,7 +216,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0.12262113, g: 0.460685, b: 0.7941176, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -214,6 +230,12 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!222 &222063382951116600
+CanvasRenderer:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1804247106774520}
 --- !u!222 &222080316915124586
 CanvasRenderer:
   m_ObjectHideFlags: 1

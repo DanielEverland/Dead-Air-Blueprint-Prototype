@@ -3,8 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-public class PropertyElement : MonoBehaviour {
+public class PropertyElement : MonoBehaviour, IPointerClickHandler {
 
     public System.Type PropertyType { get; private set; }
 
@@ -26,10 +27,6 @@ public class PropertyElement : MonoBehaviour {
 
         PropertyType = propertyType;
     }
-    private void OnClick()
-    {
-        _owner.Select(this);
-    }
     public void Enable()
     {
         _idleBackground.gameObject.SetActive(false);
@@ -39,5 +36,9 @@ public class PropertyElement : MonoBehaviour {
     {
         _idleBackground.gameObject.SetActive(true);
         _activeBackground.gameObject.SetActive(false);
+    }
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        _owner.Select(this);
     }
 }
