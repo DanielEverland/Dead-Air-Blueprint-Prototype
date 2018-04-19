@@ -10,33 +10,34 @@ public class PropertyPanel : MonoBehaviour {
     [SerializeField]
     private Transform _propertyParent;
 
-    private PropertyElement _currentlySelected;
+    private HashSet<PropertyElement> _currentlySelected;
     private List<PropertyElement> _elements;
 
     private void Start()
     {
         _elements = new List<PropertyElement>();
+        _currentlySelected = new HashSet<PropertyElement>();
 
         foreach (PropertyBase property in ReflectionManager.PropertyTypes)
         {
             PropertyElement element = Instantiate(_propertyNamePrefab);
-            element.Initialize(property.Name, element.GetType(), this);
+            element.Initialize(property.Name, property.GetType(), this);
 
             element.transform.SetParent(_propertyParent);
 
             _elements.Add(element);
         }
     }
-    public void Select(PropertyElement active)
+    public void Toggle(PropertyElement active)
     {
-        _currentlySelected = active;
+        if (_currentlySelected.Contains(active))
+            _currentlySelected.Remove(active);
+        else
+            _currentlySelected.Add(active);
 
         foreach (PropertyElement element in _elements)
         {
-            if (element == _currentlySelected)
-                element.Enable();
-            else
-                element.Disable();
+            element.Toggle(_currentlySelected.Contains(element));
         }
     }
 }

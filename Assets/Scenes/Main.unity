@@ -231,11 +231,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!224 &1073007462 stripped
-RectTransform:
-  m_PrefabParentObject: {fileID: 224922772958048466, guid: b0f777e3c293d254eafad3748d3283cc,
-    type: 2}
-  m_PrefabInternal: {fileID: 1525198870}
 --- !u!1 &1137454980
 GameObject:
   m_ObjectHideFlags: 0
@@ -506,21 +501,6 @@ Prefab:
       propertyPath: m_AnchorMax.y
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 224222732982440702, guid: b0f777e3c293d254eafad3748d3283cc,
-        type: 2}
-      propertyPath: m_AnchorMax.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 224222732982440702, guid: b0f777e3c293d254eafad3748d3283cc,
-        type: 2}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 224222732982440702, guid: b0f777e3c293d254eafad3748d3283cc,
-        type: 2}
-      propertyPath: m_SizeDelta.x
-      value: -10
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b0f777e3c293d254eafad3748d3283cc, type: 2}
   m_IsPrefabParent: 0
@@ -623,22 +603,3 @@ GameObject:
   m_PrefabParentObject: {fileID: 1163308550613344, guid: b2d2ebe79015e0e438fcf9df5502c390,
     type: 2}
   m_PrefabInternal: {fileID: 70084318}
---- !u!1 &1888207876 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1626704892321130, guid: b0f777e3c293d254eafad3748d3283cc,
-    type: 2}
-  m_PrefabInternal: {fileID: 1525198870}
---- !u!114 &1888207878
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1888207876}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f107eda237ef11944b69ae39042b123a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _propertyNamePrefab: {fileID: 114236150639066030, guid: 2810754c967633d49bde1db5ce72fd03,
-    type: 2}
-  _propertyParent: {fileID: 1073007462}

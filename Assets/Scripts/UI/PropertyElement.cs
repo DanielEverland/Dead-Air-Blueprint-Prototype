@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class PropertyElement : MonoBehaviour, IPointerClickHandler {
+public class PropertyElement : MonoBehaviour, IPointerClickHandler, System.IEquatable<PropertyElement> {
 
     public System.Type PropertyType { get; private set; }
 
@@ -27,18 +27,33 @@ public class PropertyElement : MonoBehaviour, IPointerClickHandler {
 
         PropertyType = propertyType;
     }
-    public void Enable()
+    public void Toggle(bool isActive)
     {
-        _idleBackground.gameObject.SetActive(false);
-        _activeBackground.gameObject.SetActive(true);
-    }
-    public void Disable()
-    {
-        _idleBackground.gameObject.SetActive(true);
-        _activeBackground.gameObject.SetActive(false);
+        _activeBackground.gameObject.SetActive(isActive);
+        _idleBackground.gameObject.SetActive(!isActive);
     }
     public void OnPointerClick(PointerEventData eventData)
     {
-        _owner.Select(this);
+        _owner.Toggle(this);
+    }
+    public override bool Equals(object other)
+    {
+        if (other == null)
+            return false;
+
+        if(other is PropertyElement)
+        {
+            return Equals(other as PropertyElement);
+        }
+
+        return false;
+    }
+    public bool Equals(PropertyElement other)
+    {
+        return other.PropertyType == PropertyType;
+    }
+    public override int GetHashCode()
+    {
+        return PropertyType.GetHashCode();
     }
 }
