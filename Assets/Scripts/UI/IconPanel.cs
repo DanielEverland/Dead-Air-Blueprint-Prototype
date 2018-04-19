@@ -14,7 +14,7 @@ public class IconPanel : MonoBehaviour, IPointerClickHandler {
     [SerializeField]
     private IconSelectionPanel _iconSelectionPanel;
 
-    private Texture2D _selectedIcon;
+    private Texture _selectedIcon;
 
     private void Start()
     {

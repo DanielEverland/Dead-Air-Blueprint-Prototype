@@ -11,21 +11,28 @@ public class IconSelectionPanel : MonoBehaviour {
     [SerializeField]
     private RectTransform _buttonParent;
 
-    public System.Action<Texture2D> Callback;
+    public System.Action<Texture> Callback;
 
     public void Initialize()
     {
+        //So we can de-select an icon
+        AddButton(null);
+
         foreach (Texture2D icon in IconManager.Icons)
         {
-            IconSelectionButton button = Instantiate(_iconButton);
-            button.transform.SetParent(_buttonParent);
-
-            button.Initialize(icon, this);
+            AddButton(icon);
         }
 
         LayoutRebuilder.ForceRebuildLayoutImmediate(_buttonParent);
     }
-    public void Select(Texture2D icon)
+    private void AddButton(Texture2D icon)
+    {
+        IconSelectionButton button = Instantiate(_iconButton);
+        button.transform.SetParent(_buttonParent);
+
+        button.Initialize(icon, this);
+    }
+    public void Select(Texture icon)
     {
         if (Callback != null)
             Callback.Invoke(icon);

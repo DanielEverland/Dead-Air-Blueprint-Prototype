@@ -18,11 +18,13 @@ public class IconSelectionButton : MonoBehaviour, IPointerClickHandler {
     }
     public void Initialize(Texture2D icon, IconSelectionPanel owner)
     {
+        _image.enabled = icon != null;
+
         _image.texture = icon;
         _owner = owner;
     }
     public void OnPointerClick(PointerEventData eventData)
     {
-        _owner.Select((Texture2D)_image.texture);
+        _owner.Select(_image.texture);
     }
 }
