@@ -11,6 +11,8 @@ public class IconPanel : MonoBehaviour, IPointerClickHandler {
     private Text _text;
     [SerializeField]
     private RawImage _image;
+    [SerializeField]
+    private IconSelectionPanel _iconSelectionPanel;
 
     private Texture2D _selectedIcon;
 
@@ -26,9 +28,25 @@ public class IconPanel : MonoBehaviour, IPointerClickHandler {
         _image.enabled = selected;
 
         _image.texture = _selectedIcon;
+        _image.AlignRatio();
     }
     public void OnPointerClick(PointerEventData eventData)
     {
-        Debug.Log("Test");
+        IconSelectionPanel panel = Instantiate(_iconSelectionPanel);
+
+        RectTransform rectTrans = (RectTransform)transform;
+        while (rectTrans.GetComponent<Canvas>() == null)
+        {
+            rectTrans = (RectTransform)rectTrans.parent;
+        }
+
+        panel.transform.SetParent(rectTrans, false);
+        panel.Initialize();
+
+        panel.Callback += x =>
+        {
+            _selectedIcon = x;
+            Reload();
+        };
     }
 }
