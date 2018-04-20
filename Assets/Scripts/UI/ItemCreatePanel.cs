@@ -16,12 +16,18 @@ public class ItemCreatePanel : MonoBehaviour {
     {
         if (Input.GetKeyDown(KeyCode.I))
         {
-            _panel.SetActive(!_panel.activeInHierarchy);
+            TogglePanel();
         }
     }
     public void CreateItem()
     {
         ItemBase item = new ItemBase(IconPanel.SelectedIcon, PropertyPanel.PropertyTypes.ToArray());
         ItemObject obj = ItemObject.Create(item);
+
+        TogglePanel();
+    }
+    private void TogglePanel()
+    {
+        _panel.SetActive(!_panel.activeInHierarchy);
     }
 }
