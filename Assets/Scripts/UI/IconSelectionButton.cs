@@ -8,7 +8,7 @@ using UnityEngine.EventSystems;
 public class IconSelectionButton : MonoBehaviour, IPointerClickHandler {
 
     [SerializeField]
-    private RawImage _image;
+    private Image _image;
 
     private IconSelectionPanel _owner;
 
@@ -16,15 +16,15 @@ public class IconSelectionButton : MonoBehaviour, IPointerClickHandler {
     {
         _image.AlignRatio();
     }
-    public void Initialize(Texture2D icon, IconSelectionPanel owner)
+    public void Initialize(Sprite icon, IconSelectionPanel owner)
     {
         _image.enabled = icon != null;
 
-        _image.texture = icon;
+        _image.sprite = icon;
         _owner = owner;
     }
     public void OnPointerClick(PointerEventData eventData)
     {
-        _owner.Select(_image.texture);
+        _owner.Select(_image.sprite);
     }
 }

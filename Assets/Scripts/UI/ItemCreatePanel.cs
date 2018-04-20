@@ -21,6 +21,7 @@ public class ItemCreatePanel : MonoBehaviour {
     }
     public void CreateItem()
     {
-
+        ItemBase item = new ItemBase(IconPanel.SelectedIcon, PropertyPanel.PropertyTypes.ToArray());
+        ItemObject obj = ItemObject.Create(item);
     }
 }

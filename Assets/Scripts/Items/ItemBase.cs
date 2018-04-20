@@ -8,8 +8,10 @@ public class ItemBase {
     /// <summary>
     /// Declares an item with properties
     /// </summary>
-    public ItemBase(params System.Type[] properties)
+    public ItemBase(Sprite sprite, params System.Type[] properties)
     {
+        Sprite = sprite;
+
         _properties = new PropertyCollection();
 
         foreach (System.Type type in properties)
@@ -19,7 +21,9 @@ public class ItemBase {
                 throw new System.ArgumentException("Tried to create a PropertyBase instance from " + type);
             }
 
-            PropertyBase property = (PropertyBase)System.Activator.CreateInstance(type, this);
+            PropertyBase property = (PropertyBase)System.Activator.CreateInstance(type);
+            property.AssignOwner(this);
+
             _properties.RegisterProperty(property);
         }
 
@@ -47,6 +51,8 @@ public class ItemBase {
     {
         { PropertyEventTypes.OnElectricalInput, ReceiveElectricity },
     };
+
+    public Sprite Sprite { get; private set; }
     
     /// <summary>
     /// Defines whether the item receives electricity

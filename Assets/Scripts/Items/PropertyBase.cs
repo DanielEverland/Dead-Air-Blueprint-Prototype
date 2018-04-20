@@ -4,15 +4,6 @@ using UnityEngine;
 
 public abstract class PropertyBase
 {
-    public PropertyBase()
-    {
-
-    }
-    public PropertyBase(ItemBase owner)
-    {
-        AssignOwner(owner);
-    }
-
     protected ItemBase Owner { get; private set; }
     
     public abstract string Name { get; }

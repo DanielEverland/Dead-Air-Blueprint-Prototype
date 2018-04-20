@@ -10,7 +10,16 @@ public class PropertyPanel : MonoBehaviour {
     [SerializeField]
     private Transform _propertyParent;
 
-    private HashSet<PropertyElement> _currentlySelected;
+    public static IEnumerable<System.Type> PropertyTypes
+    {
+        get
+        {
+            return _currentlySelected.Select(x => x.PropertyType);
+        }
+    }
+
+    private static HashSet<PropertyElement> _currentlySelected;
+
     private List<PropertyElement> _elements;
 
     private void Start()

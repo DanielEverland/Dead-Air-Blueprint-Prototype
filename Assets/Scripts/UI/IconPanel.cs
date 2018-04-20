@@ -10,11 +10,11 @@ public class IconPanel : MonoBehaviour, IPointerClickHandler {
     [SerializeField]
     private Text _text;
     [SerializeField]
-    private RawImage _image;
+    private Image _image;
     [SerializeField]
     private IconSelectionPanel _iconSelectionPanel;
 
-    private Texture _selectedIcon;
+    public static Sprite SelectedIcon { get; private set; }
 
     private void Start()
     {
@@ -22,12 +22,12 @@ public class IconPanel : MonoBehaviour, IPointerClickHandler {
     }
     private void Reload()
     {
-        bool selected = _selectedIcon != null;
+        bool selected = SelectedIcon != null;
 
         _text.enabled = !selected;
         _image.enabled = selected;
 
-        _image.texture = _selectedIcon;
+        _image.sprite = SelectedIcon;
         _image.AlignRatio();
     }
     public void OnPointerClick(PointerEventData eventData)
@@ -45,7 +45,7 @@ public class IconPanel : MonoBehaviour, IPointerClickHandler {
 
         panel.Callback += x =>
         {
-            _selectedIcon = x;
+            SelectedIcon = x;
             Reload();
         };
     }

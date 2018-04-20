@@ -6,6 +6,13 @@ using UnityEngine.UI;
 
 public static class Extensions {
 
+    public static void AlignRatio(this Image image)
+    {
+        if (image.sprite == null)
+            return;
+
+        AlignRatio(image.rectTransform, new Vector2(image.sprite.rect.width, image.sprite.rect.height));
+    }
     public static void AlignRatio(this RawImage image)
     {
         if (image.texture == null)
