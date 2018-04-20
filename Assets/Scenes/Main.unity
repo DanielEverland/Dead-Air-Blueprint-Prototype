@@ -393,18 +393,22 @@ Prefab:
     - target: {fileID: 224078368572111700, guid: b0f777e3c293d254eafad3748d3283cc,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 224311877001487648, guid: b0f777e3c293d254eafad3748d3283cc,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 114014174854805794, guid: b0f777e3c293d254eafad3748d3283cc,
         type: 2}
       propertyPath: _image
       value: 
       objectReference: {fileID: 446944345}
+    - target: {fileID: 1291598232997082, guid: b0f777e3c293d254eafad3748d3283cc, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114053265664871682, guid: b0f777e3c293d254eafad3748d3283cc, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: b0f777e3c293d254eafad3748d3283cc, type: 2}
