@@ -6,6 +6,10 @@ using UnityEngine.UI;
 
 public static class Extensions {
 
+    public static T Random<T>(this IEnumerable<T> collection)
+    {
+        return collection.ElementAt(UnityEngine.Random.Range(0, collection.Count()));
+    }
     public static void AlignRatio(this Image image)
     {
         if (image.sprite == null)

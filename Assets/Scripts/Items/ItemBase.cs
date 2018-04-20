@@ -14,18 +14,21 @@ public class ItemBase {
 
         _properties = new PropertyCollection();
 
-        foreach (System.Type type in properties)
+        if(properties != null)
         {
-            if(!typeof(PropertyBase).IsAssignableFrom(type))
+            foreach (System.Type type in properties)
             {
-                throw new System.ArgumentException("Tried to create a PropertyBase instance from " + type);
+                if (!typeof(PropertyBase).IsAssignableFrom(type))
+                {
+                    throw new System.ArgumentException("Tried to create a PropertyBase instance from " + type);
+                }
+
+                PropertyBase property = (PropertyBase)System.Activator.CreateInstance(type);
+                property.AssignOwner(this);
+
+                _properties.RegisterProperty(property);
             }
-
-            PropertyBase property = (PropertyBase)System.Activator.CreateInstance(type);
-            property.AssignOwner(this);
-
-            _properties.RegisterProperty(property);
-        }
+        }        
 
         RaiseEvent(PropertyEventTypes.OnItemCreated, null);
 

@@ -8,6 +8,10 @@ public class ItemCreatePanel : MonoBehaviour {
     [SerializeField]
     private GameObject _panel;
 
+    private void Start()
+    {
+        CreateItem(IconManager.Icons.Random(), null);
+    }
     private void Update()
     {
         PollToggle();
@@ -19,12 +23,14 @@ public class ItemCreatePanel : MonoBehaviour {
             TogglePanel();
         }
     }
-    public void CreateItem()
+    public void CreateItem(Sprite sprite, System.Type[] propertyTypes)
     {
-        ItemBase item = new ItemBase(IconPanel.SelectedIcon, PropertyPanel.PropertyTypes.ToArray());
+        ItemBase item = new ItemBase(sprite, propertyTypes);
         ItemObject obj = ItemObject.Create(item);
 
-        TogglePanel();
+        ItemObjectHandler.HandleItem(obj);
+
+        _panel.SetActive(false);
     }
     private void TogglePanel()
     {
