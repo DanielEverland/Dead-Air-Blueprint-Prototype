@@ -12,7 +12,7 @@ public class ItemObject : MonoBehaviour {
 
     public static ItemObject Create(ItemBase item)
     {
-        GameObject gameObject = Resources.Load<GameObject>("ItemObject");
+        GameObject gameObject = Instantiate(Resources.Load<GameObject>("ItemObject"));
         ItemObject itemObject = gameObject.GetComponent<ItemObject>();
 
         itemObject.Initialize(item);
@@ -21,9 +21,11 @@ public class ItemObject : MonoBehaviour {
     }
     public void Initialize(ItemBase item)
     {
+        Item = item;
+
         _renderer.sprite = item.Sprite;
 
-        item.RaiseEvent(PropertyEventTypes.OnPlacedInWorld, null);
+        Item.RaiseEvent(PropertyEventTypes.OnPlacedInWorld, null);
     }
     private void Update()
     {
