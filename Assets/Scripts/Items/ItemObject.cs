@@ -39,9 +39,11 @@ public class ItemObject : MonoBehaviour {
     {
         Item.Update();
     }
-    private void OnDestroy()
+    private void Destroy()
     {
         InformationManager.Remove(this);
         WorldObjectContainer.RemoveItemObject(this);
+
+        Destroy(gameObject);
     }
 }
