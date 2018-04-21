@@ -35,5 +35,6 @@ public class ItemCreatePanel : MonoBehaviour {
     private void TogglePanel()
     {
         _panel.SetActive(!_panel.activeInHierarchy);
+        _panel.transform.SetAsLastSibling();
     }
 }
