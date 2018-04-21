@@ -18,4 +18,8 @@ public abstract class PropertyBase
 
         Owner = owner;
     }
+    public virtual string GetInformation()
+    {
+        return string.Empty;
+    }
 }

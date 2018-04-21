@@ -19,6 +19,10 @@ public class ItemObject : MonoBehaviour {
 
         return itemObject;
     }
+    private void Start()
+    {
+        InformationManager.Add(this);
+    }
     public void Initialize(ItemBase item)
     {
         Item = item;
@@ -30,5 +34,9 @@ public class ItemObject : MonoBehaviour {
     private void Update()
     {
         Item.Update();
+    }
+    private void OnDestroy()
+    {
+        InformationManager.Remove(this);
     }
 }
