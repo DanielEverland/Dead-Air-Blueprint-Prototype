@@ -23,6 +23,10 @@ public class ItemCreatePanel : MonoBehaviour {
             TogglePanel();
         }
     }
+    public void CreateItem()
+    {
+        CreateItem(IconPanel.SelectedIcon, PropertyPanel.PropertyTypes.ToArray());
+    }
     public void CreateItem(Sprite sprite, System.Type[] propertyTypes)
     {
         ItemBase item = new ItemBase(sprite, propertyTypes);
