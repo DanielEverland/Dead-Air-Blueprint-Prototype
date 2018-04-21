@@ -23,6 +23,10 @@ public class ItemObject : MonoBehaviour {
     {
         InformationManager.Add(this);
     }
+    public void PlaceInWorld()
+    {
+        WorldObjectContainer.AddItemObject(this);
+    }
     public void Initialize(ItemBase item)
     {
         Item = item;
@@ -38,5 +42,6 @@ public class ItemObject : MonoBehaviour {
     private void OnDestroy()
     {
         InformationManager.Remove(this);
+        WorldObjectContainer.RemoveItemObject(this);
     }
 }

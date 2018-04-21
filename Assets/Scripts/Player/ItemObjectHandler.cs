@@ -7,20 +7,54 @@ public class ItemObjectHandler : MonoBehaviour {
     
     public static void HandleItem(ItemObject obj)
     {
-        _object = obj;
+        if (_instance._object != null)
+            _instance.PlaceOnGround();
+
+        _instance._object = obj;
     }
 
     [SerializeField]
     private float _radius = 1;
 
-    private static ItemObject _object;
+    private static ItemObjectHandler _instance;
 
+    private ItemObject _object;
+
+    private void Awake()
+    {
+        _instance = this;
+    }
     private void Update()
     {
         if (_object == null)
             return;
 
         AlignObject();
+        PollInput();
+    }
+    private void PollInput()
+    {
+        if (Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            PlaceOnGround();
+        }
+        else if (Input.GetKeyDown(KeyCode.Mouse1))
+        {
+            ThrowObject();
+        }
+    }
+    private void PlaceOnGround()
+    {
+        _object.PlaceInWorld();
+        _object = null;
+    }
+    private void ThrowObject()
+    {
+        _object.PlaceInWorld();
+        
+        throw new System.NotImplementedException();
+
+        _object = null;
     }
     private void AlignObject()
     {
