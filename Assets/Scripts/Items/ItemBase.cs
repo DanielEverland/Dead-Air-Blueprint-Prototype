@@ -85,9 +85,6 @@ public class ItemBase {
     }
     public void Update()
     {
-        if (!PlacedInWorld)
-            return;
-
         PollElectricity();
         
         _properties.Update();
