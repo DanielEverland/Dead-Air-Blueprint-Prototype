@@ -15,7 +15,7 @@ public class ThrowingHelper : MonoBehaviour {
 
     private float _force;
 
-    public void Initialize(Vector2 targetPosition, float force = 15)
+    public void Initialize(Vector2 targetPosition, float force = 10)
     {
         _initialized = true;
 
@@ -35,6 +35,8 @@ public class ThrowingHelper : MonoBehaviour {
     {
         if(Vector2.Distance(transform.position, _targetPosition) <= MIN_DISTANCE)
         {
+            ItemObject.AssignPosition(transform, _targetPosition);
+
             if (OnDone != null)
                 OnDone.Invoke();
 
@@ -47,14 +49,25 @@ public class ThrowingHelper : MonoBehaviour {
 
         Vector3 direction = delta.normalized;
         float distance = delta.magnitude;
-        float forceAdjusted = (_force + GetExtraParabolicForce()) * Time.deltaTime;
+        float forceAdjusted = _force * Time.deltaTime;
 
         if (distance < forceAdjusted)
+        {
             ItemObject.AssignPosition(transform, _targetPosition);
-        else
-            ItemObject.AssignPosition(transform, transform.position + direction * forceAdjusted);
+            return;
+        }
+
+        Vector3 position = transform.position;
+
+        //Add horizontal velocity
+        position += direction * forceAdjusted;
+
+        //Assign parabolic height
+        position.z = ItemObject.DEPTH - GetHeight();
+
+        transform.position = position;
     }
-    private float GetExtraParabolicForce()
+    private float GetHeight()
     {
         float fullLength = (_targetPosition - _startPosition).magnitude;
         float currentTraveled = ((Vector2)transform.position - _startPosition).magnitude;
@@ -65,9 +78,9 @@ public class ThrowingHelper : MonoBehaviour {
         return ParabolicFunction(percentageDelta * 2 - 1);
     }
 
-    private const float A = 10;
+    private const float A = -2;
     private const float B = 0;
-    private const float C = 0;
+    private const float C = 2;
 
     private float ParabolicFunction(float x)
     {

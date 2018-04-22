@@ -8,7 +8,7 @@ public class ItemObject : MonoBehaviour {
     [SerializeField]
     private SpriteRenderer _renderer;
 
-    private const float DEPTH = -1;
+    public const float DEPTH = -1;
 
     public Vector3 Position
     {
