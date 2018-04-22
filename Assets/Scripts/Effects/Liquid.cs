@@ -47,6 +47,8 @@ public class Liquid : MonoBehaviour {
     }
     private void Update()
     {
+        transform.position = new Vector3(transform.position.x, transform.position.y, 0);
+
         if (_targetRadius.HasValue)
         {
             _radius = Mathf.Lerp(_radius, _targetRadius.Value, Time.deltaTime * RADIUS_SPEED);
