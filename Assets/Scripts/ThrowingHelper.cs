@@ -12,16 +12,20 @@ public class ThrowingHelper : MonoBehaviour {
     private bool _initialized;
     private Vector2 _startPosition;
     private Vector2 _targetPosition;
+    private ItemObject _obj;
 
     private float _force;
 
-    public void Initialize(Vector2 targetPosition, float force = 10)
+    public void Initialize(ItemObject obj, Vector2 targetPosition, float force = 10)
     {
         _initialized = true;
 
+        _obj = obj;
         _force = force;
         _startPosition = transform.position;
         _targetPosition = targetPosition;
+
+        obj.Item.RaiseEvent(PropertyEventTypes.OnThrowBegins, null);
     }
     private void Update()
     {
@@ -36,9 +40,11 @@ public class ThrowingHelper : MonoBehaviour {
         if(Vector2.Distance(transform.position, _targetPosition) <= MIN_DISTANCE)
         {
             ItemObject.AssignPosition(transform, _targetPosition);
-
+            
             if (OnDone != null)
                 OnDone.Invoke();
+
+            _obj.Item.RaiseEvent(PropertyEventTypes.OnThrowEnds, null);
 
             Destroy(this);
         }

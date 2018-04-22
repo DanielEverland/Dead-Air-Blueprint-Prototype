@@ -77,7 +77,7 @@ public class ItemObjectHandler : MonoBehaviour {
     private void ThrowObject()
     {
         ThrowingHelper helper = _object.gameObject.AddComponent<ThrowingHelper>();
-        helper.Initialize(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+        helper.Initialize(_object, Camera.main.ScreenToWorldPoint(Input.mousePosition));
         helper.OnDone += () => { helper.GetComponent<ItemObject>().PlaceInWorld(); };
         
         _object = null;
