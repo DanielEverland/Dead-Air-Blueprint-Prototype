@@ -16,6 +16,7 @@ public static class MethodDefinitions {
         { PropertyEventTypes.OnThrowBegins, null },
         { PropertyEventTypes.OnThrowEnds, null },
         { PropertyEventTypes.OnLiquidContainerBreaks, new System.Type[1] { typeof(ILiquidContainerProperty) } },
+        { PropertyEventTypes.OnIgnite, null },
     };
 
     public static System.Type[] GetParameterInfo(PropertyEventTypes type)
