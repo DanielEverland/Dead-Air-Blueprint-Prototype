@@ -8,7 +8,7 @@ public class ItemBase {
     /// <summary>
     /// Declares an item with properties
     /// </summary>
-    public ItemBase(Sprite sprite, params System.Type[] properties)
+    public ItemBase(Sprite sprite, params PropertyBase[] properties)
     {
         Sprite = sprite;
 
@@ -16,14 +16,8 @@ public class ItemBase {
 
         if(properties != null)
         {
-            foreach (System.Type type in properties)
+            foreach (PropertyBase property in properties)
             {
-                if (!typeof(PropertyBase).IsAssignableFrom(type))
-                {
-                    throw new System.ArgumentException("Tried to create a PropertyBase instance from " + type);
-                }
-
-                PropertyBase property = (PropertyBase)System.Activator.CreateInstance(type);
                 property.AssignOwner(this);
 
                 _properties.RegisterProperty(property);

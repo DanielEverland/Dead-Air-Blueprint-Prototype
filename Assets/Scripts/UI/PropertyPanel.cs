@@ -10,22 +10,22 @@ public class PropertyPanel : MonoBehaviour {
     [SerializeField]
     private Transform _propertyParent;
 
-    public static IEnumerable<System.Type> PropertyTypes
+    public static IEnumerable<PropertyBase> SelectedProperties
     {
         get
         {
-            return _currentlySelected.Select(x => x.PropertyType);
+            return _currentlySelected.Values;
         }
     }
 
-    private static HashSet<PropertyElement> _currentlySelected;
+    private static Dictionary<PropertyElement, PropertyBase> _currentlySelected;
 
     private List<PropertyElement> _elements;
 
     private void Start()
     {
         _elements = new List<PropertyElement>();
-        _currentlySelected = new HashSet<PropertyElement>();
+        _currentlySelected = new Dictionary<PropertyElement, PropertyBase>();
 
         foreach (PropertyBase property in ReflectionManager.PropertyTypes)
         {
@@ -39,14 +39,28 @@ public class PropertyPanel : MonoBehaviour {
     }
     public void Toggle(PropertyElement active)
     {
-        if (_currentlySelected.Contains(active))
-            _currentlySelected.Remove(active);
+        if (_currentlySelected.ContainsKey(active))
+        {
+            Remove(active);
+        }
         else
-            _currentlySelected.Add(active);
+        {
+            Create(active);
+        }
 
         foreach (PropertyElement element in _elements)
         {
-            element.Toggle(_currentlySelected.Contains(element));
+            element.Toggle(_currentlySelected.ContainsKey(element));
         }
+    }
+    private void Create(PropertyElement element)
+    {
+        PropertyBase property = (PropertyBase)System.Activator.CreateInstance(element.PropertyType);
+
+        _currentlySelected.Add(element, property);
+    }
+    private void Remove(PropertyElement element)
+    {
+        _currentlySelected.Remove(element);
     }
 }
