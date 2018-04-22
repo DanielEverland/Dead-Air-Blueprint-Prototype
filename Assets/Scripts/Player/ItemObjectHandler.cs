@@ -53,6 +53,11 @@ public class ItemObjectHandler : MonoBehaviour {
     }
     private void HandleObject()
     {
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            _object.Item.RaiseEvent(PropertyEventTypes.OnIgnite, null);
+        }
+
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             PlaceOnGround();
