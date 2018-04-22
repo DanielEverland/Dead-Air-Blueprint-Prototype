@@ -80,9 +80,12 @@ public sealed class PropertyCollection : IEnumerable<PropertyBase> {
 
         if (!_allInput.ContainsKey(type))
             return;
-        
-        foreach (InputDefinition input in _allInput[type])
+
+        List<InputDefinition> inputDefintions = _allInput[type];
+        for (int i = inputDefintions.Count - 1; i >= 0; i--)
         {
+            InputDefinition input = inputDefintions[i];
+
             input.Method.Invoke(input.Instance, parameters);
         }
     }
