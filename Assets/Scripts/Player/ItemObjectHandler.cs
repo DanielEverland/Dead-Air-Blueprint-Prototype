@@ -13,7 +13,7 @@ public class ItemObjectHandler : MonoBehaviour {
     [SerializeField]
     private float _radius = 1;
 
-    private const float DEPTH = -1;
+    
 
     private static ItemObjectHandler _instance;
 
@@ -89,13 +89,7 @@ public class ItemObjectHandler : MonoBehaviour {
 
         Vector2 objPos = vector * _radius;
         
-        AssignPosition(transform.position + (Vector3)objPos);
-    }
-    private void AssignPosition(Vector3 position)
-    {
-        position.z = DEPTH;
-
-        _object.transform.position = position;
+        _object.Position = transform.position + (Vector3)objPos;
     }
     private Vector2 GetLocalVector(float radians)
     {

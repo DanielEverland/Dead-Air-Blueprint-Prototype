@@ -50,9 +50,9 @@ public class ThrowingHelper : MonoBehaviour {
         float forceAdjusted = (_force + GetExtraParabolicForce()) * Time.deltaTime;
 
         if (distance < forceAdjusted)
-            transform.position = _targetPosition;
+            ItemObject.AssignPosition(transform, _targetPosition);
         else
-            transform.position += direction * forceAdjusted;
+            ItemObject.AssignPosition(transform, transform.position + direction * forceAdjusted);
     }
     private float GetExtraParabolicForce()
     {

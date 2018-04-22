@@ -8,8 +8,28 @@ public class ItemObject : MonoBehaviour {
     [SerializeField]
     private SpriteRenderer _renderer;
 
+    private const float DEPTH = -1;
+
+    public Vector3 Position
+    {
+        get
+        {
+            return transform.position;
+        }
+        set
+        {
+            AssignPosition(transform, value);
+        }
+    }
+
     public ItemBase Item { get; private set; }
 
+    public static void AssignPosition(Transform transform, Vector3 position)
+    {
+        position.z = DEPTH;
+
+        transform.position = position;
+    }
     public static ItemObject Create(ItemBase item)
     {
         GameObject gameObject = Instantiate(Resources.Load<GameObject>("ItemObject"));
