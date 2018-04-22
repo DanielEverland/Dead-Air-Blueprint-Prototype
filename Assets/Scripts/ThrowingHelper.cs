@@ -16,7 +16,7 @@ public class ThrowingHelper : MonoBehaviour {
 
     private float _force;
 
-    public void Initialize(ItemObject obj, Vector2 targetPosition, float force = 10)
+    public void Initialize(ItemObject obj, Vector2 targetPosition, float force = 30)
     {
         _initialized = true;
 
