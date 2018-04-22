@@ -59,6 +59,7 @@ public class Liquid : MonoBehaviour {
     private void SetRenderState()
     {
         _renderer.material.color = Data.Color;
+        _renderer.material.SetColor("_SpecColor", Data.Color);
 
         Color color = _renderer.material.GetColor("_EmissionColor"); 
         _renderer.material.SetColor("_EmissionColor", color * Data.Color);
