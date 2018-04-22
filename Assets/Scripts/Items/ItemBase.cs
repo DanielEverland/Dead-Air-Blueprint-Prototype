@@ -150,6 +150,18 @@ public class ItemBase {
         item._receivesElectricity = true;
     }
 
+    public ItemBase CreateClone()
+    {
+        List<PropertyBase> properties = new List<PropertyBase>();
+
+        foreach (PropertyBase property in _properties)
+        {
+            properties.Add((PropertyBase)System.Activator.CreateInstance(property.GetType()));
+        }
+
+        return new ItemBase(Sprite, properties.ToArray());
+    }
+
     /// <summary>
     /// Copies the properties of <paramref name="items"/> into the current instance
     /// </summary>

@@ -42,7 +42,7 @@ public class ItemObjectHandler : MonoBehaviour {
             PlaceOnGround();
 
         _object = obj;
-        _previouslyHandledItem = obj.Item;
+        _previouslyHandledItem = obj.Item.CreateClone();
     }
     private void PollInput()
     {
