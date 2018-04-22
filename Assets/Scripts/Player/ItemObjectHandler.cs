@@ -7,10 +7,7 @@ public class ItemObjectHandler : MonoBehaviour {
     
     public static void HandleItem(ItemObject obj)
     {
-        if (_instance._object != null)
-            _instance.PlaceOnGround();
-
-        _instance._object = obj;
+        _instance.DoHandleItem(obj);
     }
 
     [SerializeField]
@@ -19,6 +16,7 @@ public class ItemObjectHandler : MonoBehaviour {
     private static ItemObjectHandler _instance;
 
     private ItemObject _object;
+    private ItemBase _previouslyHandledItem;
 
     private void Awake()
     {
@@ -26,13 +24,30 @@ public class ItemObjectHandler : MonoBehaviour {
     }
     private void Update()
     {
+        PollInput();
+
         if (_object == null)
             return;
 
         AlignObject();
-        PollInput();
+        HandleObject();
+    }
+    private void DoHandleItem(ItemObject obj)
+    {
+        if (_object != null)
+            PlaceOnGround();
+
+        _object = obj;
+        _previouslyHandledItem = obj.Item;
     }
     private void PollInput()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            ReplicateOldItem();
+        }
+    }
+    private void HandleObject()
     {
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
@@ -42,7 +57,15 @@ public class ItemObjectHandler : MonoBehaviour {
         {
             ThrowObject();
         }
+    }
+    private void ReplicateOldItem()
+    {
+        if(_previouslyHandledItem != null && _object == null)
+        {
+            ItemObject obj = ItemObject.Create(_previouslyHandledItem);
 
+            DoHandleItem(obj);
+        }        
     }
     private void PlaceOnGround()
     {
