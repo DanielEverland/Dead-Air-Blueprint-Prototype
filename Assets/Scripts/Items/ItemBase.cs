@@ -58,6 +58,11 @@ public class ItemBase {
     public Sprite Sprite { get; private set; }
     
     /// <summary>
+    /// Defines whether or not the object has been placed
+    /// </summary>
+    public bool PlacedInWorld { get; private set; }
+
+    /// <summary>
     /// Defines whether the item receives electricity
     /// </summary>
     public bool IsElectricallyCharged { get; private set; }
@@ -84,6 +89,9 @@ public class ItemBase {
     }
     public void Update()
     {
+        if (!PlacedInWorld)
+            return;
+
         PollElectricity();
         
         _properties.Update();
@@ -129,6 +137,9 @@ public class ItemBase {
 
             return;
         }
+
+        if (type == PropertyEventTypes.OnPlacedInWorld)
+            PlacedInWorld = true;
         
         _properties.RaiseEvent(type, parameters);
     }
