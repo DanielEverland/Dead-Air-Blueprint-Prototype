@@ -31,5 +31,7 @@ public abstract class LiquidPropertyBase : PropertyBase, ILiquid, IPropertyInput
 
         Liquid liquid = Liquid.Create(data);
         liquid.transform.position = Owner.Object.transform.position;
+
+        Owner.Remove(this);
     }
 }
