@@ -15,8 +15,21 @@ public class PropertyPanel : MonoBehaviour {
     public static IEnumerable<PropertyBase> SelectedProperties { get { return _currentlySelected.Values; } }
 
     private static Dictionary<PropertyElement, PropertyBase> _currentlySelected;
+    private static List<PropertyElement> _elements;
 
-    private List<PropertyElement> _elements;
+    public static void Reset()
+    {
+        _currentlySelected.Clear();
+
+        DrawSelection();
+    }
+    private static void DrawSelection()
+    {
+        foreach (PropertyElement element in _elements)
+        {
+            element.Toggle(_currentlySelected.ContainsKey(element));
+        }
+    }
 
     private void Start()
     {
@@ -44,10 +57,7 @@ public class PropertyPanel : MonoBehaviour {
             Create(active);
         }
 
-        foreach (PropertyElement element in _elements)
-        {
-            element.Toggle(_currentlySelected.ContainsKey(element));
-        }
+        DrawSelection();
 
         if (OnChanged != null)
             OnChanged.Invoke();

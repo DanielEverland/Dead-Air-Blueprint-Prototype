@@ -31,6 +31,8 @@ public class ItemCreatePanel : MonoBehaviour {
         ItemObjectHandler.HandleItem(obj);
 
         _panel.SetActive(false);
+
+        PropertyPanel.Reset();
     }
     private void TogglePanel()
     {
