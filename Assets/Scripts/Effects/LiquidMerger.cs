@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface ILiquid : IPropertyRequirement {
+public class LiquidMerger {
 
-    Color32 Color { get; }
 }

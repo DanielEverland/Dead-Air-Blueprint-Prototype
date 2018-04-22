@@ -8,4 +8,6 @@ public abstract class LiquidContainerBase : PropertyBase, ILiquidContainerProper
     public string ErrorMessage { get { return "Too many liquid containers!"; } }
 
     public System.Type BlockedType { get { return typeof(ILiquidContainerProperty); } }
+
+    public abstract float Area { get; }
 }

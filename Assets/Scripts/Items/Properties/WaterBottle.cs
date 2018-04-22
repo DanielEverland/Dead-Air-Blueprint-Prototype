@@ -7,4 +7,5 @@ using System;
 public class WaterBottle : LiquidContainerBase
 {
     public override string Name { get { return "Water Bottle"; } }
+    public override float Area { get { return 100; } }
 }

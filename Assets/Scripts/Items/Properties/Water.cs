@@ -6,4 +6,5 @@ using UnityEngine;
 public class Water : LiquidPropertyBase
 {
     public override string Name { get { return "Water"; } }
+    public override Color32 Color { get { return UnityEngine.Color.cyan; } }
 }

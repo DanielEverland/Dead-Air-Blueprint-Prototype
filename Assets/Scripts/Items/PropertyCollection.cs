@@ -17,7 +17,7 @@ public sealed class PropertyCollection : IEnumerable<PropertyBase> {
     private Dictionary<PropertyEventTypes, List<InputDefinition>> _allInput;
     private List<PropertyBase> _properties;
 
-    private static BindingFlags _memberBindingFlags = BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
+    private static BindingFlags _memberBindingFlags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
 
     public void Remove(PropertyBase property)
     {
@@ -157,15 +157,29 @@ public sealed class PropertyCollection : IEnumerable<PropertyBase> {
     private MethodInfo GetMethod(PropertyEventTypes type, IPropertyIO instance)
     {
         string methodName = GetMethodName(type);
-        MethodInfo method = instance.GetType().GetMethod(methodName, _memberBindingFlags);
-
+        MethodInfo method = GetMethod(instance.GetType(), methodName);
+        
         if (method == null)
             throw new System.NotImplementedException("Missing method declaration " + GetFullMethodName(type) + " on " + instance.GetType());
 
         if(!MatchesParameters(type, method))
-            throw new System.ArgumentException("Parameter types do not match for " + GetFullMethodName(type) + " on " + instance.GetType());
+            throw new System.ArgumentException("Parameter types do not match for " + GetFullMethodName(type) + " on " + method.DeclaringType);
 
         return method;
+    }
+    private MethodInfo GetMethod(System.Type type, string methodName)
+    {
+        while (type.BaseType != null)
+        {
+            MethodInfo method = type.GetMethod(methodName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+
+            if (method != null)
+                return method;
+
+            type = type.BaseType;
+        }
+
+        return null;
     }
     private string GetMethodName(PropertyEventTypes type)
     {

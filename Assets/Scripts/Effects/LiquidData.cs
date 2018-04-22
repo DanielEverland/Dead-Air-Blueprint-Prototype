@@ -3,7 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface ILiquid : IPropertyRequirement {
+public struct LiquidData {
 
-    Color32 Color { get; }
+    public Color Color;
+    public float Radius;
 }

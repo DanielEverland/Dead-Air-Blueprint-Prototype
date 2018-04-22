@@ -30,6 +30,8 @@ public class ItemBase {
             RaiseEvent(PropertyEventTypes.OnTrigger, null);
     }
 
+    public ItemObject Object { get; set; }
+
     /// <summary>
     /// Types that can only be received as input. They can never be sent as output
     /// </summary>

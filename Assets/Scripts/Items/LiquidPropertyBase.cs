@@ -3,8 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class LiquidPropertyBase : PropertyBase, ILiquid
+public abstract class LiquidPropertyBase : PropertyBase, ILiquid, IPropertyInput
 {
+    public PropertyEventTypes InputTypes { get { return PropertyEventTypes.OnLiquidContainerBreaks; } }
+    
+    public abstract Color32 Color { get; }
+
     public virtual bool IsValid(IEnumerable<PropertyBase> properties, out string errorMessage)
     {
         errorMessage = string.Empty;
@@ -16,5 +20,16 @@ public abstract class LiquidPropertyBase : PropertyBase, ILiquid
         }
 
         return true;
+    }
+    private void OnLiquidContainerBreaks(ILiquidContainerProperty container)
+    {
+        LiquidData data = new LiquidData()
+        {
+            Radius = Utility.AreaToRadius(container.Area),
+            Color = Color,
+        };
+
+        Liquid liquid = Liquid.Create(data);
+        liquid.transform.position = Owner.Object.transform.position;
     }
 }
