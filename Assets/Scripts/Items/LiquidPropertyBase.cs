@@ -5,9 +5,11 @@ using UnityEngine;
 
 public abstract class LiquidPropertyBase : PropertyBase, ILiquid
 {
-    public virtual bool IsValid(IEnumerable<PropertyBase> properties, ref string errorMessage)
+    public virtual bool IsValid(IEnumerable<PropertyBase> properties, out string errorMessage)
     {
-        if(!properties.Any(x => x is ILiquidContainerProperty))
+        errorMessage = string.Empty;
+
+        if (!properties.Any(x => x is ILiquidContainerProperty))
         {
             errorMessage = "Missing liquid container";
             return false;

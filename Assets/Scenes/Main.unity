@@ -160,38 +160,6 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b2d2ebe79015e0e438fcf9df5502c390, type: 2}
   m_IsPrefabParent: 0
---- !u!1 &446944343 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1854030388683556, guid: b0f777e3c293d254eafad3748d3283cc,
-    type: 2}
-  m_PrefabInternal: {fileID: 693617111}
---- !u!114 &446944345
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 446944343}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 0}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
 --- !u!1 &678361708
 GameObject:
   m_ObjectHideFlags: 0
@@ -375,6 +343,26 @@ Prefab:
       propertyPath: m_AnchorMax.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 224591044259502350, guid: b0f777e3c293d254eafad3748d3283cc,
+        type: 2}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224591044259502350, guid: b0f777e3c293d254eafad3748d3283cc,
+        type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224311877001487648, guid: b0f777e3c293d254eafad3748d3283cc,
+        type: 2}
+      propertyPath: m_SizeDelta.y
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 224881497321683064, guid: b0f777e3c293d254eafad3748d3283cc,
+        type: 2}
+      propertyPath: m_SizeDelta.y
+      value: 14
+      objectReference: {fileID: 0}
     - target: {fileID: 224222732982440702, guid: b0f777e3c293d254eafad3748d3283cc,
         type: 2}
       propertyPath: m_AnchorMax.x
@@ -395,22 +383,22 @@ Prefab:
       propertyPath: m_SizeDelta.y
       value: 14
       objectReference: {fileID: 0}
-    - target: {fileID: 224311877001487648, guid: b0f777e3c293d254eafad3748d3283cc,
+    - target: {fileID: 224101713764249658, guid: b0f777e3c293d254eafad3748d3283cc,
         type: 2}
-      propertyPath: m_SizeDelta.y
-      value: 14
+      propertyPath: m_AnchorMax.x
+      value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 114014174854805794, guid: b0f777e3c293d254eafad3748d3283cc,
+    - target: {fileID: 224101713764249658, guid: b0f777e3c293d254eafad3748d3283cc,
         type: 2}
-      propertyPath: _image
-      value: 
-      objectReference: {fileID: 446944345}
-    - target: {fileID: 1291598232997082, guid: b0f777e3c293d254eafad3748d3283cc, type: 2}
-      propertyPath: m_IsActive
-      value: 0
+      propertyPath: m_AnchorMax.y
+      value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 114053265664871682, guid: b0f777e3c293d254eafad3748d3283cc, type: 2}
+    - target: {fileID: 224101713764249658, guid: b0f777e3c293d254eafad3748d3283cc,
+        type: 2}
+      propertyPath: m_SizeDelta.x
+      value: -7
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b0f777e3c293d254eafad3748d3283cc, type: 2}
   m_IsPrefabParent: 0
 --- !u!1 &878195902 stripped
@@ -649,7 +637,7 @@ Canvas:
   m_RenderMode: 0
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
-  m_PixelPerfect: 0
+  m_PixelPerfect: 1
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0

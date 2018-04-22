@@ -10,13 +10,9 @@ public class PropertyPanel : MonoBehaviour {
     [SerializeField]
     private Transform _propertyParent;
 
-    public static IEnumerable<PropertyBase> SelectedProperties
-    {
-        get
-        {
-            return _currentlySelected.Values;
-        }
-    }
+    public static event System.Action OnChanged;
+
+    public static IEnumerable<PropertyBase> SelectedProperties { get { return _currentlySelected.Values; } }
 
     private static Dictionary<PropertyElement, PropertyBase> _currentlySelected;
 
@@ -52,6 +48,9 @@ public class PropertyPanel : MonoBehaviour {
         {
             element.Toggle(_currentlySelected.ContainsKey(element));
         }
+
+        if (OnChanged != null)
+            OnChanged.Invoke();
     }
     private void Create(PropertyElement element)
     {

@@ -12,5 +12,5 @@ public interface IPropertyRequirement {
     /// Determines whether a collection of properties contains all required types 
     /// </summary>
     /// <returns>True if <paramref name="properties"/> is valid</returns>
-    bool IsValid(IEnumerable<PropertyBase> properties, ref string errorMessage);
+    bool IsValid(IEnumerable<PropertyBase> properties, out string errorMessage);
 }
