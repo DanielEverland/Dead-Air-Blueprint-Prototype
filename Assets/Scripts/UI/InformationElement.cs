@@ -15,12 +15,12 @@ public class InformationElement : MonoBehaviour {
     public void Initialize(ItemObject obj)
     {
         _obj = obj;
-
-        _textElement.text = GetString(obj.Item);
     }
     private void Update()
     {
         transform.position = Camera.main.WorldToScreenPoint(_obj.transform.position);
+
+        _textElement.text = GetString(_obj.Item);
     }
     private string GetString(ItemBase item)
     {
@@ -44,7 +44,7 @@ public class InformationElement : MonoBehaviour {
                 builder.Append(':');
                 builder.Append(" ");
 
-                builder.Append(property.GetInformation());
+                builder.Append(string.Join(", ", property.GetInformation()));
 
                 builder.AppendLine();
             }

@@ -21,4 +21,11 @@ public class Battery : PropertyBase, IPropertyOutput, IPropertyInput {
         if (_isEnabled)
             Owner.RaiseEvent(PropertyEventTypes.OnElectricalInput, null);
     }
+    public override string[] GetInformation()
+    {
+        return new string[1]
+        {
+            "Enabled: " + _isEnabled,
+        };
+    }
 }

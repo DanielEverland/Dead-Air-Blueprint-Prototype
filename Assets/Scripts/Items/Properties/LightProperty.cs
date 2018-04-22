@@ -24,5 +24,12 @@ namespace Assets.Scripts.Items.Properties
             _light = components.First<Light>();
             _light.enabled = Owner.IsElectricallyCharged;
         }
+        public override string[] GetInformation()
+        {
+            return new string[1]
+            {
+                "Enabled: " + _light.enabled,
+            };
+        }
     }
 }

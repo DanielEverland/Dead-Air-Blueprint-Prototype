@@ -23,4 +23,12 @@ public class Timer : PropertyBase, IPropertyOutput {
             Owner.Remove(this);
         }
     }
+    public override string[] GetInformation()
+    {
+        return new string[2]
+        {
+            "Time: " + _time.ToString("F0"),
+            "Trigger Time: " + SECONDS_UNTIL_TRIGGER,
+        };
+    }
 }
