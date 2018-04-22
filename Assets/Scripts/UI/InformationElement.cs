@@ -42,12 +42,25 @@ public class InformationElement : MonoBehaviour {
             {
                 builder.Append(property.GetType().Name);
                 builder.Append(':');
-                builder.Append(" ");
+                Indent(builder);
 
-                builder.Append(string.Join(", ", property.GetInformation()));
+                string[] propertyInfo = property.GetInformation();
 
+                if(propertyInfo.Length != 0)
+                {
+                    builder.Append(string.Join(",    ", propertyInfo));
+                }
+                else
+                {
+                    builder.Append("NONE");
+                }
+                
                 builder.AppendLine();
             }
         }        
+    }
+    private void Indent(StringBuilder builder)
+    {
+        builder.Append("    ");
     }
 }
