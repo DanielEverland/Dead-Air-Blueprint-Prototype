@@ -132,11 +132,8 @@ public class ItemBase {
         
         _properties.RaiseEvent(type, parameters);
     }
-    public GameObject CreateObject()
+    public GameObject CreateObject(GameObject obj)
     {
-        GameObject obj = new GameObject();
-        obj.transform.position = Vector3.back;
-
         foreach (PropertyBase property in _properties)
         {
             property.CreateInstance(obj);

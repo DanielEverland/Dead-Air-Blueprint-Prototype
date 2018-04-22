@@ -33,6 +33,8 @@ public class ItemObject : MonoBehaviour {
         Item = item;
 
         _renderer.sprite = item.Sprite;
+        
+        item.CreateObject(gameObject);
     }
     private void Update()
     {
