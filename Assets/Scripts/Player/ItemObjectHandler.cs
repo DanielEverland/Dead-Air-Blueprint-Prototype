@@ -23,6 +23,8 @@ public class ItemObjectHandler : MonoBehaviour {
     private void Awake()
     {
         _instance = this;
+
+        HandleItem(ItemObject.Create(new ItemBase(null, new Battery(), new LightProperty())));
     }
     private void Update()
     {

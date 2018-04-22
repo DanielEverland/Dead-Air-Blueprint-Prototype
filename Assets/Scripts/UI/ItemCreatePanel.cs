@@ -7,11 +7,7 @@ public class ItemCreatePanel : MonoBehaviour {
 
     [SerializeField]
     private GameObject _panel;
-
-    private void Start()
-    {
-        CreateItem(IconManager.Icons.Random(), null);
-    }
+    
     private void Update()
     {
         PollToggle();
