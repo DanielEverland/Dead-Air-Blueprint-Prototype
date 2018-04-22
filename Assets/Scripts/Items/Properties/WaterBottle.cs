@@ -2,9 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
-public class WaterBottle : PropertyBase, ILiquidContainerProperty
+public class WaterBottle : LiquidContainerBase
 {
     public override string Name { get { return "Water Bottle"; } }
-    
 }

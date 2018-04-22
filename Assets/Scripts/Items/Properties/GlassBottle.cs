@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GlassBottle : PropertyBase, ILiquidContainerProperty, IPropertyInput
+public class GlassBottle : LiquidContainerBase, IPropertyInput
 {
     public override string Name { get { return "Glass Bottle"; } }
 
