@@ -42,6 +42,7 @@ public class ItemObjectHandler : MonoBehaviour {
         {
             ThrowObject();
         }
+
     }
     private void PlaceOnGround()
     {
@@ -50,10 +51,10 @@ public class ItemObjectHandler : MonoBehaviour {
     }
     private void ThrowObject()
     {
-        _object.PlaceInWorld();
+        ThrowingHelper helper = _object.gameObject.AddComponent<ThrowingHelper>();
+        helper.Initialize(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+        helper.OnDone += () => { helper.GetComponent<ItemObject>().PlaceInWorld(); };
         
-        throw new System.NotImplementedException();
-
         _object = null;
     }
     private void AlignObject()

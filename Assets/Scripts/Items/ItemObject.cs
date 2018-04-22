@@ -26,14 +26,13 @@ public class ItemObject : MonoBehaviour {
     public void PlaceInWorld()
     {
         WorldObjectContainer.AddItemObject(this);
+        Item.RaiseEvent(PropertyEventTypes.OnPlacedInWorld, null);
     }
     public void Initialize(ItemBase item)
     {
         Item = item;
 
         _renderer.sprite = item.Sprite;
-
-        Item.RaiseEvent(PropertyEventTypes.OnPlacedInWorld, null);
     }
     private void Update()
     {
