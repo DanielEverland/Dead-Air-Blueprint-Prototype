@@ -6,5 +6,5 @@ using UnityEngine;
 public class GlassBottle : BrekableLiquidsContainer
 {
     public override string Name { get { return "Glass Bottle"; } }
-    public override float Area { get { return 150; } }
+    public override float Area { get { return 65; } }
 }
