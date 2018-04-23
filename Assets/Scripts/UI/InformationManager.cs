@@ -7,26 +7,26 @@ public class InformationManager : MonoBehaviour {
 
     static InformationManager()
     {
-        _trackedObjects = new List<ItemObject>();
+        _trackedObjects = new List<IWorldObject>();
     }
 
     [SerializeField]
     private InformationElement _elementPrefab;
 
-    private static System.Action<ItemObject> _onObjectAdded;
-    private static System.Action<ItemObject> _onObjectRemoved;
-    private static List<ItemObject> _trackedObjects;
+    private static System.Action<IWorldObject> _onObjectAdded;
+    private static System.Action<IWorldObject> _onObjectRemoved;
+    private static List<IWorldObject> _trackedObjects;
 
-    private Dictionary<ItemObject, InformationElement> _elements;
+    private Dictionary<IWorldObject, InformationElement> _elements;
 
-    public static void Add(ItemObject obj)
+    public static void Add(IWorldObject obj)
     {
         _trackedObjects.Add(obj);
 
         if(_onObjectAdded != null)
             _onObjectAdded.Invoke(obj);
     }
-    public static void Remove(ItemObject obj)
+    public static void Remove(IWorldObject obj)
     {
         _trackedObjects.Remove(obj);
 
@@ -36,12 +36,12 @@ public class InformationManager : MonoBehaviour {
 
     private void Awake()
     {
-        _elements = new Dictionary<ItemObject, InformationElement>();
+        _elements = new Dictionary<IWorldObject, InformationElement>();
 
         _onObjectAdded += OnObjectAdded;
         _onObjectRemoved += OnObjectRemoved;
     }
-    private void OnObjectAdded(ItemObject obj)
+    private void OnObjectAdded(IWorldObject obj)
     {
         InformationElement element = Instantiate(_elementPrefab);
         element.Initialize(obj);
@@ -50,7 +50,7 @@ public class InformationManager : MonoBehaviour {
 
         _elements.Add(obj, element);        
     }
-    private void OnObjectRemoved(ItemObject obj)
+    private void OnObjectRemoved(IWorldObject obj)
     {
         InformationElement element = _elements[obj];
         _elements.Remove(obj);

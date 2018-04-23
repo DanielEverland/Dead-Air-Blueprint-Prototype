@@ -10,4 +10,5 @@ public interface IWorldObject {
 
     void HandleCollision(IWorldObject obj);
     void RaiseEvent(PropertyEventTypes type, params object[] args);
+    string GetInformationString();
 }

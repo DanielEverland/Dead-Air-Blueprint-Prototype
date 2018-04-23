@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Text;
 
 [RequireComponent(typeof(SpriteRenderer))]
 public class Liquid : MonoBehaviour, IWorldObject {
@@ -29,6 +30,7 @@ public class Liquid : MonoBehaviour, IWorldObject {
         _radius = MIN_RADIUS;
 
         WorldItemEventHandler.Add(this);
+        InformationManager.Add(this);
     }
     public static Liquid Create(LiquidData data)
     {
@@ -100,5 +102,15 @@ public class Liquid : MonoBehaviour, IWorldObject {
         {
             SetOnFire();
         }
+    }
+    public string GetInformationString()
+    {
+        return _data.ToString();
+    }
+    public void Destroy()
+    {
+        InformationManager.Add(this);
+
+        Destroy(gameObject);
     }
 }

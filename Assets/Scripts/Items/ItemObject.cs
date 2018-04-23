@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Text;
 
 public class ItemObject : MonoBehaviour, IWorldObject {
 
@@ -84,5 +85,46 @@ public class ItemObject : MonoBehaviour, IWorldObject {
     public void RaiseEvent(PropertyEventTypes type, params object[] args)
     {
         Item.RaiseEvent(type, args);
+    }
+    public string GetInformationString()
+    {
+        StringBuilder builder = new StringBuilder();
+
+        GetProperties(builder);
+
+        return builder.ToString();
+    }
+    private void GetProperties(StringBuilder builder)
+    {
+        if (Item.Properties.Count() == 0)
+        {
+            builder.Append("NO PROPERTIES");
+        }
+        else
+        {
+            foreach (PropertyBase property in Item.Properties)
+            {
+                builder.Append(property.GetType().Name);
+                builder.Append(':');
+                Indent(builder);
+
+                string[] propertyInfo = property.GetInformation();
+
+                if (propertyInfo.Length != 0)
+                {
+                    builder.Append(string.Join(",    ", propertyInfo));
+                }
+                else
+                {
+                    builder.Append("NONE");
+                }
+
+                builder.AppendLine();
+            }
+        }
+    }
+    private void Indent(StringBuilder builder)
+    {
+        builder.Append("    ");
     }
 }

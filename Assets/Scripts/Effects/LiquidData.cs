@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Text;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -60,5 +61,16 @@ public struct LiquidData : System.IEquatable<LiquidData> {
         }
 
         return i;
+    }
+    public override string ToString()
+    {
+        StringBuilder builder = new StringBuilder();
+
+        builder.AppendLine("Color: " + Color);
+        builder.AppendLine("Radius: " + Radius);
+        builder.AppendLine("IsFlammable: " + IsFlammable);
+        builder.AppendLine("IsOnFire: " + IsOnFire);
+
+        return builder.ToString();
     }
 }
