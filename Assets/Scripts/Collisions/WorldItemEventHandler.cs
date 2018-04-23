@@ -68,7 +68,7 @@ public static class WorldItemEventHandler {
     }
     public static void RaiseEvent(Vector2 point, float radius, float waitTime, PropertyEventTypes type, params object[] args)
     {
-        Debug.Log("Adding event " + type);
+        Debug.Log("Adding world event " + type);
 
         _events.Add(new Event(type, waitTime, point, radius, args));
     }
