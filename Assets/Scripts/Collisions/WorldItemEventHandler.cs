@@ -56,21 +56,21 @@ public static class WorldItemEventHandler {
     }
     public static void RaiseEvent(IWorldObject obj, PropertyEventTypes type, params object[] args)
     {
-        RaiseEvent(obj.Point, obj.Radius, 0, type, args);
+        RaiseEvent(obj, obj.Point, obj.Radius, 0, type, args);
     }
     public static void RaiseEvent(IWorldObject obj, float waitTime, PropertyEventTypes type, params object[] args)
     {
-        RaiseEvent(obj.Point, obj.Radius, waitTime, type, args);
+        RaiseEvent(obj, obj.Point, obj.Radius, waitTime, type, args);
     }
     public static void RaiseEvent(Vector2 point, float radius, PropertyEventTypes type, params object[] args)
     {
-        RaiseEvent(point, radius, 0, type, args);
+        RaiseEvent(null, point, radius, 0, type, args);
     }
-    public static void RaiseEvent(Vector2 point, float radius, float waitTime, PropertyEventTypes type, params object[] args)
+    public static void RaiseEvent(IWorldObject sender, Vector2 point, float radius, float waitTime, PropertyEventTypes type, params object[] args)
     {
         Debug.Log("Adding world event " + type);
 
-        _events.Add(new Event(type, waitTime, point, radius, args));
+        _events.Add(new Event(sender, type, waitTime, point, radius, args));
     }
     private static void RaiseEventInternal(Event item)
     {
@@ -78,6 +78,9 @@ public static class WorldItemEventHandler {
 
         foreach (IWorldObject obj in GetCollidingObjects(item.Point, item.Radius))
         {
+            if (item.Sender == obj)
+                continue;
+
             obj.RaiseEvent(item.Type, item.Arguments);
         }
     }
@@ -122,8 +125,9 @@ public static class WorldItemEventHandler {
 
     private class Event
     {
-        public Event(PropertyEventTypes type, float waitTime, Vector2 point, float radius, params object[] args)
+        public Event(IWorldObject sender, PropertyEventTypes type, float waitTime, Vector2 point, float radius, params object[] args)
         {
+            Sender = sender;
             Type = type;
             WaitTime = waitTime;
             Arguments = args;
@@ -131,6 +135,7 @@ public static class WorldItemEventHandler {
             Point = point;
         }
 
+        public IWorldObject Sender;
         public PropertyEventTypes Type;
         public Vector2 Point;
         public float WaitTime;
