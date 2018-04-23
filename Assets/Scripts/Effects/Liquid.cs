@@ -20,6 +20,8 @@ public class Liquid : MonoBehaviour, IWorldObject {
     private const float MIN_RADIUS = 0.5f;
     private const float RADIUS_SPEED = 20;
     private const float FIRE_WAIT_TIME = 1;
+    private const float RADIUS_MIN_DELTA = 0.1f;
+    private const float ZDEPTH = 0;
 
     private LiquidData _data;
     private float _radius;
@@ -47,18 +49,47 @@ public class Liquid : MonoBehaviour, IWorldObject {
     }
     private void Update()
     {
-        transform.position = new Vector3(transform.position.x, transform.position.y, 0);
-
-        if (_targetRadius.HasValue && ((_targetRadius.Value - _radius) > 0.01f))
+        PollRadiusRendering();
+    }
+    private void PollRadiusRendering()
+    {
+        if (!IsCorrectSize())
         {
-            _radius = Mathf.Lerp(_radius, _targetRadius.Value, Time.deltaTime * RADIUS_SPEED);
-
-            float diameter = _radius * 2;
-
-            transform.localScale = new Vector3(diameter, diameter, 1);
-
-            WorldItemEventHandler.Poll(this);
+            PollRadius();
+            AssignRadiusToObject();
+            RaiseCollisionEvent();
+            SetZDepth();
         }
+    }
+    private void SetZDepth()
+    {
+        transform.position = new Vector3(transform.position.x, transform.position.y, ZDEPTH);
+    }
+    private void RaiseCollisionEvent()
+    {
+        WorldItemEventHandler.Poll(this);
+    }
+    private void AssignRadiusToObject()
+    {
+        float diameter = _radius * 2;
+
+        transform.localScale = new Vector3(diameter, diameter, 1);
+    }
+    private void PollRadius()
+    {
+        _radius = Mathf.Lerp(_radius, _targetRadius.Value, Time.deltaTime * RADIUS_SPEED);
+
+        if(_targetRadius.Value - _radius < RADIUS_MIN_DELTA)
+        {
+            _radius = _targetRadius.Value;
+        }
+    }
+    private bool IsCorrectSize()
+    {
+        if (!_targetRadius.HasValue)
+            return true;
+
+        return _radius == _targetRadius.Value;
     }
     private void SetRenderState()
     {
