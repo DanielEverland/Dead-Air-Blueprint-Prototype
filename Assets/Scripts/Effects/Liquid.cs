@@ -76,6 +76,7 @@ public class Liquid : MonoBehaviour, IWorldObject {
             return;
 
         _data.IsOnFire = true;
+        _data.Color = FireColor;
 
         SetRenderState();
 
