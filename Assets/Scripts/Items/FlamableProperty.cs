@@ -5,7 +5,7 @@ using UnityEngine;
 
 public abstract class FlamableProperty : PropertyBase, IFlamableProperty
 {
-    public PropertyEventTypes InputTypes { get { return PropertyEventTypes.OnIgnite | PropertyEventTypes.OnItemCreated | PropertyEventTypes.OnLiquid; } }
+    public PropertyEventTypes InputTypes { get { return PropertyEventTypes.OnIgnite | PropertyEventTypes.OnPlacedInWorld | PropertyEventTypes.OnLiquid; } }
 
     private bool _isIgnited;
     
@@ -22,7 +22,7 @@ public abstract class FlamableProperty : PropertyBase, IFlamableProperty
             _isIgnited = false;
         }
     }
-    private void OnItemCreated()
+    private void OnPlacedInWorld()
     {
         if (_isIgnited)
         {

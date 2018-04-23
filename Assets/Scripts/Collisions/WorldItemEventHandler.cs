@@ -42,32 +42,43 @@ public static class WorldItemEventHandler {
     }
     private static void PollEvents()
     {
-        foreach (Event item in _events)
+        //We have to do some caching here, so we can add
+        //new events during the execution without worrying
+        //about overflowing the stack
+        List<Event> currentEvents = new List<Event>(_events);
+        foreach (Event item in currentEvents)
         {
-            item.Poll();
+            if (item.Poll())
+            {
+                RaiseEventInternal(item);
+            }
         }
     }
     public static void RaiseEvent(IWorldObject obj, PropertyEventTypes type, params object[] args)
     {
-        _events.Add(new Event(type, 0, obj.Point, obj.Radius, args));
+        RaiseEvent(obj.Point, obj.Radius, 0, type, args);
     }
     public static void RaiseEvent(IWorldObject obj, float waitTime, PropertyEventTypes type, params object[] args)
     {
-        _events.Add(new Event(type, waitTime, obj.Point, obj.Radius, args));
+        RaiseEvent(obj.Point, obj.Radius, waitTime, type, args);
     }
     public static void RaiseEvent(Vector2 point, float radius, PropertyEventTypes type, params object[] args)
     {
-        _events.Add(new Event(type, 0, point, radius, args));
+        RaiseEvent(point, radius, 0, type, args);
     }
     public static void RaiseEvent(Vector2 point, float radius, float waitTime, PropertyEventTypes type, params object[] args)
     {
+        Debug.Log("Adding event " + type);
+
         _events.Add(new Event(type, waitTime, point, radius, args));
     }
-    private static void RaiseEventInternal(Vector2 point, float radius, PropertyEventTypes type, params object[] args)
+    private static void RaiseEventInternal(Event item)
     {
-        foreach (IWorldObject obj in GetCollidingObjects(point, radius))
+        _events.Remove(item);
+
+        foreach (IWorldObject obj in GetCollidingObjects(item.Point, item.Radius))
         {
-            obj.RaiseEvent(type, args);
+            obj.RaiseEvent(item.Type, item.Arguments);
         }
     }
     private static void ResolveCollisions(IWorldObject obj)
@@ -109,31 +120,33 @@ public static class WorldItemEventHandler {
         return distance <= aRadius + bRadius;
     }
 
-    private struct Event
+    private class Event
     {
         public Event(PropertyEventTypes type, float waitTime, Vector2 point, float radius, params object[] args)
         {
-            _type = type;
-            _waitTime = waitTime;
-            _args = args;
-            _radius = radius;
-            _point = point;
+            Type = type;
+            WaitTime = waitTime;
+            Arguments = args;
+            Radius = radius;
+            Point = point;
         }
 
-        private PropertyEventTypes _type;
-        private Vector2 _point;
-        private float _waitTime;
-        private float _radius;
-        private object[] _args;
+        public PropertyEventTypes Type;
+        public Vector2 Point;
+        public float WaitTime;
+        public float Radius;
+        public object[] Arguments;
 
-        public void Poll()
+        public bool Poll()
         {
-            _waitTime -= Time.deltaTime;
+            WaitTime -= Time.deltaTime;
 
-            if(_waitTime <= 0)
+            if(WaitTime <= 0)
             {
-                RaiseEvent(_point, _radius, _type, _args);
+                return true;
             }
+
+            return false;
         }
     }
 }
