@@ -19,7 +19,7 @@ public class Liquid : MonoBehaviour, IWorldObject {
 
     private const float MIN_RADIUS = 0.5f;
     private const float RADIUS_SPEED = 20;
-    private const float FIRE_WAIT_TIME = 1;
+    private const float FIRE_WAIT_TIME = 0.2f;
     private const float RADIUS_MIN_DELTA = 0.1f;
     private const float ZDEPTH = 0;
 
