@@ -11,15 +11,13 @@ public abstract class FlamableProperty : PropertyBase, IFlamableProperty
     
     private void OnLiquid(Liquid liquid)
     {
-        if (liquid.IsOnFire && !_isIgnited)
-        {
-            _isIgnited = true;
-
-            WorldItemEventHandler.RaiseEvent(Owner.Object, PropertyEventTypes.OnIgnite);
-        }
-        else if (!liquid.IsFlammable)
+        if (!liquid.IsFlammable)
         {
             _isIgnited = false;
+        }
+        else if (liquid.IsOnFire && !_isIgnited)
+        {
+            _isIgnited = true;
         }
     }
     private void OnPlacedInWorld()
