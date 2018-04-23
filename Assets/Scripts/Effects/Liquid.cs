@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(SpriteRenderer))]
-public class Liquid : MonoBehaviour {
+public class Liquid : MonoBehaviour, IWorldObject {
 
     public LiquidData Data
     {
@@ -20,6 +20,9 @@ public class Liquid : MonoBehaviour {
         }
     }
 
+    public Vector2 Point { get { return transform.position; } }
+    public float Radius { get { return _radius; } }
+
     [SerializeField]
     private SpriteRenderer _renderer;
     
@@ -33,6 +36,8 @@ public class Liquid : MonoBehaviour {
     private void Awake()
     {
         _radius = MIN_RADIUS;
+
+        WorldItemEventHandler.Add(this);
     }
     public static Liquid Create(LiquidData data)
     {
@@ -49,11 +54,13 @@ public class Liquid : MonoBehaviour {
     {
         transform.position = new Vector3(transform.position.x, transform.position.y, 0);
 
-        if (_targetRadius.HasValue)
+        if (_targetRadius.HasValue && ((_targetRadius.Value - _radius) > 0.01f))
         {
             _radius = Mathf.Lerp(_radius, _targetRadius.Value, Time.deltaTime * RADIUS_SPEED);
 
             transform.localScale = new Vector3(_radius, _radius, 1);
+
+            WorldItemEventHandler.Poll(this);
         }
     }
     private void SetRenderState()
@@ -69,5 +76,18 @@ public class Liquid : MonoBehaviour {
     private void OnValidate()
     {
         _renderer = GetComponent<SpriteRenderer>();
+    }
+
+    public void HandleCollision(IWorldObject obj)
+    {
+        if(obj is Liquid)
+        {
+            Liquid other = obj as Liquid;
+
+            if(other.Data != Data)
+            {
+                Debug.Log(other);
+            }
+        }
     }
 }

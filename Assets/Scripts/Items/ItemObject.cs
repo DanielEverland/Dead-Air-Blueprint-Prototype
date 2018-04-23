@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemObject : MonoBehaviour {
+public class ItemObject : MonoBehaviour, IWorldObject {
 
     [SerializeField]
     private SpriteRenderer _renderer;
@@ -23,6 +23,8 @@ public class ItemObject : MonoBehaviour {
     }
 
     public ItemBase Item { get; private set; }
+    public float Radius { get { return 0.5f; } }
+    public Vector2 Point { get { return Position; } }
 
     public static void AssignPosition(Transform transform, Vector3 position)
     {
@@ -47,6 +49,8 @@ public class ItemObject : MonoBehaviour {
     {
         WorldObjectContainer.AddItemObject(this);
         Item.RaiseEvent(PropertyEventTypes.OnPlacedInWorld, null);
+
+        WorldItemEventHandler.Add(this);
     }
     public void Initialize(ItemBase item)
     {
@@ -67,5 +71,12 @@ public class ItemObject : MonoBehaviour {
         WorldObjectContainer.RemoveItemObject(this);
 
         Destroy(gameObject);
+    }
+    public void HandleCollision(IWorldObject obj)
+    {
+        if(obj is Liquid)
+        {
+            Debug.Log(obj);
+        }
     }
 }
