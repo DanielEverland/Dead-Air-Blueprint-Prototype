@@ -76,7 +76,13 @@ public class ItemObject : MonoBehaviour, IWorldObject {
     {
         if(obj is Liquid)
         {
-            Debug.Log(obj);
+            Liquid liquid = obj as Liquid;
+
+            Item.RaiseEvent(PropertyEventTypes.OnLiquid, liquid);
         }
+    }
+    public void RaiseEvent(PropertyEventTypes type, params object[] args)
+    {
+        Item.RaiseEvent(type, args);
     }
 }

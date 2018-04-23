@@ -9,4 +9,5 @@ public interface IWorldObject {
     float Radius { get; }
 
     void HandleCollision(IWorldObject obj);
+    void RaiseEvent(PropertyEventTypes type, params object[] args);
 }

@@ -5,29 +5,20 @@ using UnityEngine;
 
 [RequireComponent(typeof(SpriteRenderer))]
 public class Liquid : MonoBehaviour, IWorldObject {
+    
+    [SerializeField]
+    private SpriteRenderer _renderer;
 
-    public LiquidData Data
-    {
-        get
-        {
-            return _data;
-        }
-        set
-        {
-            _data = value;
-
-            SetRenderState();
-        }
-    }
+    public static readonly Color FireColor = Color.red;
 
     public Vector2 Point { get { return transform.position; } }
     public float Radius { get { return _radius; } }
+    public bool IsOnFire { get { return _data.IsOnFire; } }
+    public bool IsFlammable { get { return _data.IsFlammable; } }
 
-    [SerializeField]
-    private SpriteRenderer _renderer;
-    
     private const float MIN_RADIUS = 0.5f;
     private const float RADIUS_SPEED = 20;
+    private const float FIRE_WAIT_TIME = 1;
 
     private LiquidData _data;
     private float _radius;
@@ -48,7 +39,9 @@ public class Liquid : MonoBehaviour, IWorldObject {
     }
     public void Initialize(LiquidData data)
     {
-        Data = data;
+        _data = data;
+
+        SetRenderState();
     }
     private void Update()
     {
@@ -65,29 +58,46 @@ public class Liquid : MonoBehaviour, IWorldObject {
     }
     private void SetRenderState()
     {
-        _renderer.material.color = Data.Color;
-        _renderer.material.SetColor("_SpecColor", Data.Color);
+        _renderer.material.color = _data.Color;
+        _renderer.material.SetColor("_SpecColor", _data.Color);
 
         Color color = _renderer.material.GetColor("_EmissionColor"); 
-        _renderer.material.SetColor("_EmissionColor", color * Data.Color);
+        _renderer.material.SetColor("_EmissionColor", color * _data.Color);
 
-        _targetRadius = Data.Radius;
+        _targetRadius = _data.Radius;
     }
     private void OnValidate()
     {
         _renderer = GetComponent<SpriteRenderer>();
     }
+    public void SetOnFire()
+    {
+        if (_data.IsOnFire || !_data.IsFlammable)
+            return;
 
+        _data.IsOnFire = true;
+
+        SetRenderState();
+
+        WorldItemEventHandler.RaiseEvent(this, FIRE_WAIT_TIME, PropertyEventTypes.OnIgnite);
+    }
     public void HandleCollision(IWorldObject obj)
     {
         if(obj is Liquid)
         {
             Liquid other = obj as Liquid;
 
-            if(other.Data != Data)
+            if(other._data != _data)
             {
                 Debug.Log(other);
             }
+        }
+    }
+    public void RaiseEvent(PropertyEventTypes type, params object[] args)
+    {
+        if(type == PropertyEventTypes.OnIgnite)
+        {
+            SetOnFire();
         }
     }
 }

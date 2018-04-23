@@ -6,4 +6,5 @@ using UnityEngine;
 public interface ILiquid : IPropertyRequirement {
 
     Color32 Color { get; }
+    bool IsFlammable { get; }
 }

@@ -8,6 +8,7 @@ public abstract class LiquidPropertyBase : PropertyBase, ILiquid, IPropertyInput
     public PropertyEventTypes InputTypes { get { return PropertyEventTypes.OnLiquidContainerBreaks; } }
     
     public abstract Color32 Color { get; }
+    public abstract bool IsFlammable { get; }
 
     public virtual bool IsValid(IEnumerable<PropertyBase> properties, out string errorMessage)
     {
@@ -23,11 +24,7 @@ public abstract class LiquidPropertyBase : PropertyBase, ILiquid, IPropertyInput
     }
     private void OnLiquidContainerBreaks(ILiquidContainerProperty container)
     {
-        LiquidData data = new LiquidData()
-        {
-            Radius = Utility.AreaToRadius(container.Area),
-            Color = Color,
-        };
+        LiquidData data = new LiquidData(container, this);
 
         Liquid liquid = Liquid.Create(data);
         liquid.transform.position = Owner.Object.transform.position;

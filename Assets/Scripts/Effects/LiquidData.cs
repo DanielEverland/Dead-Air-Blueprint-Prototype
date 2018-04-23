@@ -5,6 +5,16 @@ using UnityEngine;
 
 public struct LiquidData : System.IEquatable<LiquidData> {
 
+    public LiquidData(ILiquidContainerProperty container, LiquidPropertyBase liquid)
+    {
+        Radius = Utility.AreaToRadius(container.Area);
+        Color = liquid.Color;
+        IsFlammable = liquid.IsFlammable;
+        IsOnFire = false;
+    }
+
+    public bool IsFlammable;
+    public bool IsOnFire;
     public Color Color;
     public float Radius;
         
@@ -30,7 +40,12 @@ public struct LiquidData : System.IEquatable<LiquidData> {
     }
     public bool Equals(LiquidData other)
     {
-        return other.Color == Color;
+        return
+            other.Color == Color
+            &&
+            other.IsFlammable == IsFlammable
+            &&
+            other.IsOnFire == IsOnFire;
     }
     public override int GetHashCode()
     {
@@ -40,6 +55,8 @@ public struct LiquidData : System.IEquatable<LiquidData> {
         {
             i += Color.GetHashCode() * 17;
             i += Radius.GetHashCode() * 13;
+            i += IsFlammable.GetHashCode() * 5;
+            i += IsOnFire.GetHashCode() * 7;
         }
 
         return i;

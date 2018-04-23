@@ -15,4 +15,5 @@ public enum PropertyEventTypes {
     OnThrowEnds = 1 << 6,
     OnLiquidContainerBreaks = 1 << 7,
     OnIgnite = 1 << 8,
+    OnLiquid = 1 << 9,
 }
