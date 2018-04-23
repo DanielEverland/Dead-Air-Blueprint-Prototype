@@ -53,7 +53,9 @@ public class Liquid : MonoBehaviour, IWorldObject {
         {
             _radius = Mathf.Lerp(_radius, _targetRadius.Value, Time.deltaTime * RADIUS_SPEED);
 
-            transform.localScale = new Vector3(_radius, _radius, 1);
+            float diameter = _radius * 2;
+
+            transform.localScale = new Vector3(diameter, diameter, 1);
 
             WorldItemEventHandler.Poll(this);
         }
