@@ -12,55 +12,14 @@ MonoBehaviour:
   m_Name: SoundEmittionPattern
   m_EditorClassIdentifier: 
   Entries:
-  - Clip: {fileID: 8300000, guid: 61e8b8ff2cf78fb4ea0be99ea6971fe7, type: 3}
+  - Name: Alarm
+    Clip: {fileID: 8300000, guid: 61e8b8ff2cf78fb4ea0be99ea6971fe7, type: 3}
     Curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 2
-        time: 0
-        value: 0.42045453
-        inSlope: -0.8522719
-        outSlope: -0.8522719
-        tangentMode: 0
-      - serializedVersion: 2
-        time: 0.02
-        value: 0.4034091
-        inSlope: 0.2840914
-        outSlope: 0.2840914
-        tangentMode: 0
-      - serializedVersion: 2
-        time: 0.04
-        value: 0.4318182
-        inSlope: 0.078914344
-        outSlope: 0.078914344
-        tangentMode: 0
-      - serializedVersion: 2
-        time: 0.06
-        value: 0.40656567
-        inSlope: -0.4892677
-        outSlope: -0.4892677
-        tangentMode: 0
-      - serializedVersion: 2
-        time: 0.08
-        value: 0.41224748
-        inSlope: 0.031565107
-        outSlope: 0.031565107
-        tangentMode: 0
-      - serializedVersion: 2
-        time: 0.099999994
-        value: 0.40782827
-        inSlope: 3.3617415
-        outSlope: 3.3617415
-        tangentMode: 0
-      - serializedVersion: 2
-        time: 0.12
-        value: 0.54671717
-        inSlope: -7.8598475
-        outSlope: -7.8598475
-        tangentMode: 0
-      - serializedVersion: 2
         time: 0.14
-        value: 0.09343434
+        value: -0.000010482967
         inSlope: -3.3617392
         outSlope: -3.3617392
         tangentMode: 0
@@ -132,23 +91,11 @@ MonoBehaviour:
         tangentMode: 0
       - serializedVersion: 2
         time: 0.38
-        value: 0.30997476
+        value: 0.0000077188015
         inSlope: -15.309332
         outSlope: -15.309332
-        tangentMode: 0
-      - serializedVersion: 2
-        time: 0.39999998
-        value: 0.38762626
-        inSlope: 2.4621227
-        outSlope: 2.4621227
-        tangentMode: 0
-      - serializedVersion: 2
-        time: 0.42
-        value: 0.4084596
-        inSlope: 1.0416666
-        outSlope: 1.0416666
         tangentMode: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    Coefficient: 1
+    Coefficient: 50

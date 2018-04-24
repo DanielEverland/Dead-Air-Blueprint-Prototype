@@ -20,7 +20,7 @@ public class SoundEmittionPatternEditor : Editor {
     private const float SPACING = 3;
     private const float BUTTON_WIDTH = 80;
     private const float PADDING = 5;
-    private const int ELEMENT_HEIGHT = 3;
+    private const int ELEMENT_HEIGHT = 4;
 
     private ReorderableList _list;
 
@@ -47,12 +47,18 @@ public class SoundEmittionPatternEditor : Editor {
         SoundEmittionPattern.Entry element = Target.Entries[index];
 
         EditorGUIUtility.labelWidth = 100;
-        
+
+        //Name
+        Rect nameRect = new Rect(rect.x, rect.y + PADDING, rect.width, EditorGUIUtility.singleLineHeight);
+        element.Name = EditorGUI.TextField(nameRect, new GUIContent("Name"), element.Name);
+
+        EditorGUI.BeginDisabledGroup(element.Name == string.Empty);
         //Clip
-        Rect clipRect = new Rect(rect.x, rect.y + PADDING, rect.width, EditorGUIUtility.singleLineHeight);
+        Rect clipRect = new Rect(rect.x, nameRect.y + SPACING + nameRect.height, rect.width, EditorGUIUtility.singleLineHeight);
         element.Clip = (AudioClip)EditorGUI.ObjectField(clipRect, "Audio Clip", element.Clip, typeof(AudioClip), false);
+        EditorGUI.EndDisabledGroup();
         
-        EditorGUI.BeginDisabledGroup(element.Clip == null);
+        EditorGUI.BeginDisabledGroup(element.Clip == null || element.Name == string.Empty);
         //Curve
         Rect curveRect = new Rect(rect.x, clipRect.y + SPACING + clipRect.height, rect.width - (BUTTON_WIDTH + SPACING), EditorGUIUtility.singleLineHeight);
         element.Curve = EditorGUI.CurveField(curveRect, "Emition Curve", element.Curve);

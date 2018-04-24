@@ -18,14 +18,14 @@ public class SoundEmittionPattern : ScriptableObject {
     }
     private static SoundEmittionPattern _instance;
 
-    public static AnimationCurve GetCurve(AudioClip clip)
+    public static Entry GetEntry(string name)
     {
-        Entry entry = _instance.Entries.FirstOrDefault(x => x.Clip == clip);
+        Entry entry = Instance.Entries.FirstOrDefault(x => x.Name == name);
 
         if (entry == null)
-            throw new System.NotImplementedException("No emittion pattern has been created for " + clip);
+            throw new System.NotImplementedException("No emittion pattern has been created for " + name);
 
-        return entry.Curve;
+        return entry;
     }
 
     public List<Entry> Entries = new List<Entry>();
@@ -33,6 +33,7 @@ public class SoundEmittionPattern : ScriptableObject {
     [System.Serializable]
     public class Entry
     {
+        public string Name = string.Empty;
         public AudioClip Clip = null;
         public AnimationCurve Curve = new AnimationCurve();
         public float Coefficient = 1;
