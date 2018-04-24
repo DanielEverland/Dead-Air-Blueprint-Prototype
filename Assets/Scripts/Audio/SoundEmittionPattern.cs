@@ -35,5 +35,6 @@ public class SoundEmittionPattern : ScriptableObject {
     {
         public AudioClip Clip = null;
         public AnimationCurve Curve = new AnimationCurve();
+        public float Coefficient = 1;
     }
 }

@@ -20,6 +20,7 @@ public class SoundEmittionPatternEditor : Editor {
     private const float SPACING = 3;
     private const float BUTTON_WIDTH = 80;
     private const float PADDING = 5;
+    private const int ELEMENT_HEIGHT = 3;
 
     private ReorderableList _list;
 
@@ -27,38 +28,44 @@ public class SoundEmittionPatternEditor : Editor {
     {
         _list = new ReorderableList(Target.Entries, typeof(SoundEmittionPattern.Entry));
         _list.drawElementCallback = DrawElement;
-        _list.elementHeight = EditorGUIUtility.singleLineHeight * 2 + SPACING * 1 + PADDING * 2;
+        _list.elementHeight = EditorGUIUtility.singleLineHeight * ELEMENT_HEIGHT + SPACING * (ELEMENT_HEIGHT - 1) + PADDING * 2;
     }
     public override void OnInspectorGUI()
     {
+        GUI.changed = false;
+
         _list.DoLayoutList();
+
+        if (GUI.changed)
+        {
+            EditorUtility.SetDirty(target);
+        }
     }
     private void DrawElement(Rect rect, int index, bool isActive, bool isFocused)
     {
         SoundEmittionPattern.Entry element = Target.Entries[index];
 
         EditorGUIUtility.labelWidth = 100;
-
-        rect.height = EditorGUIUtility.singleLineHeight;
-        rect.y += PADDING;
         
         //Clip
-        element.Clip = (AudioClip)EditorGUI.ObjectField(rect, "Audio Clip", element.Clip, typeof(AudioClip), false);
-        rect.y += EditorGUIUtility.singleLineHeight + SPACING;
-
-        EditorGUI.BeginDisabledGroup(element.Clip == null);
+        Rect clipRect = new Rect(rect.x, rect.y + PADDING, rect.width, EditorGUIUtility.singleLineHeight);
+        element.Clip = (AudioClip)EditorGUI.ObjectField(clipRect, "Audio Clip", element.Clip, typeof(AudioClip), false);
         
+        EditorGUI.BeginDisabledGroup(element.Clip == null);
         //Curve
-        rect.width -= SPACING + BUTTON_WIDTH;
-        element.Curve = EditorGUI.CurveField(rect, "Emition Curve", element.Curve);
+        Rect curveRect = new Rect(rect.x, clipRect.y + SPACING + clipRect.height, rect.width - (BUTTON_WIDTH + SPACING), EditorGUIUtility.singleLineHeight);
+        element.Curve = EditorGUI.CurveField(curveRect, "Emition Curve", element.Curve);
 
         //Sample
-        rect.x = rect.width + BUTTON_WIDTH / 2;
-        rect.width = BUTTON_WIDTH;
-        if (GUI.Button(rect, new GUIContent("Sample")))
+        Rect sampleButton = new Rect(curveRect.x + curveRect.width + SPACING, curveRect.y, BUTTON_WIDTH, EditorGUIUtility.singleLineHeight);
+        if (GUI.Button(sampleButton, new GUIContent("Sample")))
         {
             element.Curve = SampleAudioClip(element.Clip);
         }
+        
+        //Coefficient
+        Rect coefficientRect = new Rect(rect.x, curveRect.y + SPACING + curveRect.height, rect.width, EditorGUIUtility.singleLineHeight);
+        element.Coefficient = EditorGUI.FloatField(coefficientRect, "Coefficient", element.Coefficient);
         EditorGUI.EndDisabledGroup();
 
         Target.Entries[index] = element;
