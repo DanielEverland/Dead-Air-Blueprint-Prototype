@@ -79,16 +79,26 @@ public class SoundEmittionPatternEditor : Editor {
         AnimationCurve curve = new AnimationCurve();
         AnimationCurve rawCurve = GetRawCurve(clip, out rawLength);
 
-        for (int i = 0; i < sampleCount; i++)
+        float[] selectedValues = new float[sampleCount];
+        for (int i = 0; i < selectedValues.Length; i++)
         {
-            float time = i * SampleInterval;
-            float delta = (float)i / (float)sampleCount;
-            float index = delta * rawLength;
-            float value = rawCurve.Evaluate(index);
-
-            curve.AddKey(time, value);
+            float index = (float)i / (float)sampleCount * rawLength;
+            selectedValues[i] = rawCurve.Evaluate(index);
         }
-        
+
+        float min, max;
+        GetMinAndMax(selectedValues, out min, out max);
+
+        float delta = max - min;
+
+        for (int i = 0; i < selectedValues.Length; i++)
+        {
+            float difference = (selectedValues[i] - min) / (max - min);
+            float time = i * SampleInterval;
+
+            curve.AddKey(time, difference);
+        }
+                
         return curve;
     }
     private AnimationCurve GetRawCurve(AudioClip clip, out float length)
@@ -99,11 +109,41 @@ public class SoundEmittionPatternEditor : Editor {
 
         for (int i = 0; i < levelData.Length; i++)
         {
-            curve.AddKey(new Keyframe(i, levelData[i]));
+            curve.AddKey(new Keyframe(i, AdjustRawLevel(levelData[i])));
         }
 
         length = levelData.Length;
 
         return curve;
+    }
+    private void GetMinAndMax(float[] array, out float min, out float max)
+    {
+        min = float.MaxValue;
+        max = float.MinValue;
+
+        for (int i = 0; i < array.Length; i++)
+        {
+            if (array[i] < min)
+                min = array[i];
+
+            if (array[i] > max)
+                max = array[i];
+        }
+    }
+    /// <summary>
+    /// Converts the raw values from (-1:1) to (0:1)
+    /// </summary>
+    /// <param name="rawLevel"></param>
+    /// <returns></returns>
+    private float AdjustRawLevel(float rawLevel)
+    {
+        if(rawLevel >= 0)
+        {
+            return 0.5f + (rawLevel * 0.5f);
+        }
+        else
+        {
+            return 0.5f - Mathf.Abs(rawLevel) * 0.5f;
+        }
     }
 }
