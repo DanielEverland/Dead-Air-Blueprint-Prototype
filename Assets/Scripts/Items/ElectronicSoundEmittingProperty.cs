@@ -12,7 +12,7 @@ public abstract class ElectronicSoundEmittingProperty : SoundEmittingProperty,  
     public override string[] GetInformation()
     {
         List<string> info = new List<string>(base.GetInformation());
-        info.Add("Electricity: " + (Owner.IsElectricallyCharged ? "On" : "Off"));
+        info.Add("Electricity: " + (IsOn ? "On" : "Off"));
 
         return info.ToArray();
     }

@@ -17,7 +17,7 @@ public class LightProperty : PropertyBase, IElectricityUser
         IEnumerable<Component> components = PropertyHelper.CopyComponents("Light", obj);
 
         _light = components.First<Light>();
-        _light.enabled = Owner.IsElectricallyCharged;
+        _light.enabled = false;
     }
     public override string[] GetInformation()
     {

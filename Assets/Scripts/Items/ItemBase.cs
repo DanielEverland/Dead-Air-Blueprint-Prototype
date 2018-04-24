@@ -37,14 +37,7 @@ public class ItemBase {
     /// Defines whether or not the object has been placed
     /// </summary>
     public bool PlacedInWorld { get; private set; }
-
-    /// <summary>
-    /// Defines whether the item receives electricity
-    /// </summary>
-    public bool IsElectricallyCharged { get; private set; }
-
-    public bool _receivesElectricity;
-
+    
     /// <summary>
     /// Combines items
     /// </summary>
