@@ -9,13 +9,14 @@ public class WorldAudioHandler : MonoBehaviour {
     [SerializeField]
     private AudioSource _source;
 
+    public AudioSource Source { get { return _source; } }
     public float Scale { get; private set; }
+    public bool IsActive { get; private set; }
     
     private const float SOUND_CHANGE_SPEED = 10;
 
     private SoundEmittionPattern.Entry _entry;
     private IWorldObject _obj;
-    private bool _isActive;
     
     public static WorldAudioHandler Create(SoundEmittionPattern.Entry entry, IWorldObject obj)
     {
@@ -34,16 +35,16 @@ public class WorldAudioHandler : MonoBehaviour {
     }
     public void Toggle(bool active)
     {
-        if(!active && _isActive)
+        if(!active && IsActive)
         {
             _source.Stop();
         }
-        else if(active && !_isActive)
+        else if(active && !IsActive)
         {
             _source.Play();
         }
 
-        _isActive = active;
+        IsActive = active;
     }
     private void Update()
     {
@@ -52,7 +53,7 @@ public class WorldAudioHandler : MonoBehaviour {
     }
     private void SetScale()
     {
-        if (!_isActive)
+        if (!IsActive)
         {
             Scale = 0;
         }

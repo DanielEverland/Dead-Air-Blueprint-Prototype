@@ -31,26 +31,6 @@ public class ItemBase {
     }
 
     public ItemObject Object { get; set; }
-
-    /// <summary>
-    /// Types that can only be received as input. They can never be sent as output
-    /// </summary>
-    public static IEnumerable<PropertyEventTypes> BlockedOutputTypes { get { return _outputEventBlockers; } }
-
-    /// <summary>
-    /// Types that can only be sent as output. They can never be received as input
-    /// </summary>
-    public static IEnumerable<PropertyEventTypes> BlockedInputTypes { get { return _inputEventBlockers.Keys; } }
-
-    private static HashSet<PropertyEventTypes> _outputEventBlockers = new HashSet<PropertyEventTypes>()
-    {
-        PropertyEventTypes.OnElectricalInputChanged,
-    };
-    private static Dictionary<PropertyEventTypes, System.Action<ItemBase>> _inputEventBlockers = new Dictionary<PropertyEventTypes, System.Action<ItemBase>>()
-    {
-        { PropertyEventTypes.OnElectricalInput, ReceiveElectricity },
-    };
-
     public Sprite Sprite { get; private set; }
     
     /// <summary>
@@ -91,18 +71,61 @@ public class ItemBase {
     }
     private void PollElectricity()
     {
-        if(!IsElectricallyCharged && _receivesElectricity)
+        float totalChargeAvailable = GetAvailableElectricity();
+
+        foreach (IElectricityUser user in _properties.ElectricityUsers)
         {
-            IsElectricallyCharged = true;
-            DoRaiseEvent(PropertyEventTypes.OnElectricalInputChanged, null);
+            float required = user.ElectricityRequired * Time.deltaTime;
+
+            if(totalChargeAvailable >= required)
+            {
+                Charge(user, required);
+                
+                totalChargeAvailable -= required;
+
+                if (!user.IsOn)
+                {
+                    user.IsOn = true;
+                }
+            }
+            else if(user.IsOn)
+            {
+                user.IsOn = false;
+            }
         }
-        else if(IsElectricallyCharged && !_receivesElectricity)
+    }
+    private void Charge(IElectricityUser user, float required)
+    {
+        foreach (IElectricitySupplier supplier in _properties.ElectricitySuppliers)
         {
-            IsElectricallyCharged = false;
-            DoRaiseEvent(PropertyEventTypes.OnElectricalInputChanged, null);
+            if(supplier.CurrentCharge >= required)
+            {
+                supplier.CurrentCharge -= required;
+                required = 0;
+            }
+            else
+            {
+                required -= supplier.CurrentCharge;
+                supplier.CurrentCharge = 0;
+            }
+
+            if (required == 0)
+                return;
         }
 
-        _receivesElectricity = false;
+        if (required != 0)
+            throw new System.InvalidOperationException("Something's gone wrong, we weren't able to charge " + user + " fully");
+    }
+    private float GetAvailableElectricity()
+    {
+        float total = 0;
+
+        foreach (IElectricitySupplier supplier in _properties.ElectricitySuppliers)
+        {
+            total += supplier.CurrentCharge;
+        }
+
+        return total;
     }
     public bool ContainsOutput(PropertyEventTypes type)
     {
@@ -114,23 +137,6 @@ public class ItemBase {
     }
     public void RaiseEvent(PropertyEventTypes type, params object[] parameters)
     {
-        if (_outputEventBlockers.Contains(type))
-            throw new System.InvalidOperationException("Tried to raise blocked output event!");
-
-        DoRaiseEvent(type, parameters);
-    }
-    private void DoRaiseEvent(PropertyEventTypes type, params object[] parameters)
-    {
-        if (_inputEventBlockers.ContainsKey(type))
-        {
-            System.Action<ItemBase> action = _inputEventBlockers[type];
-
-            if (action != null)
-                action.Invoke(this);
-
-            return;
-        }
-
         if (type == PropertyEventTypes.OnPlacedInWorld)
             PlacedInWorld = true;
         
@@ -144,10 +150,6 @@ public class ItemBase {
         }
 
         return obj;
-    }
-    private static void ReceiveElectricity(ItemBase item)
-    {
-        item._receivesElectricity = true;
     }
 
     public ItemBase CreateClone()

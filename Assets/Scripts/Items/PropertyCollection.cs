@@ -11,10 +11,17 @@ public sealed class PropertyCollection : IEnumerable<PropertyBase> {
         _properties = new List<PropertyBase>();
         _allOutput = new Dictionary<PropertyEventTypes, List<IPropertyOutput>>();
         _allInput = new Dictionary<PropertyEventTypes, List<InputDefinition>>();
+        _electricityUsers = new List<IElectricityUser>();
+        _electricitySuppliers = new List<IElectricitySupplier>();
     }
-    
+
+    public IEnumerable<IElectricityUser> ElectricityUsers { get { return _electricityUsers; } }
+    public IEnumerable<IElectricitySupplier> ElectricitySuppliers { get { return _electricitySuppliers; } }
+
     private Dictionary<PropertyEventTypes, List<IPropertyOutput>> _allOutput;
     private Dictionary<PropertyEventTypes, List<InputDefinition>> _allInput;
+    private List<IElectricityUser> _electricityUsers;
+    private List<IElectricitySupplier> _electricitySuppliers;
     private List<PropertyBase> _properties;
 
     private static BindingFlags _memberBindingFlags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
@@ -56,7 +63,16 @@ public sealed class PropertyCollection : IEnumerable<PropertyBase> {
                 _allOutput[outputType].Remove(output);
             }
         }
+
+        if(property is IElectricityUser)
+        {
+            _electricityUsers.Remove(property as IElectricityUser);
+        }
         
+        if(property is IElectricitySupplier)
+        {
+            _electricitySuppliers.Remove(property as IElectricitySupplier);
+        }
     }
     public void Update()
     {
@@ -112,6 +128,18 @@ public sealed class PropertyCollection : IEnumerable<PropertyBase> {
 
             TraverseTypes(output.OutputTypes, x => RegisterOutput(x, output));
         }
+        if(property is IElectricityUser)
+        {
+            _electricityUsers.Add(property as IElectricityUser);
+        }
+        if (property is IElectricitySupplier)
+        {
+            IElectricitySupplier supplier = property as IElectricitySupplier;
+
+            supplier.CurrentCharge = supplier.MaxCharge;
+
+            _electricitySuppliers.Add(supplier);
+        }
     }
     private void TraverseTypes(PropertyEventTypes types, System.Action<PropertyEventTypes> predicate)
     {
@@ -133,9 +161,6 @@ public sealed class PropertyCollection : IEnumerable<PropertyBase> {
     }
     private void RegisterOutput(PropertyEventTypes type, IPropertyOutput output)
     {
-        if (ItemBase.BlockedOutputTypes.Contains(type))
-            throw new System.ArgumentException(output.GetType().Name + " tries to implement blocked output type " + type);
-
         if (!_allOutput.ContainsKey(type))
             _allOutput.Add(type, new List<IPropertyOutput>());
         
@@ -143,9 +168,6 @@ public sealed class PropertyCollection : IEnumerable<PropertyBase> {
     }
     private void RegisterInput(PropertyEventTypes type, IPropertyInput input)
     {
-        if (ItemBase.BlockedInputTypes.Contains(type))
-            throw new System.ArgumentException(input.GetType().Name + " tries to implement blocked input type " + type);
-
         if (!_allInput.ContainsKey(type))
             _allInput.Add(type, new List<InputDefinition>());
 

@@ -7,4 +7,5 @@ public class Alarm : ElectronicSoundEmittingProperty
 {
     public override string SoundName { get { return "Alarm"; } }
     public override string Name { get { return "Electric Alarm"; } }
+    public override float ElectricityRequired { get { return 10; } }
 }

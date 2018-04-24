@@ -3,18 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class LightProperty : PropertyBase, IPropertyInput
+public class LightProperty : PropertyBase, IElectricityUser
 {
-    public PropertyEventTypes InputTypes { get { return PropertyEventTypes.OnElectricalInputChanged; } }
+    public float ElectricityRequired { get { return 20; } }
+    public bool IsOn { get { return _light.enabled; } set { _light.enabled = value; } }
 
     public override string Name { get { return "Light"; } }
-
+    
     private Light _light;
-
-    private void OnElectricalInputChanged()
-    {
-        _light.enabled = Owner.IsElectricallyCharged;
-    }
+    
     public override void CreateInstance(GameObject obj)
     {
         IEnumerable<Component> components = PropertyHelper.CopyComponents("Light", obj);
@@ -26,7 +23,7 @@ public class LightProperty : PropertyBase, IPropertyInput
     {
         return new string[1]
         {
-                "Enabled: " + _light.enabled,
+            "Enabled: " + _light.enabled,
         };
     }
 }

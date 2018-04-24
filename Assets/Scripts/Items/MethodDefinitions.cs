@@ -5,14 +5,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public static class MethodDefinitions {
-    
+
     private static readonly Dictionary<PropertyEventTypes, System.Type[]> _parameterTypes = new Dictionary<PropertyEventTypes, System.Type[]>()
     {
         { PropertyEventTypes.OnItemCreated, null },
-        { PropertyEventTypes.OnElectricalInput, null },
         { PropertyEventTypes.OnTrigger, null },
         { PropertyEventTypes.OnPlacedInWorld, null },
-        { PropertyEventTypes.OnElectricalInputChanged, null },
         { PropertyEventTypes.OnThrowBegins, null },
         { PropertyEventTypes.OnThrowEnds, null },
         { PropertyEventTypes.OnLiquidContainerBreaks, new System.Type[1] { typeof(ILiquidContainerProperty) } },

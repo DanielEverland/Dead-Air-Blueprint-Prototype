@@ -3,14 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class ElectronicSoundEmittingProperty : SoundEmittingProperty, IPropertyInput
+public abstract class ElectronicSoundEmittingProperty : SoundEmittingProperty,  IElectricityUser
 {
-    public PropertyEventTypes InputTypes { get { return PropertyEventTypes.OnElectricalInputChanged; } }
+    public bool IsOn { get { return AudioIndicator.IsActive; } set { AudioIndicator.Toggle(value); } }
 
-    private void OnElectricalInputChanged()
-    {
-        AudioIndicator.Toggle(Owner.IsElectricallyCharged);
-    }
+    public abstract float ElectricityRequired { get; }
+    
     public override string[] GetInformation()
     {
         List<string> info = new List<string>(base.GetInformation());
