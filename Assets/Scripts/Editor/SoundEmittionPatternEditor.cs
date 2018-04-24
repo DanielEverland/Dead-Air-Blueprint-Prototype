@@ -29,6 +29,7 @@ public class SoundEmittionPatternEditor : Editor {
         _list = new ReorderableList(Target.Entries, typeof(SoundEmittionPattern.Entry));
         _list.drawElementCallback = DrawElement;
         _list.elementHeight = EditorGUIUtility.singleLineHeight * ELEMENT_HEIGHT + SPACING * (ELEMENT_HEIGHT - 1) + PADDING * 2;
+        _list.drawHeaderCallback += (Rect rect) => { EditorGUI.LabelField(rect, "Emittion Patterns"); };
     }
     public override void OnInspectorGUI()
     {
