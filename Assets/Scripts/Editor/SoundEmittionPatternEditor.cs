@@ -94,9 +94,7 @@ public class SoundEmittionPatternEditor : Editor {
 
         float min, max;
         GetMinAndMax(selectedValues, out min, out max);
-
-        float delta = max - min;
-
+        
         for (int i = 0; i < selectedValues.Length; i++)
         {
             float difference = (selectedValues[i] - min) / (max - min);

@@ -24,8 +24,6 @@ public sealed class PropertyCollection : IEnumerable<PropertyBase> {
     private List<IElectricitySupplier> _electricitySuppliers;
     private List<PropertyBase> _properties;
 
-    private static BindingFlags _memberBindingFlags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
-
     public void Remove(PropertyBase property)
     {
         if (!_properties.Contains(property))
