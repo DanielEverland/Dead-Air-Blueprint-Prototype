@@ -466,12 +466,12 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1137454980}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -953, y: -433, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_Father: {fileID: 1556280593}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1137454984
 MonoBehaviour:
@@ -657,7 +657,7 @@ MonoBehaviour:
     replace traditional crafting systems, in return for something that's more open
     ended, thereby allowing a larger amount of combinations, and hopefully more interesting
     gameplay.\n\n<I> Open Item Creator\n<Space> Recreate Previous Item\n<LMB> Place
-    Item\n<RMB> Throw Item\n<F> Ignite Item"
+    Item\n<RMB> Throw Item\n<F> Ignite Item\n<G> Place Generator"
 --- !u!222 &1499289318
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -753,6 +753,7 @@ RectTransform:
   m_Children:
   - {fileID: 1499289316}
   - {fileID: 1414295346}
+  - {fileID: 1137454983}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -803,6 +804,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _radius: 0.6
+--- !u!114 &1845860017
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1845860015}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ab3e45fbdaa6f146bdf6469281229af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _prefab: {fileID: 114277675967849090, guid: 822395a0c6b8c334da2d87a267f4979e, type: 2}
 --- !u!1001 &2008480988
 Prefab:
   m_ObjectHideFlags: 0
@@ -840,24 +853,8 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4148482465904384, guid: 822395a0c6b8c334da2d87a267f4979e, type: 2}
       propertyPath: m_RootOrder
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 822395a0c6b8c334da2d87a267f4979e, type: 2}
   m_IsPrefabParent: 0
---- !u!1 &2034603050 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1902039332775142, guid: 822395a0c6b8c334da2d87a267f4979e,
-    type: 2}
-  m_PrefabInternal: {fileID: 2008480988}
---- !u!114 &2034603051
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2034603050}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 95b93115c18da734d898147d5a378897, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
