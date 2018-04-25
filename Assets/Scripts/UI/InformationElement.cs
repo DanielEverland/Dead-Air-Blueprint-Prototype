@@ -10,9 +10,9 @@ public class InformationElement : MonoBehaviour {
     [SerializeField]
     private Text _textElement;
 
-    private IWorldObject _obj;
+    private IInformationObject _obj;
 
-    public void Initialize(IWorldObject obj)
+    public void Initialize(IInformationObject obj)
     {
         _obj = obj;
     }
