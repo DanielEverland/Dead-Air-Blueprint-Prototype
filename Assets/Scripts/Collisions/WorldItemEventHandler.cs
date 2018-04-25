@@ -98,7 +98,7 @@ public static class WorldItemEventHandler {
             }
         }
     }
-    private static IEnumerable<IWorldObject> GetCollidingObjects(Vector2 point, float radius)
+    public static IEnumerable<IWorldObject> GetCollidingObjects(Vector2 point, float radius)
     {
         List<IWorldObject> collidingObjects = new List<IWorldObject>();
 

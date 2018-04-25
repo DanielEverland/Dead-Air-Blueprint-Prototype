@@ -13,7 +13,7 @@ public class ItemObjectHandler : MonoBehaviour {
     [SerializeField]
     private float _radius = 1;
 
-    
+    private const float MAX_DISTANCE_FOR_PICKUP = 2;
 
     private static ItemObjectHandler _instance;
 
@@ -49,6 +49,26 @@ public class ItemObjectHandler : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.Space))
         {
             ReplicateOldItem();
+        }
+        if (Input.GetKeyUp(KeyCode.Mouse0))
+        {
+            CheckForPickup();
+        }
+    }
+    private void CheckForPickup()
+    {
+        Vector2 mouseInWorld = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        List<IWorldObject> objectsAtMouse = new List<IWorldObject>(WorldItemEventHandler.GetCollidingObjects(mouseInWorld, 2));
+
+        foreach (IWorldObject obj in objectsAtMouse)
+        {
+            if (Vector2.Distance(transform.position, obj.Point) > MAX_DISTANCE_FOR_PICKUP)
+                continue;
+
+            if(obj is ItemObject)
+            {
+                _object = obj as ItemObject;
+            }
         }
     }
     private void HandleObject()
