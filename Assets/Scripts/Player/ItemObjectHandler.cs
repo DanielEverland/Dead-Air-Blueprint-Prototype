@@ -68,6 +68,8 @@ public class ItemObjectHandler : MonoBehaviour {
             if(obj is ItemObject)
             {
                 _object = obj as ItemObject;
+
+                WorldItemEventHandler.Remove(obj);
             }
         }
     }
