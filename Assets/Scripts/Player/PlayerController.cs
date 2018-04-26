@@ -14,6 +14,8 @@ public class PlayerController : MonoBehaviour {
     private List<Component> _actions;
     [SerializeField]
     private Component _defaultAction;
+    
+    public static GameObject Player { get; private set; }
 
     private static List<IPlayerAction> _allActions;
     private static IPlayerAction _resetAction;
@@ -21,6 +23,8 @@ public class PlayerController : MonoBehaviour {
 
     private void Awake()
     {
+        Player = gameObject;
+
         _resetAction = _defaultAction as IPlayerAction;
         _allActions = new List<IPlayerAction>(_actions.Where(x => x is IPlayerAction).Select(x => x as IPlayerAction));
 

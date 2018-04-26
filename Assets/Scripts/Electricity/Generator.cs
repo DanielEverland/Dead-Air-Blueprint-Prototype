@@ -26,6 +26,7 @@ public class Generator : MonoBehaviour, IWorldElectricitySupplier
         _grid.AddSupplier(this);
 
         InformationManager.Add(this);
+        ElectricityManager.AddObject(this);
     }
     public string GetInformationString()
     {
@@ -45,5 +46,6 @@ public class Generator : MonoBehaviour, IWorldElectricitySupplier
     {
         _grid.RemoveSupplier(this);
         InformationManager.Remove(this);
+        ElectricityManager.RemoveObject(this);
     }
 }

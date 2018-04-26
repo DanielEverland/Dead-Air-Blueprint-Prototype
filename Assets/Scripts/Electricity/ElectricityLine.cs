@@ -3,12 +3,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(LineRenderer))]
 public class ElectricityLine : MonoBehaviour {
+    
+    public LineRenderer Renderer;
 
-    private bool _active;
+    private List<IWorldElectricityObject> _connections;
 
-    public void Toggle(bool active)
+    private void Awake()
     {
-        _active = active;
+        _connections = new List<IWorldElectricityObject>();
+
+        SanitizeComponent();
+    }
+    private void SanitizeComponent()
+    {
+        Renderer.SetPositions(new Vector3[2] { Vector3.zero, Vector3.zero });
+    }
+    private void OnValidate()
+    {
+        Renderer = GetComponent<LineRenderer>();
     }
 }

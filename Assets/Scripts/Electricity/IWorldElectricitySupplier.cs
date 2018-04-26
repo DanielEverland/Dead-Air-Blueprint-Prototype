@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IWorldElectricitySupplier : IElectricitySupplier, IInformationObject {
-
-    IShape Shape { get; }
+public interface IWorldElectricitySupplier : IElectricitySupplier, IInformationObject, IWorldElectricityObject {
+    
 }
