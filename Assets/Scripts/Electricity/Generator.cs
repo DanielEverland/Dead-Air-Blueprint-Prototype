@@ -5,11 +5,18 @@ using UnityEngine;
 
 public class Generator : MonoBehaviour, IWorldElectricitySupplier
 {
+    public IShape Shape { get { return _shape; } }
     public float MaxCharge { get { return 1000000; } }
     public float CurrentCharge { get; set; }
 
     public Vector2 Point { get { return transform.position; } }
 
+    private SquareShape _shape;
+
+    private void Awake()
+    {
+        _shape = new SquareShape(this, transform.localScale);
+    }
     private void Start()
     {
         ElectricityManager.Add(this);

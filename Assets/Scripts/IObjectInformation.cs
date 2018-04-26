@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IInformationObject : IObjectInformation {
-        
-    string GetInformationString();
+public interface IObjectInformation {
+
+    Vector2 Point { get; }
 }

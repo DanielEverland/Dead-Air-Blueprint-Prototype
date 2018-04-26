@@ -5,4 +5,5 @@ using UnityEngine;
 
 public interface IWorldElectricitySupplier : IElectricitySupplier, IInformationObject {
 
+    IShape Shape { get; }
 }
