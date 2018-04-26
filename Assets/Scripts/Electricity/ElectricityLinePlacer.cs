@@ -53,6 +53,7 @@ public class ElectricityLinePlacer : MonoBehaviour, IPlayerAction
     }
     public void OnSelected()
     {
+        _currentHandler = new ElectricityLineHandler();
     }
     private class ElectricityLineHandler
     {
