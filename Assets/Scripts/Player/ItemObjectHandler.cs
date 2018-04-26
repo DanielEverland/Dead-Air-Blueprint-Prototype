@@ -18,6 +18,7 @@ public class ItemObjectHandler : MonoBehaviour {
     private static ItemObjectHandler _instance;
 
     private ItemObject _object;
+    private Rigidbody _objectRigidbody;
     private ItemBase _previouslyHandledItem;
 
     private void Awake()
@@ -42,7 +43,18 @@ public class ItemObjectHandler : MonoBehaviour {
             PlaceOnGround();
 
         _object = obj;
+        _objectRigidbody = obj.GetComponent<Rigidbody>();
         _previouslyHandledItem = obj.Item.CreateClone();
+
+        ToggleRigidbody(false);
+    }
+    private void ToggleRigidbody(bool active)
+    {
+        if (_objectRigidbody == null)
+            return;
+
+        _objectRigidbody.isKinematic = !active;
+        _objectRigidbody.detectCollisions = active;
     }
     private void PollInput()
     {
@@ -67,8 +79,7 @@ public class ItemObjectHandler : MonoBehaviour {
 
             if(obj is ItemObject)
             {
-                _object = obj as ItemObject;
-
+                DoHandleItem(obj as ItemObject);
                 WorldItemEventHandler.Remove(obj);
             }
         }
@@ -100,15 +111,20 @@ public class ItemObjectHandler : MonoBehaviour {
     }
     private void PlaceOnGround()
     {
-        _object.PlaceInWorld();
-        _object = null;
+        Release();
     }
     private void ThrowObject()
     {
-        ThrowingHelper helper = _object.gameObject.AddComponent<ThrowingHelper>();
-        helper.Initialize(_object, Camera.main.ScreenToWorldPoint(Input.mousePosition));
-        helper.OnDone += () => { helper.GetComponent<ItemObject>().PlaceInWorld(); };
-        
+        ToggleRigidbody(true);
+        ThrowingHelper.ThrowObject(_object.gameObject);
+
+        Release();
+    }
+    private void Release()
+    {
+        ToggleRigidbody(true);
+
+        _object.PlaceInWorld();
         _object = null;
     }
     private void AlignObject()
