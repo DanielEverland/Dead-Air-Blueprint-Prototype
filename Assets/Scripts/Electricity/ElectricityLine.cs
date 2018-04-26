@@ -26,18 +26,10 @@ public class ElectricityLine : MonoBehaviour {
     }
     private Vector2 SetPosition(int index, Vector2 pos, Vector2 other)
     {
-        IWorldElectricityObject obj;
-        if (ElectricityManager.Poll(pos, out obj))
-        {
-            Vector2 fixedPos = obj.Shape.GetEdge(other);
-            Renderer.SetPosition(index, fixedPos);
-            return fixedPos;
-        }
-        else
-        {
-            Renderer.SetPosition(index, pos);
-            return pos;
-        }
+        Vector2 fixedPos = ElectricityManager.ResolvePosition(pos, other);
+        Renderer.SetPosition(index, fixedPos);
+
+        return fixedPos;
     }
     private void CheckForObject(Vector2 pos)
     {
