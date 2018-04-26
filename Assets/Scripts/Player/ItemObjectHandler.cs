@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemObjectHandler : MonoBehaviour {
+public class ItemObjectHandler : MonoBehaviour, IPlayerAction {
     
     public static void HandleItem(ItemObject obj)
     {
@@ -21,13 +21,15 @@ public class ItemObjectHandler : MonoBehaviour {
     private Rigidbody _objectRigidbody;
     private ItemBase _previouslyHandledItem;
 
+    public KeyCode ActivationKey { get { return KeyCode.None; } }
+
     private void Awake()
     {
         _instance = this;
 
         HandleItem(ItemObject.Create(new ItemBase(null, new Battery(), new LightProperty())));
     }
-    private void Update()
+    public void DoUpdate()
     {
         PollInput();
 
@@ -124,6 +126,9 @@ public class ItemObjectHandler : MonoBehaviour {
     {
         ToggleRigidbody(true);
 
+        if (_object == null)
+            return;
+
         _object.PlaceInWorld();
         _object = null;
     }
@@ -146,5 +151,12 @@ public class ItemObjectHandler : MonoBehaviour {
         Vector2 playerPos = transform.position;
         
         return Mathf.Atan2(mouseInWorld.y - playerPos.y, mouseInWorld.x - playerPos.x);
+    }
+    public void OnSelected()
+    {
+    }
+    public void OnDeselected()
+    {
+        PlaceOnGround();
     }
 }
