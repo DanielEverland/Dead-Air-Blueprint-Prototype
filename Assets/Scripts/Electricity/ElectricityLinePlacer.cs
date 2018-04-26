@@ -94,7 +94,16 @@ public class ElectricityLinePlacer : MonoBehaviour, IPlayerAction
         }
         public void ResolveLineRendering()
         {
-            _currentLine.Renderer.SetPosition(0, StartPosition);
+            IWorldElectricityObject obj;
+            if(ElectricityManager.Poll(StartPosition, out obj))
+            {
+                _currentLine.Renderer.SetPosition(0, obj.Shape.GetEdge(EndPosition));
+            }
+            else
+            {
+                _currentLine.Renderer.SetPosition(0, StartPosition);
+            }
+            
             _currentLine.Renderer.SetPosition(1, EndPosition);
         }
     }
