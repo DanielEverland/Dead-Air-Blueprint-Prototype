@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Text;
 
 public class Generator : MonoBehaviour, IWorldElectricitySupplier
 {
@@ -12,21 +13,37 @@ public class Generator : MonoBehaviour, IWorldElectricitySupplier
     public Vector2 Point { get { return transform.position; } }
 
     private SquareShape _shape;
+    private ElectricityGrid _grid;
 
     private void Awake()
     {
         _shape = new SquareShape(this, transform.localScale);
+        CurrentCharge = MaxCharge;
     }
     private void Start()
     {
-        ElectricityManager.Add(this);
+        _grid = new ElectricityGrid();
+        _grid.AddSupplier(this);
+
+        InformationManager.Add(this);
     }
     public string GetInformationString()
     {
-        return "CurrentCharge: " + CurrentCharge.ToString("N0");
+        StringBuilder builder = new StringBuilder();
+
+        builder.Append("CurrentCharge: ");
+        builder.Append(CurrentCharge.ToString("N0"));
+
+        builder.AppendLine();
+
+        builder.Append("Grid ID: ");
+        builder.Append(_grid.ID);
+
+        return builder.ToString();
     }
     public void Remove()
     {
-        ElectricityManager.Remove(this);
+        _grid.RemoveSupplier(this);
+        InformationManager.Remove(this);
     }
 }

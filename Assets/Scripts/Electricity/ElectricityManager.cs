@@ -3,28 +3,40 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class ElectricityManager {
+public class ElectricityManager : MonoBehaviour {
 
-    static ElectricityManager()
+    private static List<ElectricityGrid> _grids;
+
+    private const int UPDATES_PER_SECOND = 10;
+
+    private float UpdateInterval { get { return 1 / (float)UPDATES_PER_SECOND; } }
+
+    private float _time;
+
+    private void Awake()
     {
-        _suppliers = new List<IWorldElectricitySupplier>();
+        _grids = new List<ElectricityGrid>();
     }
-
-    private static List<IWorldElectricitySupplier> _suppliers;
-
-    public static void Add(IWorldElectricitySupplier supplier)
+    private void Update()
     {
-        supplier.CurrentCharge = supplier.MaxCharge;
+        _time += Time.deltaTime;
 
+        if(_time >= UpdateInterval)
+        {
+            UpdateGrids();
 
-        _suppliers.Add(supplier);
-
-        InformationManager.Add(supplier);
+            _time = 0;
+        }
     }
-    public static void Remove(IWorldElectricitySupplier supplier)
+    private void UpdateGrids()
     {
-        _suppliers.Remove(supplier);
-
-        InformationManager.Remove(supplier);
+        foreach (ElectricityGrid grid in _grids)
+        {
+            grid.Update();
+        }
+    }
+    public static void Register(ElectricityGrid grid)
+    {
+        _grids.Add(grid);
     }
 }
