@@ -73,6 +73,9 @@ public class ElectricityLinePlacer : MonoBehaviour, IPlayerAction
                 if (_placedEndPos.HasValue)
                     return _placedEndPos.Value;
 
+                if(_placedStartPos.HasValue)
+                    return Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
                 return PlayerController.Player.transform.position;
             }
         }
