@@ -72,4 +72,21 @@ public class ElectricityManager : MonoBehaviour {
         if (_objects.Contains(obj))
             _objects.Remove(obj);
     }
+    public static void ResolvePositions(Vector2 a, Vector2 b, out Vector2 fixedA, out Vector2 fixedB)
+    {
+        fixedA = ResolvePosition(a, b);
+        fixedB = ResolvePosition(b, a);
+    }
+    public static Vector2 ResolvePosition(Vector2 a, Vector2 b)
+    {
+        IWorldElectricityObject obj;
+        if(Poll(a, out obj))
+        {
+            return obj.Shape.GetEdge(b);
+        }
+        else
+        {
+            return a;
+        }
+    }
 }

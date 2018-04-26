@@ -39,6 +39,14 @@ public class ElectricityLinePlacer : MonoBehaviour, IPlayerAction
     {
         Vector2 mousePosInWorld = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         _currentHandler.AddPosition(mousePosInWorld);
+
+        if (_currentHandler.IsReadyToPlace)
+            PlaceLine();
+    }
+    private void PlaceLine()
+    {
+        _currentHandler.Place();
+        _currentHandler = null;
     }
     public void OnDeselected()
     {
@@ -84,30 +92,31 @@ public class ElectricityLinePlacer : MonoBehaviour, IPlayerAction
         private Vector2? _placedStartPos;
         private Vector2? _placedEndPos;
 
+        public void Place()
+        {
+            if (!IsReadyToPlace)
+                throw new System.InvalidOperationException();
+
+            _currentLine.Initialize(_placedStartPos.Value, _placedEndPos.Value);
+        }
         public void AddPosition(Vector2 pos)
         {
             if (!_placedStartPos.HasValue)
             {
                 _placedStartPos = pos;
             }
-            else if (!_placedStartPos.HasValue)
+            else if (!_placedEndPos.HasValue)
             {
                 _placedEndPos = pos;
             }
         }
         public void ResolveLineRendering()
         {
-            IWorldElectricityObject obj;
-            if(ElectricityManager.Poll(StartPosition, out obj))
-            {
-                _currentLine.Renderer.SetPosition(0, obj.Shape.GetEdge(EndPosition));
-            }
-            else
-            {
-                _currentLine.Renderer.SetPosition(0, StartPosition);
-            }
-            
-            _currentLine.Renderer.SetPosition(1, EndPosition);
+            Vector2 fixedA, fixedB;
+            ElectricityManager.ResolvePositions(StartPosition, EndPosition, out fixedA, out fixedB);
+
+            _currentLine.Renderer.SetPosition(0, fixedA);
+            _currentLine.Renderer.SetPosition(1, fixedB);
         }
     }
 }
