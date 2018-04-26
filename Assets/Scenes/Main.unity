@@ -753,7 +753,8 @@ MonoBehaviour:
     replace traditional crafting systems, in return for something that's more open
     ended, thereby allowing a larger amount of combinations, and hopefully more interesting
     gameplay.\n\n<I> Open Item Creator\n<Space> Recreate Previous Item\n<LMB> Place
-    Item / Pick Up Item\n<RMB> Throw Item\n<F> Ignite Item\n<G> Place Generator"
+    Item / Pick Up Item\n<RMB> Throw Item\n<F> Ignite Item\n<G> Place Generator\n<E>
+    Place Power Lines"
 --- !u!222 &1499289318
 CanvasRenderer:
   m_ObjectHideFlags: 0
