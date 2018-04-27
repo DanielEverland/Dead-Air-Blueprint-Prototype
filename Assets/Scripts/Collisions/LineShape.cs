@@ -16,6 +16,7 @@ public class LineShape : IShape {
         RecalculateBoundingBox();
     }
 
+    public BoundingBox BoundingBox { get { return _boundingBox; } }
     public Vector2 Start
     {
         get

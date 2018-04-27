@@ -4,20 +4,23 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(LineRenderer))]
-public class ElectricityLine : MonoBehaviour, IWorldElectricityObject {
+public class ElectricityLine : MonoBehaviour, IWorldElectricityObject, IInformationObject {
     
     public LineRenderer Renderer;
     public IShape Shape { get { return _shapeHandler.Shape; } }
+    public Vector2 Point { get { return _shapeHandler.Shape.BoundingBox.Center; } }
 
     private const float THICKNESS = 0.2f;
 
     private List<IWorldElectricityObject> _connections;
-    private ShapeHandler _shapeHandler;    
+    private ShapeHandler _shapeHandler;
+    private ElectricityGrid _grid;
 
     private void Awake()
     {
         _connections = new List<IWorldElectricityObject>();
         _shapeHandler = new ShapeHandler(Renderer);
+        _grid = new ElectricityGrid();
 
         SanitizeComponent();        
     }
@@ -30,6 +33,7 @@ public class ElectricityLine : MonoBehaviour, IWorldElectricityObject {
         SetPosition(1, endPos, fixedStartPos);
 
         ElectricityManager.AddObject(this);
+        InformationManager.Add(this);
     }
     private Vector2 SetPosition(int index, Vector2 pos, Vector2 other)
     {
@@ -59,6 +63,12 @@ public class ElectricityLine : MonoBehaviour, IWorldElectricityObject {
     public void Remove()
     {
         ElectricityManager.RemoveObject(this);
+        InformationManager.Remove(this);
+    }
+
+    public string GetInformationString()
+    {
+        return $"Grid ID: {_grid.ID}";
     }
 
     private class ShapeHandler
@@ -96,7 +106,6 @@ public class ElectricityLine : MonoBehaviour, IWorldElectricityObject {
         }
         private bool ShouldUpdate()
         {
-            return true;
             return _renderer.GetPosition(0) != _oldStart || _renderer.GetPosition(1) != _oldEnd || _shape == null;
         }
     }
