@@ -113,23 +113,26 @@ public class ItemObjectHandler : MonoBehaviour, IPlayerAction {
     }
     private void PlaceOnGround()
     {
-        Release();
+        if (_object == null)
+            return;
+
+        Release(ElectricityManager.GetGrid(_object.Position));
     }
     private void ThrowObject()
     {
         ToggleRigidbody(true);
         ThrowingHelper.ThrowObject(_object.gameObject);
 
-        Release();
+        Release(null);
     }
-    private void Release()
+    private void Release(ElectricityGrid grid)
     {
         ToggleRigidbody(true);
 
         if (_object == null)
             return;
 
-        _object.PlaceInWorld();
+        _object.PlaceInWorld(grid);
         _object = null;
     }
     private void AlignObject()
@@ -137,9 +140,13 @@ public class ItemObjectHandler : MonoBehaviour, IPlayerAction {
         float radians = GetRadians();
         Vector2 vector = GetLocalVector(radians);
 
-        Vector2 objPos = vector * _radius;
+        Vector2 offset = vector * _radius;
+        Vector3 finalPosition = transform.position + (Vector3)offset;
+
+        finalPosition = ElectricityManager.ResolvePosition(finalPosition, transform.position);
+        finalPosition.z = transform.position.z;
         
-        _object.Position = transform.position + (Vector3)objPos;
+        _object.Position = finalPosition;
     }
     private Vector2 GetLocalVector(float radians)
     {

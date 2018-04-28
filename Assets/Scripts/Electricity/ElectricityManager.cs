@@ -44,6 +44,18 @@ public class ElectricityManager : MonoBehaviour {
             grid.Update();
         }
     }
+    public static ElectricityGrid GetGrid(Vector2 pos)
+    {
+        IWorldElectricityObject obj;
+        if (Poll(pos, out obj))
+        {
+            return obj.Grid;
+        }
+        else
+        {
+            return null;
+        }
+    }
     public static void Register(ElectricityGrid grid)
     {
         _grids.Add(grid);

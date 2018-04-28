@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Text;
 
-public class ItemObject : MonoBehaviour, IWorldObject {
+public class ItemObject : MonoBehaviour, IWorldObject, IWorldElectricityObject {
 
     [SerializeField]
     private SpriteRenderer _renderer;
@@ -26,6 +26,10 @@ public class ItemObject : MonoBehaviour, IWorldObject {
     public ItemBase Item { get; private set; }
     public float Radius { get { return 0.5f; } }
     public Vector2 Point { get { return Position; } }
+    public IShape Shape { get { return _shape; } }
+    public ElectricityGrid Grid { get; set; }
+
+    private CircleShape _shape;
 
     public static void AssignPosition(Transform transform, Vector3 position)
     {
@@ -42,16 +46,26 @@ public class ItemObject : MonoBehaviour, IWorldObject {
 
         return itemObject;
     }
+    private void Awake()
+    {
+        _shape = new CircleShape(this);
+    }
     private void Start()
     {
         InformationManager.Add(this);
     }
-    public void PlaceInWorld()
+    public void PlaceInWorld(ElectricityGrid grid)
     {
         WorldObjectContainer.AddItemObject(this);
         Item.RaiseEvent(PropertyEventTypes.OnPlacedInWorld, null);
 
+        if (grid == null)
+            grid = new ElectricityGrid();
+
+        Grid = grid;
+
         WorldItemEventHandler.Add(this);
+        ElectricityManager.AddObject(this);
     }
     public void Initialize(ItemBase item)
     {
@@ -70,6 +84,7 @@ public class ItemObject : MonoBehaviour, IWorldObject {
     {
         InformationManager.Remove(this);
         WorldObjectContainer.RemoveItemObject(this);
+        ElectricityManager.RemoveObject(this);
 
         Destroy(gameObject);
     }
@@ -96,6 +111,17 @@ public class ItemObject : MonoBehaviour, IWorldObject {
     }
     private void GetProperties(StringBuilder builder)
     {
+        builder.Append("Grid");
+        if(Grid == null)
+        {
+            builder.Append(": NONE");
+        }
+        else
+        {
+            builder.Append(Grid.ToString());
+        }
+        builder.AppendLine();
+
         if (Item.Properties.Count() == 0)
         {
             builder.Append("NO PROPERTIES");
