@@ -47,6 +47,12 @@ public class ElectricityLine : MonoBehaviour, IWorldElectricityObject, IInformat
         {
             ElectricityGrid largest = ElectricityGrid.Merge(_connections.DistinctBy(x => x.Grid).Select(x => x.Grid).Where(x => x != null).ToArray());
 
+            foreach (IWorldElectricityObject connection in _connections)
+            {
+                //Required for objects without a grid
+                connection.Grid = largest;
+            }
+
             Grid = largest;
             Grid.Add(this);
         }
