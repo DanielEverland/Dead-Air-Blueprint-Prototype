@@ -58,10 +58,7 @@ public class ItemObject : MonoBehaviour, IWorldObject, IWorldElectricityObject {
     {
         WorldObjectContainer.AddItemObject(this);
         Item.RaiseEvent(PropertyEventTypes.OnPlacedInWorld, null);
-
-        if (grid == null)
-            grid = new ElectricityGrid();
-
+        
         Grid = grid;
 
         WorldItemEventHandler.Add(this);
