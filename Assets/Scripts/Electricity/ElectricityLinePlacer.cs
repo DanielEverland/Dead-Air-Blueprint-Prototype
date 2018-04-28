@@ -47,6 +47,8 @@ public class ElectricityLinePlacer : MonoBehaviour, IPlayerAction
     {
         _currentHandler.Place();
         _currentHandler = null;
+
+        PlayerController.ResetAction();
     }
     public void OnDeselected()
     {
