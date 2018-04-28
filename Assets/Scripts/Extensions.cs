@@ -6,6 +6,17 @@ using UnityEngine.UI;
 
 public static class Extensions {
 
+    public static IEnumerable<TSource> DistinctBy<TSource, TKey> (this IEnumerable<TSource> source, System.Func<TSource, TKey> keySelector)
+    {
+        HashSet<TKey> seenKeys = new HashSet<TKey>();
+        foreach (TSource element in source)
+        {
+            if (seenKeys.Add(keySelector(element)))
+            {
+                yield return element;
+            }
+        }
+    }
     public static T Random<T>(this IEnumerable<T> collection)
     {
         return collection.ElementAt(UnityEngine.Random.Range(0, collection.Count()));

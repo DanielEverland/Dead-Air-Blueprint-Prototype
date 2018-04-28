@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Text;
 
 public class ElectricityGrid {
 
@@ -9,6 +10,7 @@ public class ElectricityGrid {
     {
         _suppliers = new List<IElectricitySupplier>();
         _users = new List<IElectricityUser>();
+        _objects = new List<IWorldElectricityObject>();
 
         _gridIndex = _gridCount;
         _gridCount++;
@@ -19,9 +21,11 @@ public class ElectricityGrid {
     private static int _gridCount;
 
     public int ID { get { return _gridIndex; } }
+    public int Count { get { return _objects.Count; } }
 
     private readonly int _gridIndex;
 
+    private List<IWorldElectricityObject> _objects;
     private List<IElectricitySupplier> _suppliers;
     private List<IElectricityUser> _users;
 
@@ -105,20 +109,93 @@ public class ElectricityGrid {
     {
         return _availableCharge >= requiredCharge;
     }
-    public void AddUser(IElectricityUser user)
+    public void Add(IWorldElectricityObject obj)
     {
-        _users.Add(user);
+        AddToList(_objects, obj);
+        AddToList(_suppliers, obj);
+        AddToList(_users, obj);
+
+        obj.Grid = this;
     }
-    public void RemoveUser(IElectricityUser user)
+    public void Remove(IWorldElectricityObject obj)
     {
-        _users.Remove(user);
+        RemoveFromList(_objects, obj);
+        RemoveFromList(_suppliers, obj);
+        RemoveFromList(_users, obj);
     }
-    public void AddSupplier(IElectricitySupplier supplier)
+    private void AddToList<T>(List<T> list, object obj)
     {
-        _suppliers.Add(supplier);
+        if (obj is T)
+        {
+            T castObject = (T)obj;
+
+            if (!list.Contains(castObject))
+            {
+                list.Add(castObject);
+            }
+        }
     }
-    public void RemoveSupplier(IElectricitySupplier supplier)
+    private void RemoveFromList<T>(List<T> list, object obj)
     {
-        _suppliers.Remove(supplier);
+        if(obj is T)
+        {
+            T castObject = (T)obj;
+
+            if (list.Contains(castObject))
+            {
+                list.Remove(castObject);
+            }
+        }
+    }
+    public override string ToString()
+    {
+        StringBuilder builder = new StringBuilder();
+
+        builder.Append("ID: ");
+        builder.Append(_gridIndex);
+
+        builder.AppendLine();
+
+        builder.Append("Objects: ");
+        builder.Append(_objects.Count);
+
+        builder.AppendLine();
+
+        builder.Append("Suppliers: ");
+        builder.Append(_suppliers.Count);
+
+        builder.AppendLine();
+
+        builder.Append("Users: ");
+        builder.Append(_users.Count);
+
+        return builder.ToString();
+    }
+
+    public static ElectricityGrid Merge(params ElectricityGrid[] grids)
+    {
+        ElectricityGrid largestGrid = GetLargestGrid(grids);
+
+        foreach (ElectricityGrid smallerGrid in grids)
+        {
+            if (smallerGrid == largestGrid)
+                continue;
+
+            for (int i = smallerGrid._objects.Count - 1; i >= 0; i--)
+            {
+                IWorldElectricityObject obj = smallerGrid._objects[i];
+
+                largestGrid.Add(obj);
+                smallerGrid.Remove(obj);
+            }
+        }
+
+        return largestGrid;
+    }
+    private static ElectricityGrid GetLargestGrid(params ElectricityGrid[] grids)
+    {
+        int maxCount = grids.Max(x => x.Count);
+
+        return grids.FirstOrDefault(x => x.Count == maxCount);
     }
 }

@@ -9,11 +9,11 @@ public class Generator : MonoBehaviour, IWorldElectricitySupplier
     public IShape Shape { get { return _shape; } }
     public float MaxCharge { get { return 1000000; } }
     public float CurrentCharge { get; set; }
+    public ElectricityGrid Grid { get; set; }
 
     public Vector2 Point { get { return transform.position; } }
 
     private SquareShape _shape;
-    private ElectricityGrid _grid;
 
     private void Awake()
     {
@@ -22,8 +22,8 @@ public class Generator : MonoBehaviour, IWorldElectricitySupplier
     }
     private void Start()
     {
-        _grid = new ElectricityGrid();
-        _grid.AddSupplier(this);
+        Grid = new ElectricityGrid();
+        Grid.Add(this);
 
         InformationManager.Add(this);
         ElectricityManager.AddObject(this);
@@ -37,14 +37,13 @@ public class Generator : MonoBehaviour, IWorldElectricitySupplier
 
         builder.AppendLine();
 
-        builder.Append("Grid ID: ");
-        builder.Append(_grid.ID);
+        builder.Append(Grid.ToString());
 
         return builder.ToString();
     }
     public void Remove()
     {
-        _grid.RemoveSupplier(this);
+        Grid.Remove(this);
         InformationManager.Remove(this);
         ElectricityManager.RemoveObject(this);
     }

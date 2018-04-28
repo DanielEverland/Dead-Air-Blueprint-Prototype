@@ -6,4 +6,5 @@ using UnityEngine;
 public interface IWorldElectricityObject {
 
     IShape Shape { get; }
+    ElectricityGrid Grid { get; set; }
 }
