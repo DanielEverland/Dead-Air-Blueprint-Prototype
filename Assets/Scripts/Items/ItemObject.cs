@@ -74,6 +74,8 @@ public class ItemObject : ElectricalObject, IWorldObject {
     public override void Remove()
     {
         WorldObjectContainer.RemoveItemObject(this);
+
+        base.Remove();
     }
     public void HandleCollision(IWorldObject obj)
     {
