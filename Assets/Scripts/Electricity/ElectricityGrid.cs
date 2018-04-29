@@ -44,6 +44,7 @@ public class ElectricityGrid {
     private void PollCharge()
     {
         _availableCharge = 0;
+        _chargeUsedThisFrame = 0;
 
         foreach (IElectricitySupplier supplier in _suppliers)
         {
@@ -54,11 +55,13 @@ public class ElectricityGrid {
     {
         foreach (IElectricityUser user in _users)
         {
-            if (CanCharge(user.ElectricityRequired))
+            float electricityRequiredThisCycle = user.ElectricityRequired / ElectricityManager.UPDATES_PER_SECOND;
+
+            if (CanCharge(electricityRequiredThisCycle))
             {
                 user.IsReceivingElectricity = true;
 
-                Drain(user.ElectricityRequired);
+                Drain(electricityRequiredThisCycle);
             }
             else
             {
