@@ -16,6 +16,9 @@ public static class MethodDefinitions {
         { PropertyEventTypes.OnLiquidContainerBreaks, new System.Type[1] { typeof(ILiquidContainerProperty) } },
         { PropertyEventTypes.OnIgnite, null },
         { PropertyEventTypes.OnLiquid, new System.Type[1] { typeof(Liquid) } },
+        { PropertyEventTypes.OnCollisionEnter, new System.Type[1] { typeof(Transform) } },
+        { PropertyEventTypes.OnCollisionStay, new System.Type[1] { typeof(Transform) } },
+        { PropertyEventTypes.OnCollisionExit, new System.Type[1] { typeof(Transform) } },
     };
 
     public static System.Type[] GetParameterInfo(PropertyEventTypes type)
