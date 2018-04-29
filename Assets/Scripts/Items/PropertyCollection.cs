@@ -18,6 +18,8 @@ public sealed class PropertyCollection : IEnumerable<PropertyBase> {
     public IEnumerable<IElectricityUser> ElectricityUsers { get { return _electricityUsers; } }
     public IEnumerable<IElectricitySupplier> ElectricitySuppliers { get { return _electricitySuppliers; } }
 
+    private PropertyEventTypes _blockedDebugInfoProperties = PropertyEventTypes.OnCollisionEnter | PropertyEventTypes.OnCollisionExit | PropertyEventTypes.OnCollisionStay;
+
     private Dictionary<PropertyEventTypes, List<IPropertyOutput>> _allOutput;
     private Dictionary<PropertyEventTypes, List<InputDefinition>> _allInput;
     private List<IElectricityUser> _electricityUsers;
@@ -28,7 +30,7 @@ public sealed class PropertyCollection : IEnumerable<PropertyBase> {
     {
         if (!_properties.Contains(property))
             throw new System.ArgumentException("Tried to remove property that doesn't exist");
-
+    
         Debug.Log("Removing " + property);
 
         _properties.Remove(property);
@@ -90,7 +92,8 @@ public sealed class PropertyCollection : IEnumerable<PropertyBase> {
     }
     public void RaiseEvent(PropertyEventTypes type, params object[] parameters)
     {
-        Debug.Log("Raise event " + type);
+        if(!_blockedDebugInfoProperties.HasFlag(type))   
+            Debug.Log("Raise event " + type);
 
         if (!_allInput.ContainsKey(type))
             return;
