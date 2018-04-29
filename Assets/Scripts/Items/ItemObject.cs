@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Text;
 
-public class ItemObject : ElectricalObject, IWorldObject {
+public class ItemObject : ElectricalObject, IWorldObject, IElectricityUser {
 
     [SerializeField]
     private SpriteRenderer _renderer;
@@ -25,8 +25,10 @@ public class ItemObject : ElectricalObject, IWorldObject {
 
     public override IShape Shape { get { return _shape; } }
 
+    public bool IsReceivingElectricity { get; set; }
     public ItemBase Item { get; private set; }
     public float Radius { get { return 0.5f; } }
+    public float ElectricityRequired { get { return Item.RequiredElectricity; } }
 
     private CircleShape _shape;
 
@@ -94,9 +96,19 @@ public class ItemObject : ElectricalObject, IWorldObject {
     {
         StringBuilder builder = new StringBuilder();
 
+        builder.Append("Is Receiving Electricity: ");
+        builder.Append(IsReceivingElectricity);
+        
+        builder.AppendLine();
+
+        builder.Append("Required Electricity: ");
+        builder.Append(ElectricityRequired);
+        
+        builder.AppendLine();
+
         GetProperties(builder);
 
-        builder.AppendLine();
+        //builder.AppendLine();
 
         builder.Append(base.GetInformationString());
 
