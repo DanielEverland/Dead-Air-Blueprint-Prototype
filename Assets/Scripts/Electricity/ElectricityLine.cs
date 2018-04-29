@@ -2,14 +2,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Text;
 
 [RequireComponent(typeof(LineRenderer))]
-public class ElectricityLine : MonoBehaviour, IWorldElectricityObject, IInformationObject {
+public class ElectricityLine : ElectricalObject {
     
     public LineRenderer Renderer;
-    public IShape Shape { get { return _shapeHandler.Shape; } }
-    public Vector2 Point { get { return _shapeHandler.Shape.BoundingBox.Center; } }
-    public ElectricityGrid Grid { get; set; }
+
+    public override IShape Shape { get { return _shapeHandler.Shape; } }
+    public override Vector2 Point { get { return _shapeHandler.Shape.BoundingBox.Center; } }
 
     private const float THICKNESS = 0.2f;
 
@@ -23,54 +24,24 @@ public class ElectricityLine : MonoBehaviour, IWorldElectricityObject, IInformat
         
         SanitizeComponent();        
     }
+    public override void Start()
+    {
+    }
     public void Initialize(Vector2 startPos, Vector2 endPos)
     {
-        CheckForObject(startPos);
-        CheckForObject(endPos);
+        CheckForObjects(startPos, endPos);
 
         Vector2 fixedStartPos = SetPosition(0, startPos, endPos);
         SetPosition(1, endPos, fixedStartPos);
 
-        AssignGrid();
-
-        ElectricityManager.AddObject(this);
-        InformationManager.Add(this);
-    }
-    private void AssignGrid()
-    {
-        if(_connections.Count == 0)
-        {
-            Grid = new ElectricityGrid();
-            Grid.Add(this);
-        }
-        else
-        {
-            ElectricityGrid largest = ElectricityGrid.Merge(_connections.DistinctBy(x => x.Grid).Select(x => x.Grid).Where(x => x != null).ToArray());
-
-            foreach (IWorldElectricityObject connection in _connections)
-            {
-                //Required for objects without a grid
-                connection.Grid = largest;
-            }
-
-            Grid = largest;
-            Grid.Add(this);
-        }
-    }
+        base.Initialize();
+    }           
     private Vector2 SetPosition(int index, Vector2 pos, Vector2 other)
     {
         Vector2 fixedPos = ElectricityManager.ResolvePosition(pos, other);
         Renderer.SetPosition(index, fixedPos);
         
         return fixedPos;
-    }
-    private void CheckForObject(Vector2 pos)
-    {
-        IWorldElectricityObject obj;
-        if(ElectricityManager.Poll(pos, out obj))
-        {
-            _connections.Add(obj);
-        }
     }
     private void SanitizeComponent()
     {
@@ -82,19 +53,7 @@ public class ElectricityLine : MonoBehaviour, IWorldElectricityObject, IInformat
     {
         Renderer = GetComponent<LineRenderer>();
     }
-    public void Remove()
-    {
-        Grid.Remove(this);
-
-        ElectricityManager.RemoveObject(this);
-        InformationManager.Remove(this);
-    }
-
-    public string GetInformationString()
-    {
-        return Grid.ToString();
-    }
-
+    
     private class ShapeHandler
     {
         public ShapeHandler(LineRenderer renderer)

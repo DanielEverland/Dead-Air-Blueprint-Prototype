@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Text;
 
-public class ItemObject : MonoBehaviour, IWorldObject, IWorldElectricityObject {
+public class ItemObject : ElectricalObject, IWorldObject {
 
     [SerializeField]
     private SpriteRenderer _renderer;
@@ -23,11 +23,10 @@ public class ItemObject : MonoBehaviour, IWorldObject, IWorldElectricityObject {
         }
     }
 
+    public override IShape Shape { get { return _shape; } }
+
     public ItemBase Item { get; private set; }
     public float Radius { get { return 0.5f; } }
-    public Vector2 Point { get { return Position; } }
-    public IShape Shape { get { return _shape; } }
-    public ElectricityGrid Grid { get; set; }
 
     private CircleShape _shape;
 
@@ -50,10 +49,6 @@ public class ItemObject : MonoBehaviour, IWorldObject, IWorldElectricityObject {
     {
         _shape = new CircleShape(this);
     }
-    private void Start()
-    {
-        InformationManager.Add(this);
-    }
     public void PlaceInWorld(ElectricityGrid grid)
     {
         WorldObjectContainer.AddItemObject(this);
@@ -62,7 +57,6 @@ public class ItemObject : MonoBehaviour, IWorldObject, IWorldElectricityObject {
         Grid = grid;
 
         WorldItemEventHandler.Add(this);
-        ElectricityManager.AddObject(this);
     }
     public void Initialize(ItemBase item)
     {
@@ -77,13 +71,9 @@ public class ItemObject : MonoBehaviour, IWorldObject, IWorldElectricityObject {
     {
         Item.Update();
     }
-    private void Destroy()
+    public override void Remove()
     {
-        InformationManager.Remove(this);
         WorldObjectContainer.RemoveItemObject(this);
-        ElectricityManager.RemoveObject(this);
-
-        Destroy(gameObject);
     }
     public void HandleCollision(IWorldObject obj)
     {
@@ -98,11 +88,15 @@ public class ItemObject : MonoBehaviour, IWorldObject, IWorldElectricityObject {
     {
         Item.RaiseEvent(type, args);
     }
-    public string GetInformationString()
+    public override string GetInformationString()
     {
         StringBuilder builder = new StringBuilder();
 
         GetProperties(builder);
+
+        builder.AppendLine();
+
+        builder.Append(base.GetInformationString());
 
         return builder.ToString();
     }

@@ -4,14 +4,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Text;
 
-public class Generator : MonoBehaviour, IWorldElectricitySupplier
+public class Generator : ElectricalObject
 {
-    public IShape Shape { get { return _shape; } }
+    public override IShape Shape { get { return _shape; } }
+
     public float MaxCharge { get { return 1000000; } }
     public float CurrentCharge { get; set; }
-    public ElectricityGrid Grid { get; set; }
-
-    public Vector2 Point { get { return transform.position; } }
 
     private SquareShape _shape;
 
@@ -20,15 +18,13 @@ public class Generator : MonoBehaviour, IWorldElectricitySupplier
         _shape = new SquareShape(this, transform.localScale);
         CurrentCharge = MaxCharge;
     }
-    private void Start()
+    public override void Start()
     {
         Grid = new ElectricityGrid();
-        Grid.Add(this);
 
-        InformationManager.Add(this);
-        ElectricityManager.AddObject(this);
+        base.Start();
     }
-    public string GetInformationString()
+    public override string GetInformationString()
     {
         StringBuilder builder = new StringBuilder();
 
@@ -37,14 +33,8 @@ public class Generator : MonoBehaviour, IWorldElectricitySupplier
 
         builder.AppendLine();
 
-        builder.Append(Grid.ToString());
+        builder.Append(base.GetInformationString());
 
         return builder.ToString();
-    }
-    public void Remove()
-    {
-        Grid.Remove(this);
-        InformationManager.Remove(this);
-        ElectricityManager.RemoveObject(this);
     }
 }

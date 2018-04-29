@@ -174,6 +174,9 @@ public class ElectricityGrid {
 
     public static ElectricityGrid Merge(params ElectricityGrid[] grids)
     {
+        if (grids.Length == 0)
+            return null;
+
         ElectricityGrid largestGrid = GetLargestGrid(grids);
 
         foreach (ElectricityGrid smallerGrid in grids)
