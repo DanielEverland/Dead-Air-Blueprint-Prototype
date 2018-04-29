@@ -52,6 +52,10 @@ public class ItemObject : ElectricalObject, IWorldObject, IElectricityUser {
     {
         _shape = new CircleShape(this);
     }
+    public override void Start()
+    {
+        InformationManager.Add(this);
+    }
     public void PlaceInWorld(ElectricityGrid grid)
     {
         WorldObjectContainer.AddItemObject(this);
@@ -60,6 +64,8 @@ public class ItemObject : ElectricalObject, IWorldObject, IElectricityUser {
         Grid = grid;
 
         WorldItemEventHandler.Add(this);
+
+        base.Initialize();
     }
     public void Initialize(ItemBase item)
     {
