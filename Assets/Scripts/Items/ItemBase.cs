@@ -32,6 +32,7 @@ public class ItemBase {
 
     public ItemObject Object { get; set; }
     public Sprite Sprite { get; private set; }
+    public float RequiredElectricity { get { return GetRequiredCharge(); } }
     
     /// <summary>
     /// Defines whether or not the object has been placed
@@ -64,28 +65,54 @@ public class ItemBase {
     }
     private void PollElectricity()
     {
+        if (Object.IsReceivingElectricity)
+        {
+            foreach (IElectricityUser user in _properties.ElectricityUsers)
+            {
+                if (!user.IsReceivingElectricity)
+                    user.IsReceivingElectricity = true;
+            }
+        }
+        else
+        {
+            UseInternalCharge();
+        }        
+    }
+    private void UseInternalCharge()
+    {
         float totalChargeAvailable = GetAvailableElectricity();
 
         foreach (IElectricityUser user in _properties.ElectricityUsers)
         {
             float required = user.ElectricityRequired * Time.deltaTime;
 
-            if(totalChargeAvailable >= required)
+            if (totalChargeAvailable >= required)
             {
                 Charge(user, required);
-                
+
                 totalChargeAvailable -= required;
 
-                if (!user.IsOn)
+                if (!user.IsReceivingElectricity)
                 {
-                    user.IsOn = true;
+                    user.IsReceivingElectricity = true;
                 }
             }
-            else if(user.IsOn)
+            else if (user.IsReceivingElectricity)
             {
-                user.IsOn = false;
+                user.IsReceivingElectricity = false;
             }
         }
+    }
+    private float GetRequiredCharge()
+    {
+        float requiredCharge = 0;
+
+        foreach (IElectricityUser user in _properties.ElectricityUsers)
+        {
+            requiredCharge += user.ElectricityRequired;
+        }
+
+        return requiredCharge;
     }
     private void Charge(IElectricityUser user, float required)
     {
