@@ -117,6 +117,9 @@ public class Liquid : MonoBehaviour, IWorldObject {
 
         WorldItemEventHandler.RaiseEvent(this, FIRE_WAIT_TIME, PropertyEventTypes.OnIgnite);
     }
+    public void HandleCollision(IWorldObject obj)
+    {
+    }
     public void RaiseEvent(PropertyEventTypes type, params object[] args)
     {
         if(type == PropertyEventTypes.OnIgnite)
