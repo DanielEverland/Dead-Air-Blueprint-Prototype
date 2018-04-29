@@ -102,17 +102,6 @@ public class ItemObject : ElectricalObject, IWorldObject {
     }
     private void GetProperties(StringBuilder builder)
     {
-        builder.Append("Grid");
-        if(Grid == null)
-        {
-            builder.Append(": NONE");
-        }
-        else
-        {
-            builder.Append(Grid.ToString());
-        }
-        builder.AppendLine();
-
         if (Item.Properties.Count() == 0)
         {
             builder.Append("NO PROPERTIES");
