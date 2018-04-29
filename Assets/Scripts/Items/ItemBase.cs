@@ -58,12 +58,10 @@ public class ItemBase {
         _properties.Remove(property);
     }
     public void Update()
-    {
-        PollElectricity();
-        
+    {        
         _properties.Update();
     }
-    private void PollElectricity()
+    public void PollElectricity()
     {
         if (Object.IsReceivingElectricity)
         {
@@ -84,7 +82,7 @@ public class ItemBase {
 
         foreach (IElectricityUser user in _properties.ElectricityUsers)
         {
-            float required = user.ElectricityRequired * Time.deltaTime;
+            float required = user.ElectricityRequired / ElectricityManager.UPDATES_PER_SECOND;
 
             if (totalChargeAvailable >= required)
             {

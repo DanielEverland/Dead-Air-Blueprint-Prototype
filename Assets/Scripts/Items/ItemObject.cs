@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Text;
 
-public class ItemObject : ElectricalObject, IWorldObject, IElectricityUser {
+public class ItemObject : ElectricalObject, IWorldObject, IElectricityUser, IElectricityUpdateHandler {
 
     [SerializeField]
     private SpriteRenderer _renderer;
@@ -55,6 +55,7 @@ public class ItemObject : ElectricalObject, IWorldObject, IElectricityUser {
     public override void Start()
     {
         InformationManager.Add(this);
+        ElectricityManager.AddUpdateHandler(this);
     }
     public void PlaceInWorld(ElectricityGrid grid)
     {
@@ -80,9 +81,14 @@ public class ItemObject : ElectricalObject, IWorldObject, IElectricityUser {
     {
         Item.Update();
     }
+    public void OnUpdateElectricity()
+    {
+        Item.PollElectricity();
+    }
     public override void Remove()
     {
         WorldObjectContainer.RemoveItemObject(this);
+        ElectricityManager.RemoveUpdateHandler(this);
 
         base.Remove();
     }
