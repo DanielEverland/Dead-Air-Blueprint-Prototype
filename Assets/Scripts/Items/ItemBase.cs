@@ -33,6 +33,7 @@ public class ItemBase {
     public ItemObject Object { get; set; }
     public Sprite Sprite { get; private set; }
     public float RequiredElectricity { get { return GetRequiredCharge(); } }
+    public bool HasTriggered { get; private set; }
     
     /// <summary>
     /// Defines whether or not the object has been placed
@@ -58,23 +59,34 @@ public class ItemBase {
         _properties.Remove(property);
     }
     public void Update()
-    {        
-        _properties.Update();
+    {
+        if (!HasTriggered)
+            _properties.Update();
     }
     public void PollElectricity()
     {
-        if (Object.IsReceivingElectricity)
+        if (!HasTriggered)
         {
             foreach (IElectricityUser user in _properties.ElectricityUsers)
             {
-                if (!user.IsReceivingElectricity)
-                    user.IsReceivingElectricity = true;
+                user.IsReceivingElectricity = false;
             }
         }
         else
         {
-            UseInternalCharge();
-        }        
+            if (Object.IsReceivingElectricity)
+            {
+                foreach (IElectricityUser user in _properties.ElectricityUsers)
+                {
+                    if (!user.IsReceivingElectricity)
+                        user.IsReceivingElectricity = true;
+                }
+            }
+            else
+            {
+                UseInternalCharge();
+            }
+        }              
     }
     private void UseInternalCharge()
     {
@@ -104,6 +116,9 @@ public class ItemBase {
     private float GetRequiredCharge()
     {
         float requiredCharge = 0;
+
+        if (!HasTriggered)
+            return 0;
 
         foreach (IElectricityUser user in _properties.ElectricityUsers)
         {
@@ -157,7 +172,10 @@ public class ItemBase {
     {
         if (type == PropertyEventTypes.OnPlacedInWorld)
             PlacedInWorld = true;
-        
+
+        if (type == PropertyEventTypes.OnTrigger)
+            HasTriggered = true;
+
         _properties.RaiseEvent(type, parameters);
     }
     public GameObject CreateObject(GameObject obj)
