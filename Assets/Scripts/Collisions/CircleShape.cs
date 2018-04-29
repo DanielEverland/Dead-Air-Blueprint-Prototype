@@ -23,6 +23,6 @@ public class CircleShape : IShape
     {
         Vector2 delta = pos - _obj.Point;
 
-        return delta.normalized * _obj.Radius;
+        return _obj.Point + delta.normalized * _obj.Radius;
     }
 }
