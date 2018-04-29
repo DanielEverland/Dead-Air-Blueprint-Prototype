@@ -116,23 +116,23 @@ public class ItemObjectHandler : MonoBehaviour, IPlayerAction {
         if (_object == null)
             return;
 
-        Release(ElectricityManager.GetGrid(_object.Position));
+        _object.PlaceInWorld(ElectricityManager.GetGrid(_object.Position));
+        Release();
     }
     private void ThrowObject()
     {
         ToggleRigidbody(true);
         ThrowingHelper.ThrowObject(_object.gameObject);
 
-        Release(null);
+        Release();
     }
-    private void Release(ElectricityGrid grid)
+    private void Release()
     {
         ToggleRigidbody(true);
 
         if (_object == null)
             return;
 
-        _object.PlaceInWorld(grid);
         _object = null;
     }
     private void AlignObject()

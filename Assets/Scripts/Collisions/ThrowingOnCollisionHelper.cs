@@ -17,6 +17,9 @@ public class ThrowingOnCollisionHelper : MonoBehaviour {
     private void OnCollisionEnter(Collision collision)
     {
         if (_itemObject != null)
+        {
+            _itemObject.RaiseEvent(PropertyEventTypes.OnPlacedInWorld, null);
             _itemObject.RaiseEvent(PropertyEventTypes.OnThrowEnds, null);
+        }            
     }
 }
