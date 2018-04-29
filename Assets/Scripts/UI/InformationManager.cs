@@ -21,17 +21,23 @@ public class InformationManager : MonoBehaviour {
 
     public static void Add(IInformationObject obj)
     {
-        _trackedObjects.Add(obj);
+        if (!_trackedObjects.Contains(obj))
+        {
+            _trackedObjects.Add(obj);
 
-        if(_onObjectAdded != null)
-            _onObjectAdded.Invoke(obj);
+            if (_onObjectAdded != null)
+                _onObjectAdded.Invoke(obj);
+        }        
     }
     public static void Remove(IInformationObject obj)
     {
-        _trackedObjects.Remove(obj);
+        if (_trackedObjects.Contains(obj))
+        {
+            _trackedObjects.Remove(obj);
 
-        if (_onObjectRemoved != null)
-            _onObjectRemoved.Invoke(obj);
+            if (_onObjectRemoved != null)
+                _onObjectRemoved.Invoke(obj);
+        }        
     }
 
     private void Awake()
