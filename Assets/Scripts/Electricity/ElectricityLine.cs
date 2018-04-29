@@ -13,13 +13,11 @@ public class ElectricityLine : ElectricalObject {
     public override Vector2 Point { get { return _shapeHandler.Shape.BoundingBox.Center; } }
 
     private const float THICKNESS = 0.2f;
-
-    private List<IWorldElectricityObject> _connections;
+    
     private ShapeHandler _shapeHandler;
 
     private void Awake()
     {
-        _connections = new List<IWorldElectricityObject>();
         _shapeHandler = new ShapeHandler(Renderer);
         
         SanitizeComponent();        
