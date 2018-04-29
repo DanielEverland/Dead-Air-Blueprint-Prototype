@@ -8,14 +8,13 @@ public class ElectricityManager : MonoBehaviour {
     [SerializeField]
     private ElectricityLine _linePrefab;
 
+    public const int UPDATES_PER_SECOND = 10;
+
+    public static float UpdateInterval { get { return 1 / (float)UPDATES_PER_SECOND; } }
     public static ElectricityLine LinePrefab { get; private set; }
 
     private static List<ElectricityGrid> _grids;
     private static List<IWorldElectricityObject> _objects;
-
-    private const int UPDATES_PER_SECOND = 10;
-
-    private float UpdateInterval { get { return 1 / (float)UPDATES_PER_SECOND; } }
 
     private float _time;
 
