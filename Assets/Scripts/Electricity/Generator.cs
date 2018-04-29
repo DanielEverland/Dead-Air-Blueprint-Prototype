@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Text;
 
-public class Generator : ElectricalObject
+public class Generator : ElectricalObject, IElectricitySupplier
 {
     public override IShape Shape { get { return _shape; } }
 
@@ -21,6 +21,7 @@ public class Generator : ElectricalObject
     public override void Start()
     {
         Grid = new ElectricityGrid();
+        Grid.Add(this);
 
         base.Start();
     }
