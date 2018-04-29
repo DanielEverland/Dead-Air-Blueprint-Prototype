@@ -24,6 +24,7 @@ public class ItemObject : ElectricalObject, IWorldObject, IElectricityUser {
     }
 
     public override IShape Shape { get { return _shape; } }
+    public override Vector2 Point { get { return Position; } }
 
     public bool IsReceivingElectricity { get; set; }
     public ItemBase Item { get; private set; }
