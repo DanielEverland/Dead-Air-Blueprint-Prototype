@@ -63,7 +63,9 @@ public abstract class ElectricalObject : MonoBehaviour, IWorldElectricityObject,
         foreach (IWorldElectricityObject connection in Connections)
         {
             if (connection.Grid == null)
-                connection.Grid = Grid;
+            {
+                Grid.Add(connection);
+            }
         }
     }
     public void AddConnection(IWorldElectricityObject obj)
