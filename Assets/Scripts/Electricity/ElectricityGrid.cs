@@ -40,38 +40,7 @@ public class ElectricityGrid {
         PollCharge();
         CallUsers();
         DrainSuppliers();
-    }
-    private void DrainSuppliers()
-    {
-        float chargeLeft = _chargeUsedThisFrame;
-        float chargePerSupplier = chargeLeft / _suppliers.Count;
-
-        for (int i = 0; i < _suppliers.Count; i++)
-        {
-            IElectricitySupplier supplier = _suppliers[i];
-
-            if(supplier.CurrentCharge >= chargePerSupplier)
-            {
-                supplier.CurrentCharge -= chargePerSupplier;
-                chargeLeft -= chargePerSupplier;
-            }
-            else
-            {
-                float excessCharge = chargePerSupplier - supplier.CurrentCharge;
-
-                chargeLeft -= supplier.CurrentCharge;
-                supplier.CurrentCharge = 0;
-
-                int remainingSuppliers = _suppliers.Count - (i + 1);
-                float extraChargePerSupplier = excessCharge / (float)remainingSuppliers;
-
-                chargePerSupplier += extraChargePerSupplier;
-            }
-        }
-
-        if (chargeLeft != 0)
-            throw new System.Exception("Excess charge in grid");
-    }
+    }    
     private void PollCharge()
     {
         _availableCharge = 0;
@@ -96,6 +65,37 @@ public class ElectricityGrid {
                 user.IsReceivingElectricity = false;
             }
         }
+    }
+    private void DrainSuppliers()
+    {
+        float chargeLeft = _chargeUsedThisFrame;
+        float chargePerSupplier = chargeLeft / _suppliers.Count;
+
+        for (int i = 0; i < _suppliers.Count; i++)
+        {
+            IElectricitySupplier supplier = _suppliers[i];
+
+            if (supplier.CurrentCharge >= chargePerSupplier)
+            {
+                supplier.CurrentCharge -= chargePerSupplier;
+                chargeLeft -= chargePerSupplier;
+            }
+            else
+            {
+                float excessCharge = chargePerSupplier - supplier.CurrentCharge;
+
+                chargeLeft -= supplier.CurrentCharge;
+                supplier.CurrentCharge = 0;
+
+                int remainingSuppliers = _suppliers.Count - (i + 1);
+                float extraChargePerSupplier = excessCharge / (float)remainingSuppliers;
+
+                chargePerSupplier += extraChargePerSupplier;
+            }
+        }
+
+        if (chargeLeft != 0)
+            throw new System.Exception("Excess charge in grid");
     }
     private void Drain(float charge)
     {
