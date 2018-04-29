@@ -6,5 +6,5 @@ using UnityEngine;
 public interface IElectricityUser {
 
     float ElectricityRequired { get; }
-    bool IsOn { get; set; }
+    bool IsReceivingElectricity { get; set; }
 }

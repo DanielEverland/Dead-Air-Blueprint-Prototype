@@ -6,7 +6,7 @@ using UnityEngine;
 public class LightProperty : PropertyBase, IElectricityUser
 {
     public float ElectricityRequired { get { return 20; } }
-    public bool IsOn { get { return _light.enabled; } set { _light.enabled = value; } }
+    public bool IsReceivingElectricity { get { return _light.enabled; } set { _light.enabled = value; } }
 
     public override string Name { get { return "Light"; } }
     

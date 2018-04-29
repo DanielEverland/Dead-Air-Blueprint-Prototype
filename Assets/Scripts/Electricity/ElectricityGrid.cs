@@ -87,13 +87,13 @@ public class ElectricityGrid {
         {
             if (CanCharge(user.ElectricityRequired))
             {
-                user.IsOn = true;
+                user.IsReceivingElectricity = true;
 
                 Drain(user.ElectricityRequired);
             }
             else
             {
-                user.IsOn = false;
+                user.IsReceivingElectricity = false;
             }
         }
     }
