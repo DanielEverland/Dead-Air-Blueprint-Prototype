@@ -44,7 +44,7 @@ public class Liquid : MonoBehaviour, IWorldObject {
     public void Initialize(LiquidData data)
     {
         _data = data;
-
+        
         SetRenderState();
     }
     private void Update()
@@ -114,11 +114,20 @@ public class Liquid : MonoBehaviour, IWorldObject {
         _data.Color = FireColor;
 
         SetRenderState();
-
+        
         WorldItemEventHandler.RaiseEvent(this, FIRE_WAIT_TIME, PropertyEventTypes.OnIgnite);
     }
     public void HandleCollision(IWorldObject obj)
     {
+        if(obj is Liquid)
+        {
+            Liquid other = obj as Liquid;
+
+            if (other.IsOnFire)
+            {
+                SetOnFire();
+            }
+        }
     }
     public void RaiseEvent(PropertyEventTypes type, params object[] args)
     {
