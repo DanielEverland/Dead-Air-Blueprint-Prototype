@@ -67,6 +67,8 @@ public class ElectricityGrid {
             {
                 user.IsReceivingElectricity = false;
             }
+
+            user.OnElectricalUpdate();
         }
     }
     private void DrainSuppliers()
