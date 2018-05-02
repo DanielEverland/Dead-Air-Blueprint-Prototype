@@ -172,7 +172,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4704660639442536}
-  - component: {fileID: 114540225839139760}
   - component: {fileID: 114386192866454322}
   m_Layer: 0
   m_Name: Explosion
@@ -332,18 +331,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   multiplier: 1
---- !u!114 &114540225839139760
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1927047204170396}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ac1691131a8c844dafe8b6ace6a172a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  explosionForce: 20
 --- !u!198 &198021857873539598
 ParticleSystem:
   m_ObjectHideFlags: 1
