@@ -12,6 +12,7 @@ public class WorldAudioHandler : MonoBehaviour {
     public AudioSource Source { get { return _source; } }
     public float Scale { get; private set; }
     public bool IsActive { get; private set; }
+    public bool Loop { get { return Source.loop; } set { Source.loop = value; } }
     
     private const float SOUND_CHANGE_SPEED = 10;
 
