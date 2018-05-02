@@ -18,8 +18,9 @@ public class ThrowingOnCollisionHelper : MonoBehaviour {
     {
         if (_itemObject != null)
         {
-            _itemObject.RaiseEvent(PropertyEventTypes.OnPlacedInWorld, null);
             _itemObject.RaiseEvent(PropertyEventTypes.OnThrowEnds, null);
+
+            _itemObject.PlaceInWorld(ElectricityManager.GetGrid(_itemObject.Position));
         }            
     }
 }
