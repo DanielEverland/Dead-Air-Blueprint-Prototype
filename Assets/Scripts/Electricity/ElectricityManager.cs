@@ -15,7 +15,7 @@ public class ElectricityManager : MonoBehaviour {
 
     private static List<ElectricityGrid> _grids;
     private static List<IWorldElectricityObject> _objects;
-    private static List<IElectricityUpdateHandler> _updateHandlers;
+    private static List<IElectricityUser> _updateHandlers;
 
     private float _time;
 
@@ -25,7 +25,7 @@ public class ElectricityManager : MonoBehaviour {
 
         _grids = new List<ElectricityGrid>();
         _objects = new List<IWorldElectricityObject>();
-        _updateHandlers = new List<IElectricityUpdateHandler>();
+        _updateHandlers = new List<IElectricityUser>();
     }
     private void Update()
     {
@@ -45,9 +45,9 @@ public class ElectricityManager : MonoBehaviour {
             grid.Update();
         }
 
-        foreach (IElectricityUpdateHandler updateHandler in _updateHandlers)
+        foreach (IElectricityUser updateHandler in _updateHandlers)
         {
-            updateHandler.OnUpdateElectricity();
+            updateHandler.OnElectricalUpdate();
         }
     }
     public static ElectricityGrid GetGrid(Vector2 pos)
@@ -62,12 +62,12 @@ public class ElectricityManager : MonoBehaviour {
             return null;
         }
     }
-    public static void AddUpdateHandler(IElectricityUpdateHandler updateHandler)
+    public static void AddUpdateHandler(IElectricityUser updateHandler)
     {
         if (!_updateHandlers.Contains(updateHandler))
             _updateHandlers.Add(updateHandler);
     }
-    public static void RemoveUpdateHandler(IElectricityUpdateHandler updateHandler)
+    public static void RemoveUpdateHandler(IElectricityUser updateHandler)
     {
         if (_updateHandlers.Contains(updateHandler))
             _updateHandlers.Remove(updateHandler);

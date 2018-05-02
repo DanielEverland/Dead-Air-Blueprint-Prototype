@@ -19,6 +19,7 @@ public static class MethodDefinitions {
         { PropertyEventTypes.OnCollisionEnter, new System.Type[1] { typeof(Transform) } },
         { PropertyEventTypes.OnCollisionStay, new System.Type[1] { typeof(Transform) } },
         { PropertyEventTypes.OnCollisionExit, new System.Type[1] { typeof(Transform) } },
+        { PropertyEventTypes.OnBlastingCap, null },
     };
 
     public static System.Type[] GetParameterInfo(PropertyEventTypes type)

@@ -13,6 +13,7 @@ public sealed class PropertyCollection : IEnumerable<PropertyBase> {
         _allInput = new Dictionary<PropertyEventTypes, List<InputDefinition>>();
         _electricityUsers = new List<IElectricityUser>();
         _electricitySuppliers = new List<IElectricitySupplier>();
+        _removalQueue = new Queue<PropertyBase>();
     }
 
     public IEnumerable<IElectricityUser> ElectricityUsers { get { return _electricityUsers; } }
@@ -25,8 +26,16 @@ public sealed class PropertyCollection : IEnumerable<PropertyBase> {
     private List<IElectricityUser> _electricityUsers;
     private List<IElectricitySupplier> _electricitySuppliers;
     private List<PropertyBase> _properties;
+    private Queue<PropertyBase> _removalQueue;
 
     public void Remove(PropertyBase property)
+    {
+        if (!_removalQueue.Contains(property))
+        {
+            _removalQueue.Enqueue(property);
+        }
+    }
+    public void DoRemove(PropertyBase property)
     {
         if (!_properties.Contains(property))
             throw new System.ArgumentException("Tried to remove property that doesn't exist");
@@ -74,12 +83,22 @@ public sealed class PropertyCollection : IEnumerable<PropertyBase> {
             _electricitySuppliers.Remove(property as IElectricitySupplier);
         }
     }
+    public void DoRemove()
+    {
+        while (_removalQueue.Count > 0)
+        {
+            DoRemove(_removalQueue.Dequeue());
+        }
+    }
+    public void Poll()
+    {
+        DoRemove();
+    }
     public void Update()
     {
-        //Avoid enumeration exceptions when removing properties in the update loop
-        for (int i = _properties.Count - 1; i >= 0; i--)
+        foreach (PropertyBase property in _properties)
         {
-            _properties[i].Update();
+            property.Update();
         }
     }
     public bool ContainsOutput(PropertyEventTypes type)

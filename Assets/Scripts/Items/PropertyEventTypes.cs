@@ -17,4 +17,5 @@ public enum PropertyEventTypes {
     OnCollisionEnter        = 1 << 10,
     OnCollisionStay         = 1 << 11,
     OnCollisionExit         = 1 << 12,
+    OnBlastingCap           = 1 << 13,
 }

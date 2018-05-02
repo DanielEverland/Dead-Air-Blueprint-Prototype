@@ -60,16 +60,21 @@ public class ItemBase {
     }
     public void Update()
     {
-        if (!HasTriggered)
+        _properties.Poll();
+
+        if (HasTriggered)
             _properties.Update();
     }
     public void PollElectricity()
     {
+        _properties.Poll();
+
         if (!HasTriggered)
         {
             foreach (IElectricityUser user in _properties.ElectricityUsers)
             {
                 user.IsReceivingElectricity = false;
+                user.OnElectricalUpdate();
             }
         }
         else
@@ -79,7 +84,10 @@ public class ItemBase {
                 foreach (IElectricityUser user in _properties.ElectricityUsers)
                 {
                     if (!user.IsReceivingElectricity)
+                    {
                         user.IsReceivingElectricity = true;
+                        user.OnElectricalUpdate();
+                    }                        
                 }
             }
             else
@@ -111,6 +119,8 @@ public class ItemBase {
             {
                 user.IsReceivingElectricity = false;
             }
+
+            user.OnElectricalUpdate();
         }
     }
     private float GetRequiredCharge()
@@ -167,6 +177,10 @@ public class ItemBase {
     public bool ContainsInput(PropertyEventTypes type)
     {
         return _properties.ContainsInput(type);
+    }
+    public void RaiseEvent(PropertyEventTypes type)
+    {
+        RaiseEvent(type, null);
     }
     public void RaiseEvent(PropertyEventTypes type, params object[] parameters)
     {

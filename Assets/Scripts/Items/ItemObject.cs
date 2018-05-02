@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Text;
 
-public class ItemObject : ElectricalObject, IWorldObject, IElectricityUser, IElectricityUpdateHandler {
+public class ItemObject : ElectricalObject, IWorldObject, IElectricityUser {
 
     [SerializeField]
     private SpriteRenderer _renderer;
@@ -81,7 +81,7 @@ public class ItemObject : ElectricalObject, IWorldObject, IElectricityUser, IEle
     {
         Item.Update();
     }
-    public void OnUpdateElectricity()
+    public void OnElectricalUpdate()
     {
         Item.PollElectricity();
     }

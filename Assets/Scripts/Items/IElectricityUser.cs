@@ -7,4 +7,6 @@ public interface IElectricityUser {
 
     float ElectricityRequired { get; }
     bool IsReceivingElectricity { get; set; }
+
+    void OnElectricalUpdate();
 }
