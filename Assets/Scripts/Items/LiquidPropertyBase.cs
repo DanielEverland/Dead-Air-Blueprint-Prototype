@@ -22,7 +22,7 @@ public abstract class LiquidPropertyBase : PropertyBase, ILiquid, IPropertyInput
 
         return true;
     }
-    private void OnLiquidContainerBreaks(ILiquidContainerProperty container)
+    protected virtual void OnLiquidContainerBreaks(ILiquidContainerProperty container)
     {
         LiquidData data = new LiquidData(container, this);
 
