@@ -3,30 +3,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BlastingCap : ElectricalProperty
+public class BlastingCap : SingleChargeElectricalObject
 {
     public override string Name { get { return "Blasting Cap"; } }
-    public override float ElectricityRequired { get { return 5; } }
 
-    private bool _hasBlasted;
+    protected override float ChargeUsed { get { return 5; } }
 
-    public override void OnElectricalUpdate()
+    public override bool RemoveWhenUsed => true;
+
+    protected override void OnChargeUsed()
     {
-        if (!_hasBlasted && IsReceivingElectricity)
-        {
-            Blast();
-        }
-    }
-    private void Blast()
-    {
-        _hasBlasted = true;
-
         Owner.RaiseEvent(PropertyEventTypes.OnBlastingCap);
 
         Owner.Remove(this);
-    }
-    public override string[] GetInformation()
-    {
-        return new string[1] { $"HasBlasted: {_hasBlasted}" };
     }
 }
